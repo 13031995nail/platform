@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>Tmobis.Data.DB.MSSQL</RootNamespace>
+        <PackageId>Tmobis.Data.DB.MSSQL</PackageId>
+        <Description>Модуль низкоуровневого доступа к Microsoft SQL Server.</Description>
+        <IsPackable>true</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Data.SqlClient" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    </ItemGroup>
+
+</Project>

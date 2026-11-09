@@ -1,0 +1,11 @@
+<div class="field">
+    {{flexberry-field
+    placeholder=(t 'forms.work-type.enter-name-caption')
+    readonly=readonly
+    required=true
+    value=relatedModel.name
+    label=(t 'forms.work-type.name-caption')
+    maxlength=200
+    error=relatedModel.errors.name
+    }}
+</div>

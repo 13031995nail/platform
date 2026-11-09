@@ -1,0 +1,35 @@
+<form class="ui {{appState.state}} flexberry-vertical-form form" role="form">
+  {{#if (v-get validationObject "messages")}}
+    <div class="field">
+      {{flexberry-validationsummary errors=(v-get validationObject "messages")}}
+    </div>
+    <hr>
+  {{/if}}
+  <div class="ui stackable grid">
+    <div class="row">
+      <div class="column">
+        <div class="new-white-panel">
+          {{flexberry-field
+            label=(t "forms.sign-type.name-caption")
+            value=model.name
+            required=true
+            disabled=readonly
+            error=(v-get validationModel "name" "message")
+            data-test-sign-type-name=true
+          }}
+          <hr>
+          <div class="field">
+            {{flexberry-checkbox
+              label=(t "forms.sign-type.actuality-caption")
+              value=model.actuality
+              required=false
+              disabled=readonly
+              error=(if model.errors.actuality model.errors.actuality)
+              class="toggle"
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

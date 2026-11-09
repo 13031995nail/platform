@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Mobile</RootNamespace>
+    <PackageId>Tmobis.Mobile</PackageId>
+    <Description>Модуль контрактов и настроек мобильного приложения.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+    <ProjectReference Include="..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-process-signs-stilus/components/tmobis-signs-stilus';

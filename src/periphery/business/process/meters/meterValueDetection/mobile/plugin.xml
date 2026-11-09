@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="tmobis-cordova-meter-value-detection" version="4.0.8"
+        xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <name>tmobis-cordova-meter-value-detection</name>
+  <description>Распознавание показаний приборов учёта на устройстве: YOLOv5s TFLite-инференс над кадром камеры. Возвращает распознанное значение.</description>
+  <license>Apache 2.0</license>
+  <keywords>cordova,android,ecosystem:cordova,cordova-android,tflite,yolov5,meter,ocr</keywords>
+  <repo>https://gitlab.timepath.ru/timepath/platform/tmobis/tmobis.core</repo>
+
+  <js-module src="www/YOLOv5MeterRecognition.js" name="YOLOv5MeterRecognition">
+    <clobbers target="YOLOv5MeterRecognition" />
+  </js-module>
+
+  <platform name="android">
+    <source-file src="src/android/com/tmobis/mlkit/YOLOv5MeterRecognition.java"
+                 target-dir="src/com/tmobis/mlkit" />
+
+    <asset src="www/yolov5_meter.tflite" target="yolov5_meter.tflite" />
+    <framework src="org.tensorflow:tensorflow-lite:2.13.0" />
+    <framework src="androidx.exifinterface:exifinterface:1.2.0" />
+
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="YOLOv5MeterRecognition">
+        <param name="android-package" value="com.tmobis.mlkit.YOLOv5MeterRecognition" />
+        <param name="onload" value="true" />
+      </feature>
+    </config-file>
+  </platform>
+</plugin>

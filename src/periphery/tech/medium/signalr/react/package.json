@@ -1,0 +1,37 @@
+{
+  "name": "@tmobis/signalr",
+  "version": "4.5.2",
+  "author": "ООО \"Траектория времени\"",
+  "description": "React модуль адатпера SignalR для слоя обмена сообщениями.",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@microsoft/signalr": "catalog:",
+    "@tmobis/core": "workspace:*",
+    "expo-constants": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "react": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "^19.2.0"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "volta": {
+    "node": "24.13.0",
+    "yarn": "4.12.0"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.tsx"
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "version": "4.5.2",
+  "packages": [
+    "src/core/frontend",
+    "src/periphery/**/*",
+    "src/*/*",
+    "src/*",
+    ".",
+    "!src/periphery/business/process/meters/meterValueDetection/example",
+    "!src/periphery/business/process/meters/meterValueDetection/example/**"
+  ],
+  "npmClient": "yarn",
+  "command": {
+    "version": {
+      "message": "build(release): версия %v",
+      "allowBranch": [
+        "master",
+        "release/*"
+      ]
+    }
+  }
+}

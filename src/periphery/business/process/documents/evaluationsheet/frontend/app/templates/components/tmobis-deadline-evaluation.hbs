@@ -1,0 +1,10 @@
+{{#unless (eq relatedModel.verificationRequirement.code "0")}}
+  {{#if readonly}}
+    {{tmobis-simple-label value="Нет значения"}}
+  {{else}}
+    {{flexberry-simpledatetime
+      value=value
+      readonly=readonly
+    }}
+  {{/if}}
+{{/unless}}

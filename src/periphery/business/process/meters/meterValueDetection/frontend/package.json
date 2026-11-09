@@ -1,0 +1,61 @@
+{
+  "name": "@timepath/tmobis-business-process-meters-meter-value-detection",
+  "version": "4.5.2",
+  "description": "Ember бизнес-модуль распознавания показаний приборов учёта.",
+  "author": "ООО \"Траектория времени\"",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "publishConfig": {
+    "@timepath:registry": "https://repository.flexberry.org/repository/timepath-tmobis-npm/"
+  },
+  "scripts": {
+    "build": "ember build",
+    "lint:js": "eslint ./*.js addon app config tests",
+    "start": "ember serve",
+    "test": "ember test"
+  },
+  "dependencies": {
+    "ember-cli-babel": "^6.6.0",
+    "ember-cli-htmlbars": "^2.0.1"
+  },
+  "devDependencies": {
+    "broccoli-asset-rev": "^2.4.5",
+    "ember-cli": "~3.1.4",
+    "ember-cli-dependency-checker": "^2.0.0",
+    "ember-cli-eslint": "^4.2.1",
+    "ember-cli-htmlbars-inline-precompile": "^1.0.0",
+    "ember-cli-inject-live-reload": "^1.4.1",
+    "ember-cli-qunit": "^4.1.1",
+    "ember-cli-sass": "^10.0.1",
+    "ember-cli-shims": "^1.2.0",
+    "ember-cli-sri": "^2.1.0",
+    "ember-cli-uglify": "^2.0.0",
+    "ember-export-application-global": "^2.0.0",
+    "ember-load-initializers": "^1.0.0",
+    "ember-resolver": "^4.0.0",
+    "ember-source": "~3.1.0",
+    "eslint": "^7.0.0",
+    "eslint-plugin-ember": "^7.0.0",
+    "loader.js": "^4.2.3",
+    "sass": "^1.50.0"
+  },
+  "engines": {
+    "node": ">= 16.*"
+  },
+  "keywords": [
+    "ember-addon",
+    "meter",
+    "ocr",
+    "yolov5",
+    "tflite"
+  ],
+  "ember-addon": {
+    "configPath": "tests/dummy/config"
+  },
+  "volta": {
+    "node": "16.20.0",
+    "yarn": "1.22.19"
+  }
+}

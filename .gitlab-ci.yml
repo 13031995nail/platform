@@ -1,0 +1,15 @@
+include:
+- .ci/**/*.yml
+- .ci/*.yml
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  GIT_SUBMODULE_FORCE_HTTPS: "true"  
+
+stages:
+  - deps
+  - lint
+  - build
+  - test
+  - push
+  - deploy

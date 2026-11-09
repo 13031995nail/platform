@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Process.Documents</RootNamespace>
+    <PackageId>Tmobis.Business.Process.Documents.ActSign</PackageId>
+    <IsPackable>true</IsPackable>
+    <Description>Бизнес-модуль сущности подписей документов.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.business.core.csproj" />
+  </ItemGroup>
+
+</Project>

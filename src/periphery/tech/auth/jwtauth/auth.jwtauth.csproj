@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Tmobis.Auth.JwtAuth</AssemblyName>
+    <RootNamespace>Tmobis.Auth.JwtAuth</RootNamespace>
+    <PackageId>Tmobis.Auth.JwtAuth</PackageId>
+    <Description>Модуль JWT-аутентификации и выдачи/проверки токенов.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\business\common\sessions\backend\module\tmobis.sessions.csproj" />
+    <ProjectReference Include="..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+    <ProjectReference Include="..\..\medium\webapi\module\Tmobis.Medium.WebApi.Listeners.csproj" />
+    <ProjectReference Include="..\..\fws\web\tmobis.web\tmobis.web.csproj" />
+    <ProjectReference Include="..\base\auth.base.csproj" />
+  </ItemGroup>
+
+</Project>

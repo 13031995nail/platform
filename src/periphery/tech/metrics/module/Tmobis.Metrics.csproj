@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Metrics</RootNamespace>
+    <PackageId>Tmobis.Metrics</PackageId>
+    <Description>Модуль контрактов и регистрация метрик приложения.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+  </ItemGroup>
+
+</Project>

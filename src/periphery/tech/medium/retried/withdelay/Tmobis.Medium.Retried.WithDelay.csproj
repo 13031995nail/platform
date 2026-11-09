@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Medium.Retried.WithDelay</RootNamespace>
+    <PackageId>Tmobis.Medium.Retried.WithDelay</PackageId>
+    <Description>Модуль повторной отправки сообщений с задержкой.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\rabbitmq\Tmobis.Medium.Retried.RabbitMQ.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+  </ItemGroup>
+
+</Project>

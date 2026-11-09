@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Reports.Stimulsoft.Client.Adapter</RootNamespace>
+    <PackageId>Tmobis.Reports.Stimulsoft.Client.Adapter</PackageId>
+    <Description>Модуль адаптера Stimulsoft для формирования отчетов и печатных форм.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\base\tmobis.reports.adapter\Tmobis.Reports.Adapter.csproj" />
+    <ProjectReference Include="..\..\base\tmobis.reports\backend\module\tmobis.reports.csproj" />
+  </ItemGroup>
+
+</Project>

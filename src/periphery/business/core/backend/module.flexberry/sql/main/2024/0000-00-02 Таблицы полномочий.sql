@@ -1,0 +1,85 @@
+--liquibase formatted sql
+--changeset flexberry-designer:0000-00-02-security-tables
+CREATE TABLE STORMLR (
+ primaryKey UUID NOT NULL,
+ StartDate TIMESTAMP(3) NULL,
+ EndDate TIMESTAMP(3) NULL,
+ Agent_m0 UUID NOT NULL,
+ Role_m0 UUID NOT NULL,
+ CreateTime TIMESTAMP(3) NULL,
+ Creator VARCHAR(255) NULL,
+ EditTime TIMESTAMP(3) NULL,
+ Editor VARCHAR(255) NULL,
+ PRIMARY KEY (primaryKey));
+CREATE TABLE STORMS (
+ primaryKey UUID NOT NULL,
+ Name VARCHAR(100) NOT NULL,
+ Type VARCHAR(100) NULL,
+ IsAttribute BOOLEAN NOT NULL,
+ IsOperation BOOLEAN NOT NULL,
+ IsView BOOLEAN NOT NULL,
+ IsClass BOOLEAN NOT NULL,
+ SharedOper BOOLEAN NULL,
+ CreateTime TIMESTAMP(3) NULL,
+ Creator VARCHAR(255) NULL,
+ EditTime TIMESTAMP(3) NULL,
+ Editor VARCHAR(255) NULL,
+ Comment VARCHAR NULL,
+ PRIMARY KEY (primaryKey));
+CREATE TABLE STORMP (
+ primaryKey UUID NOT NULL,
+ Subject_m0 UUID NOT NULL,
+ Agent_m0 UUID NOT NULL,
+ CreateTime TIMESTAMP(3) NULL,
+ Creator VARCHAR(255) NULL,
+ EditTime TIMESTAMP(3) NULL,
+ Editor VARCHAR(255) NULL,
+ PRIMARY KEY (primaryKey));
+CREATE TABLE STORMF (
+ primaryKey UUID NOT NULL,
+ FilterText TEXT NULL,
+ Name VARCHAR(255) NULL,
+ FilterTypeNView VARCHAR(255) NULL,
+ Subject_m0 UUID NULL,
+ CreateTime TIMESTAMP(3) NULL,
+ Creator VARCHAR(255) NULL,
+ EditTime TIMESTAMP(3) NULL,
+ Editor VARCHAR(255) NULL,
+ PRIMARY KEY (primaryKey));
+CREATE TABLE STORMAC (
+ primaryKey UUID NOT NULL,
+ TypeAccess VARCHAR(7) NULL,
+ Filter_m0 UUID NULL,
+ Permition_m0 UUID NOT NULL,
+ CreateTime TIMESTAMP(3) NULL,
+ Creator VARCHAR(255) NULL,
+ EditTime TIMESTAMP(3) NULL,
+ Editor VARCHAR(255) NULL,
+ PRIMARY KEY (primaryKey));
+CREATE TABLE STORMLO (
+ primaryKey UUID NOT NULL,
+ Class_m0 UUID NOT NULL,
+ Operation_m0 UUID NOT NULL,
+ CreateTime TIMESTAMP(3) NULL,
+ Creator VARCHAR(255) NULL,
+ EditTime TIMESTAMP(3) NULL,
+ Editor VARCHAR(255) NULL,
+ PRIMARY KEY (primaryKey));
+CREATE TABLE STORMLA (
+ primaryKey UUID NOT NULL,
+ View_m0 UUID NOT NULL,
+ Attribute_m0 UUID NOT NULL,
+ CreateTime TIMESTAMP(3) NULL,
+ Creator VARCHAR(255) NULL,
+ EditTime TIMESTAMP(3) NULL,
+ Editor VARCHAR(255) NULL,
+ PRIMARY KEY (primaryKey));
+CREATE TABLE STORMLV (
+ primaryKey UUID NOT NULL,
+ Class_m0 UUID NOT NULL,
+ View_m0 UUID NOT NULL,
+ CreateTime TIMESTAMP(3) NULL,
+ Creator VARCHAR(255) NULL,
+ EditTime TIMESTAMP(3) NULL,
+ Editor VARCHAR(255) NULL,
+ PRIMARY KEY (primaryKey));

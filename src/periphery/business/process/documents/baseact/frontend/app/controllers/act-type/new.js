@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-process-acts-base-act/controllers/act-type/new';

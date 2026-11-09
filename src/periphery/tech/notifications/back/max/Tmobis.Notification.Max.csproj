@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Notification.Max</RootNamespace>
+    <PackageId>Tmobis.Notification.Max</PackageId>
+    <Description>Модуль отправки уведомлений через мессенджер MAX.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+    <ProjectReference Include="..\..\..\integrations\messengers\max\module\Tmobis.Integrations.Messengers.Max.csproj" />
+    <ProjectReference Include="..\messenger\Tmobis.Notification.Messenger.csproj" />
+    <ProjectReference Include="..\model\Tmobis.Notification.csproj" />
+    <ProjectReference Include="..\sender\Tmobis.Notification.Sender.csproj" />
+  </ItemGroup>
+
+</Project>

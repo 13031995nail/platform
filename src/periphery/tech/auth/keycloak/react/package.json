@@ -1,0 +1,80 @@
+{
+  "name": "@tmobis/auth-keycloak",
+  "version": "4.5.2",
+  "author": "ООО \"Траектория времени\"",
+  "description": "React модуль аутентификации через Keycloak.",
+  "scripts": {
+    "build": "tsc",
+    "eslint": "eslint src/ --fix"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "catalog:",
+    "@expo/vector-icons": "catalog:",
+    "@gluestack-ui/core": "catalog:",
+    "@react-native-async-storage/async-storage": "catalog:",
+    "@react-navigation/drawer": "catalog:",
+    "@react-navigation/native": "catalog:",
+    "@tailwindcss/postcss": "catalog:",
+    "@tanstack/query-async-storage-persister": "catalog:",
+    "@tanstack/react-query": "catalog:",
+    "@tmobis/core": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@types/uuid": "catalog:",
+    "@typescript-eslint/eslint-plugin": "catalog:",
+    "@typescript-eslint/parser": "catalog:",
+    "babel-plugin-module-resolver": "catalog:",
+    "eslint": "catalog:",
+    "eslint-config-prettier": "catalog:",
+    "eslint-import-resolver-typescript": "catalog:",
+    "eslint-plugin-import": "catalog:",
+    "eslint-plugin-prettier": "catalog:",
+    "eslint-plugin-react": "catalog:",
+    "eslint-plugin-react-hooks": "catalog:",
+    "expo-auth-session": "catalog:",
+    "expo-constants": "catalog:",
+    "expo-document-picker": "catalog:",
+    "expo-file-system": "catalog:",
+    "expo-modules-core": "catalog:",
+    "expo-router": "catalog:",
+    "expo-secure-store": "catalog:",
+    "expo-web-browser": "catalog:",
+    "gluestack-ui": "catalog:",
+    "i18next": "catalog:",
+    "jwt-decode": "catalog:",
+    "keycloak-js": "catalog:",
+    "nativewind": "catalog:",
+    "prettier": "catalog:",
+    "react-hook-form": "catalog:",
+    "react-i18next": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:"
+  },
+  "overrides": {
+    "lightningcss": "1.30.1"
+  },
+  "resolutions": {
+    "lightningcss": "1.30.1"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "volta": {
+    "node": "24.13.0",
+    "yarn": "4.12.0"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": [
+      "./src/*",
+      "./src/*.css",
+      "./src/*.tsx",
+      "./src/*.ts",
+      "./src/**/*.tsx",
+      "./src/**/*.ts",
+      "./src/*/index.tsx",
+      "./src/*/index.ts"
+    ]
+  }
+}

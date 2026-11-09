@@ -1,0 +1,1038 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="1">
+      <Соединение Ref="2" type="Stimulsoft.Report.Dictionary.StiPostgreSQLDatabase" isKey="true">
+        <Alias>Соединение</Alias>
+        <ConnectionStringEncrypted>+NZ7y2EK+81rR/mY6QRlE9/W1yvFA3n1axy56E1c4GeAVMmJ6ApbgfJ9KezrPeE3g1b140ZPk/XiG6Wl6BhiH9FUzQndUUOB6U2hnElA9g+NVNnCxQOjzW1GhITpTK0S</ConnectionStringEncrypted>
+        <Name>Соединение</Name>
+      </Соединение>
+    </Databases>
+    <DataSources isList="true" count="4">
+      <Header Ref="3" type="Stimulsoft.Report.Dictionary.StiPostgreSQLSource" isKey="true">
+        <Alias>Header</Alias>
+        <Columns isList="true" count="9">
+          <value>program_id,System.Guid</value>
+          <value>committee_id,System.Guid</value>
+          <value>municipality_name,System.String</value>
+          <value>ozp_year_begin,System.Int32</value>
+          <value>ozp_year_end,System.Int32</value>
+          <value>ozp_period,System.String</value>
+          <value>datebegin_text,System.String</value>
+          <value>dateend_text,System.String</value>
+          <value>committee_workplaces_text,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>Header</Name>
+        <NameInSource>Соединение</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>pk,pk,27,0</value>
+        </Parameters>
+        <SqlCommand>-- 1) Header (общие поля документа)
+WITH p AS (
+SELECT
+	ap.primarykey AS program_id,
+	ap.awp,
+	ap.organization,
+	ap.committee,
+	ap.organizationname,
+	a.datebegin,
+	a.dateend
+	FROM awpassessingprogram ap
+    JOIN awp a ON a.primarykey = ap.awp
+    WHERE ap.primarykey = @pk
+),
+c AS (
+SELECT
+	p.*,
+        COALESCE(
+            p.committee,
+            (
+SELECT c2.primarykey
+	FROM admissioncommittee c2
+                WHERE c2.awp = p.awp
+                  AND c2.organization = p.organization
+                ORDER BY c2.edittime DESC NULLS LAST, c2.createtime DESC NULLS LAST
+                LIMIT 1
+            )
+        ) AS committee_id
+    FROM p
+),
+workplaces AS (
+SELECT DISTINCT o.name AS place_name
+	FROM c
+    JOIN admissioncommitteeemployee ace ON ace.admissioncommittee = c.committee_id
+    JOIN placeofemployment pe
+      ON pe.employee = ace.employee
+     AND COALESCE(pe.actuality, TRUE) = TRUE
+    JOIN organization o ON o.primarykey = pe.organization
+    WHERE o.name IS NOT NULL
+)
+SELECT
+	c.program_id,
+	c.committee_id,
+	COALESCE(c.organizationname, o.name) AS municipality_name,
+	EXTRACT(YEAR FROM c.datebegin)::int AS ozp_year_begin,
+    EXTRACT(YEAR FROM c.dateend)::int AS ozp_year_end,
+    CONCAT(EXTRACT(YEAR FROM c.datebegin)::int, '-', EXTRACT(YEAR FROM c.dateend)::int) AS ozp_period,
+    to_char(c.datebegin, 'DD.MM.YYYY') AS datebegin_text,
+    to_char(c.dateend, 'DD.MM.YYYY') AS dateend_text,
+    (
+SELECT string_agg(w.place_name, '; ' ORDER BY w.place_name)
+        FROM workplaces w
+    ) AS committee_workplaces_text
+FROM c
+LEFT JOIN organization o ON o.primarykey = c.organization;
+</SqlCommand>
+      </Header>
+      <CommitteeWorkplaces Ref="4" type="Stimulsoft.Report.Dictionary.StiPostgreSQLSource" isKey="true">
+        <Alias>CommitteeWorkplaces</Alias>
+        <Columns isList="true" count="2">
+          <value>place_no,System.Int64</value>
+          <value>place_name,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>CommitteeWorkplaces</Name>
+        <NameInSource>Соединение</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>pk,pk,27,0</value>
+        </Parameters>
+        <SqlCommand>-- 2) Список уникальных мест работы членов комиссии (для пункта со списком мест работы)
+WITH p AS (
+SELECT
+	ap.primarykey AS program_id,
+	COALESCE(
+	ap.committee,
+	(
+	SELECT c2.primarykey
+                FROM admissioncommittee c2
+                WHERE c2.awp = ap.awp
+                  AND c2.organization = ap.organization
+                ORDER BY c2.edittime DESC NULLS LAST, c2.createtime DESC NULLS LAST
+                LIMIT 1
+            )
+        ) AS committee_id
+    FROM awpassessingprogram ap
+    WHERE ap.primarykey = @pk
+),
+poe AS (
+SELECT DISTINCT o.name AS place_name
+	FROM p
+    JOIN admissioncommitteeemployee ace ON ace.admissioncommittee = p.committee_id
+    JOIN placeofemployment pe
+      ON pe.employee = ace.employee
+     AND COALESCE(pe.actuality, TRUE) = TRUE
+    JOIN organization o ON o.primarykey = pe.organization
+    WHERE o.name IS NOT NULL
+)
+SELECT
+	row_number() OVER (ORDER BY place_name) AS place_no,
+    place_name
+FROM poe
+ORDER BY place_name;
+</SqlCommand>
+      </CommitteeWorkplaces>
+      <App1 Ref="5" type="Stimulsoft.Report.Dictionary.StiPostgreSQLSource" isKey="true">
+        <Alias>App1</Alias>
+        <Columns isList="true" count="6">
+          <value>nn,System.Int64</value>
+          <value>object_function_name,System.String</value>
+          <value>object_count,System.Int64</value>
+          <value>period_text,System.String</value>
+          <value>startdate,System.String</value>
+          <value>finishdate,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>App1</Name>
+        <NameInSource>Соединение</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>pk,pk,27,0</value>
+        </Parameters>
+        <SqlCommand>WITH s AS (
+SELECT
+	sch.objectfunction AS object_function_pk,
+	ofn.name AS object_function_name,
+	sch.objectscount,
+	sch.startdate,
+	sch.finishdate
+	FROM awpassessingprogramevaluationschedule sch
+JOIN objectfunction ofn ON ofn.primarykey = sch.objectfunction
+WHERE sch.program = @pk
+),
+g AS (
+SELECT
+	object_function_pk,
+	object_function_name,
+	MIN(COALESCE(LEAST(startdate, finishdate), startdate, finishdate)) AS startdate,
+	MAX(COALESCE(GREATEST(startdate, finishdate), startdate, finishdate)) AS finishdate,
+	SUM(objectscount) AS object_count_from_schedule
+	FROM s
+	GROUP BY object_function_pk, object_function_name
+)
+SELECT
+	row_number() OVER (ORDER BY g.object_function_name) AS nn,
+    g.object_function_name,
+    g.object_count_from_schedule AS object_count,
+    to_char(g.startdate, 'DD.MM.YYYY') || ' - ' || to_char(g.finishdate, 'DD.MM.YYYY') AS period_text,
+    to_char(g.startdate, 'DD.MM.YYYY') AS startdate,
+    to_char(g.finishdate, 'DD.MM.YYYY') AS finishdate
+FROM g
+ORDER BY g.object_function_name;
+</SqlCommand>
+      </App1>
+      <App2 Ref="6" type="Stimulsoft.Report.Dictionary.StiPostgreSQLSource" isKey="true">
+        <Alias>App2</Alias>
+        <Columns isList="true" count="4">
+          <value>nn,System.Int64</value>
+          <value>object_function_name,System.String</value>
+          <value>organization_name,System.String</value>
+          <value>workobject_name,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>App2</Name>
+        <NameInSource>Соединение</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>pk,pk,27,0</value>
+        </Parameters>
+        <SqlCommand>-- App2: перечень объектов программы (для GroupHeader: object_function_name -&gt; organization_name)
+WITH base AS (
+SELECT DISTINCT
+	COALESCE(NULLIF(BTRIM(ofn.name), ''), 'Без назначения')        AS object_function_name,
+	COALESCE(NULLIF(BTRIM(org.name), ''), 'Без организации')       AS organization_name,
+	COALESCE(NULLIF(BTRIM(wo.name), ''),  'Без наименования объекта') AS workobject_name,
+	wo.primarykey AS workobject_pk
+	from awpassessingprogram a 
+	join awpassessingprogramevaluationschedule apes on apes.program=a.primarykey
+    JOIN workobject wo ON wo.objectfunction = apes.objectfunction
+    JOIN organization org ON org.primarykey = wo.organization and (org.primarykey = a.organization or org.hierarchy is not null and org.hierarchy = a.organization)
+    LEFT JOIN objectfunction ofn ON ofn.primarykey = wo.objectfunction
+    WHERE apes.program = @pk
+      AND COALESCE(wo.actuality, TRUE) = TRUE
+)
+SELECT
+	ROW_NUMBER() OVER (
+        ORDER BY object_function_name, organization_name, workobject_name, workobject_pk
+    ) AS nn,
+    object_function_name,
+    organization_name,
+    workobject_name
+FROM base
+ORDER BY object_function_name, organization_name, workobject_name, workobject_pk;</SqlCommand>
+      </App2>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="1">
+      <value>,pk,pk,,System.Guid,,False,False,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="3">
+    <Page1 Ref="7" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="4">
+        <GroupHeaderBand1 Ref="8" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,17,2.83</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text1 Ref="9" type="Text" isKey="true">
+              <Brush>EmptyBrush</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0.05,0.01,16.9,2.75</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14,Bold</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>522a4214ee574bd9b1b4ea76fe89bfcd</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="7" />
+              <Parent isRef="8" />
+              <Text>Программа проведения оценки обеспечения готовности к отопительному периоду {IIF(String.IsNullOrEmpty(Header.datebegin_text), "", Header.datebegin_text.Substring(6, 4))} - {IIF(String.IsNullOrEmpty(Header.dateend_text), "", Header.dateend_text.Substring(6, 4))} годов 
+теплоснабжающих организаций и потребителей тепловой энергии {Header.municipality_name}
+
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text1>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>GroupHeaderBand1</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+        </GroupHeaderBand1>
+        <DataBand1 Ref="10" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,4.03,17,1.84</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text7 Ref="11" type="Text" isKey="true">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Border>AdvTransparent;1;None;Transparent;1;None;Transparent;1;None;Transparent;1;None;False;4;DimGray</Border>
+              <Brush>EmptyBrush</Brush>
+              <CanBreak>True</CanBreak>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,17,1.84</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <HorAlignment>Width</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="7" />
+              <Parent isRef="10" />
+              <Text>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;1. Целью программы проведения оценки обеспечения готовности к отопительному периоду {IIF(String.IsNullOrEmpty(Header.datebegin_text), "", Header.datebegin_text.Substring(6, 4))} - {IIF(String.IsNullOrEmpty(Header.dateend_text), "", Header.dateend_text.Substring(6, 4))} годов теплоснабжающих организаций и потребителей тепловой энергии на территории муниципального округа {Header.municipality_name} (далее - Программа) является оценка обеспечения готовности к отопительному периоду {IIF(String.IsNullOrEmpty(Header.datebegin_text), "", Header.datebegin_text.Substring(6, 4))} - {IIF(String.IsNullOrEmpty(Header.dateend_text), "", Header.dateend_text.Substring(6, 4))} годов путем проведения оценки обеспечения готовности теплоснабжающих организаций и потребителей тепловой энергии, теплопотребляющие установки которых подключены (технологически присоединены) к системе теплоснабжения, приобретающих тепловую энергию (мощность), теплоноситель для использования на принадлежащих им на праве собственности или ином законном основании теплопотребляющих установках, управляющих организаций, а также муниципальными образованиями в случае, если способ управления многоквартирным домом не выбран или выбранный способ управления не реализован (далее - потребители тепловой энергии).&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2. Программа разработана в соответствии с:&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- Федеральным законом от 06.10.2003 № 131-ФЗ «Об общих принципах организации местного самоуправления в Российской Федерации»;&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- Федеральным законом от 27.07.2010 № 190-ФЗ «О теплоснабжении» (далее - Закон № 190-ФЗ);&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- Правилами обеспечения готовности к отопительному периоду и Порядка проведения оценки обеспечения готовности к отопительному периоду, утвержденными Приказом Министерства энергетики Российской Федерации от 13.11.2024 № 2234, зарегистрированным в Министерстве юстиции Российской Федерации 29 ноября 2024 года, регистрационный № 80417 (далее - Правила).&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;3. Оценка обеспечения готовности к отопительному периоду теплоснабжающих организаций и потребителей тепловой энергии проводится в соответствии с Правилами.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4. Работа комиссий по оценке обеспечения готовности к отопительному периоду {IIF(String.IsNullOrEmpty(Header.datebegin_text), "", Header.datebegin_text.Substring(6, 4))} - {IIF(String.IsNullOrEmpty(Header.dateend_text), "", Header.dateend_text.Substring(6, 4))} годов теплоснабжающих организаций и потребителей тепловой энергии на территории муниципального округа {Header.municipality_name} (далее - Комиссия) осуществляется в соответствии с графиком проведения оценки обеспечения готовности к отопительному периоду {IIF(String.IsNullOrEmpty(Header.datebegin_text), "", Header.datebegin_text.Substring(6, 4))} - {IIF(String.IsNullOrEmpty(Header.dateend_text), "", Header.dateend_text.Substring(6, 4))} годов согласно Приложению № 1 к Программе (далее - График).&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.1. Комиссия осуществляет оценку обеспечения готовности в соответствии с перечнем теплоснабжающих организаций и потребителей тепловой энергии, в отношении которых проводится оценка обеспечения готовности к отопительному периоду {IIF(String.IsNullOrEmpty(Header.datebegin_text), "", Header.datebegin_text.Substring(6, 4))} - {IIF(String.IsNullOrEmpty(Header.dateend_text), "", Header.dateend_text.Substring(6, 4))} годов, согласно Приложению № 2 к Программе.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.2. Оценка обеспечения готовности к отопительному периоду потребителей тепловой энергии осуществляется Комиссией, созданной Администрацией {Header.municipality_name}&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;В комиссию включаются представители:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,LineLimit=True,,Trimming=Character,WordWrap=True,A=0,O=40,DistanceBetweenTabs=40,</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+            </Text7>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand1</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand1>
+        <DataBand2 Ref="12" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <CanBreak>True</CanBreak>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,6.67,17,0.71</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text2 Ref="13" type="Text" isKey="true">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Brush>Transparent</Brush>
+              <CanBreak>True</CanBreak>
+              <CanGrow>True</CanGrow>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>0,0,16.95,0.61</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="7" />
+              <Parent isRef="12" />
+              <Text>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- {CommitteeWorkplaces.place_name};</Text>
+              <TextBrush>Black</TextBrush>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text2>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>CommitteeWorkplaces</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand2</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand2>
+        <DataBand3 Ref="14" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <CanBreak>True</CanBreak>
+          <ClientRectangle>0,8.18,17,10.24</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text8 Ref="15" type="Text" isKey="true">
+              <AllowHtmlTags>True</AllowHtmlTags>
+              <Border>AdvTransparent;1;None;Transparent;1;None;Transparent;1;None;Transparent;1;None;False;4;DimGray</Border>
+              <Brush>EmptyBrush</Brush>
+              <CanBreak>True</CanBreak>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,17,10.2</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <HorAlignment>Width</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="7" />
+              <Parent isRef="14" />
+              <Text>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.3. Комиссия формируется в составе председателя Комиссии, его заместителя, секретаря и членов Комиссии. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.3.1. Комиссию возглавляет председатель Комиссии. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.3.2. В случае отсутствия председателя Комиссии его обязанности исполняет заместитель председателя. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.3.3. В состав Комиссии входят не менее пяти человек - членов Комиссии. Председатель, его заместитель и секретарь являются членами Комиссии. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.3.4. Персональный состав Комиссий утверждается постановлением Администрации {Header.municipality_name}. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.3.5. Замена члена Комиссии допускается только по постановлению Администрации {Header.municipality_name}. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.3.6. К основным функциям председателя Комиссии относятся: &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- осуществление общего руководства работой Комиссии; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- осуществление общего контроля за реализацией решений, принятых на Комиссии; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- назначение заседания Комиссий и определение их повестки дня; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- объявление заседания правомочным или вынесения решения о его переносе из-за отсутствия кворума; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- открытие и ведение заседания Комиссии; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- подписание актов оценки обеспечения готовности к отопительному периоду; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- осуществление иных действий в соответствии с законодательством Российской Федерации и настоящей Программой. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.3.7. Секретарь Комиссии: &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- исполняет обязанности по подготовке документов для рассмотрения на заседании Комиссии; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- осуществляет подготовку заседаний Комиссии; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- ведет документацию Комиссии, уведомляет членов Комиссии о дате, месте и времени проведения заседания и знакомит их с материалами, подготовленными для рассмотрения на заседании Комиссии. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.3.8. Члены Комиссии: &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- присутствуют на заседаниях Комиссии и принимают решения по вопросам, отнесенных к компетенции Комиссии настоящей Программой; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- осуществляют оценку готовности на предмет выполнения требований, установленных Правилами; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- заполняют оценочные листы и подписывают акты оценки обеспечения готовности к отопительному периоду; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- осуществляют иные действия в соответствии с законодательством Российской Федерации и настоящей Программой. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.3.9. Члены Комиссии обязаны: &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- знать и руководствоваться в своей деятельности законодательством Российской Федерации; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- лично присутствовать на заседаниях Комиссии, отсутствие на заседании Комиссии допускается только по уважительным причинам. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;В случае отсутствия председателя Комиссии его обязанности исполняет заместитель председателя. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.3.10. Комиссия правомочна осуществлять функции, предусмотренные Программой, если на заседании Комиссии присутствует пятьдесят и более процентов общего числа ее членов в части, касающейся оцениваемых объектов. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Члены Комиссии должны быть своевременно уведомлены о месте, дате и времени проведения заседания Комиссии.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Принятие решения членами Комиссии путем проведения заочного голосования не допускается. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;5. Комиссия в срок не позднее чем за 20 календарных дней до дня начала проведения оценки обеспечения готовности в соответствии с графиком проведения оценки обеспечения готовности к отопительному периоду {IIF(String.IsNullOrEmpty(Header.datebegin_text), "", Header.datebegin_text.Substring(6, 4))} - {IIF(String.IsNullOrEmpty(Header.dateend_text), "", Header.dateend_text.Substring(6, 4))} годов согласно Приложению № 1 к Программе уведомляет о сроках проведения оценки готовности посредством размещения на официальном сайте Администрации {Header.municipality_name} в информационно-телекоммуникационной сети "Интернет" информации о начале проведения оценки обеспечения готовности и программы оценки готовности, а также посредством письменного уведомления каждого лица, подлежащего оценке обеспечения готовности, любым доступным способом, позволяющим подтвердить факт его получения. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Уведомление о сроках проведения оценки готовности должно содержать дату, к которой лица, указанные в Приложении № 2 к Программе обязаны подготовить и представить комиссии документы, подтверждающие выполнение требований по обеспечению готовности к отопительному периоду, установленных пунктами 9 - 11 Правил. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Документы, подтверждающие выполнение требований по обеспечению готовности к отопительному периоду, должны быть представлены Комиссии не позднее, чем за 3 (три) рабочих дня до соответствующего срока проверки, указанного в Графике. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;6. В рамках проведения оценки обеспечения готовности соответствующая Комиссия осуществляет оценку готовности на предмет выполнения требований, установленных Правилами и в отношении каждого объекта оценки обеспечения готовности, устанавливает их уровень готовности к отопительному периоду (далее - уровень готовности) на основании значения индекса готовности. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Индекс готовности объекта оценки обеспечения готовности определяется расчетным способом с точностью до 2 знака после запятой в соответствии с формулами, установленными в оценочных листах. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;По результатам расчета индекса готовности устанавливается: &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- уровень готовности "Не готов" - если индекс готовности меньше 0,8; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- уровень готовности "Готов с условиями" - если индекс готовности меньше 0,9 и больше либо равен 0,8; &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- уровень готовности "Готов" - если индекс готовности больше либо равен 0,9.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;В случае если балльная оценка хотя бы одного показателя готовности, определенного пунктами 19 и 20 Порядка проведения оценки обеспечения готовности к отопительному периоду Правил (далее -Порядок), равна 0, то значение индекса готовности принимается не более 0,8. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;При расчете индекса готовности в случае, если требования к объекту теплоснабжения, установленные статьей 20 Федерального закона о теплоснабжении, не применяются в соответствии с законодательством Российской Федерации, значение показателя в оценочных листах принимается равным 1. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;7. В отношении объектов потребителей тепловой энергии, указанных в Приложении № 2 к Программе, расчет индекса готовности и проверка оценочных листов потребителей тепловой энергии, расположенных на территории {Header.municipality_name} осуществляется единой теплоснабжающей организацией. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;В случае расхождений между сведениями (информацией), представленными в Комиссию указанными потребителями и данными единой теплоснабжающей организации, у вышеуказанных лиц могут быть запрошены дополнительные документы (сведения), предусмотренные Правилами, а также может быть проведен визуальный осмотр объектов теплоснабжения. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Проверка оценочных листов и расчет индекса готовности проводится единой теплоснабжающей организацией в течение 10 календарных дней с даты предоставления Комиссией заполненных оценочных листов, а также документов, подтверждающих выполнение требований по обеспечению готовности к отопительному периоду, установленных пунктом 11 Правил. &lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Результаты проверки и произведенного расчета индекса готовности в отношении каждого объекта оценки обеспечения готовности направляются не позднее 5 рабочих дней до дня подписания акта оценки обеспечения готовности к отопительному периоду (далее - акт) в Комиссию для определения уровня готовности и оформления результатов оценки обеспечения готовности.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;7.1. В отношении многоквартирных домов, расположенных на территории {Header.municipality_name} расчет индекса готовности, заполнение оценочных листов, установление уровня готовности и оформление результатов оценки обеспечения готовности проводятся Комиссией.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;В случае расхождений сведений (информации), представленных в Комиссию, ей могут быть запрошены дополнительные документы (сведения), предусмотренные Правилами, а также может быть проведен визуальный осмотр объектов теплоснабжения.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;7.2. В отношении единой теплоснабжающей организации расчет индекса готовности, заполнение оценочных листов, установление уровня готовности и оформление результатов оценки обеспечения готовности проводятся Комиссией.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;В случае расхождений между сведениями (информацией), представленными в Комиссию, у вышеуказанных лиц могут быть запрошены дополнительные документы (сведения), предусмотренные Правилами, а также может быть проведен визуальный осмотр объектов теплоснабжения.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;8. Сроки проведения оценки обеспечения готовности устанавливаются в соответствии с Графиком.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;9. Результаты оценки обеспечения готовности оформляются в акте, который составляется не позднее одного рабочего дня с даты завершения оценки обеспечения готовности.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;10. К акту прилагается заполненный оценочный лист на каждый объект оценки обеспечения готовности. При наличии у Комиссии замечаний к соблюдению проверяемым лицом требований по обеспечению готовности, установленных Правилами, в оценочном листе указывается срок устранения выявленных замечаний.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;11. В случае устранения указанных в оценочном листе замечаний комиссией, на основании уведомления об устранении замечаний лица, в отношении которого был выдан оценочный лист с замечаниями, не позднее 14 календарных дней со дня получения комиссией такого уведомления, проводится повторная оценка обеспечения готовности на предмет устранения ранее выданных замечаний, по результатам которой составляется новый акт и прилагается новый оценочный лист.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;12. Срок составления акта определяется представителем Администрации {Header.municipality_name} в зависимости от особенностей климатических условий, но не позднее 10 сентября - для потребителей тепловой энергии, не позднее 25 октября - для теплоснабжающих организаций.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;13. Паспорт обеспечения готовности к отопительному периоду (далее - паспорт) выдается в течение 5 рабочих дней со дня подписания акта, в случаях, если в отношении проверяемого лица установлен уровень готовности "Готов", а также в случае установления в отношении проверяемого лица уровня готовности "Готов с условиями", если сроки устранения замечаний комиссии по обеспечению готовности и повторная оценка обеспечения готовности на предмет устранения ранее выданных замечаний выходят за рамки сроков, установленных пунктом 13 Порядка.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;14. Сроки выдачи паспортов определяются председателем Комиссии в зависимости от особенностей климатических условий, но не позднее 15 сентября - для потребителей тепловой энергии, не позднее 1 ноября - для теплоснабжающих организаций.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Сводная информация о результатах оценки обеспечения готовности с указанием проверяемого лица, уровня готовности и индекса готовности подлежит опубликованию на официальном сайте Администрации {Header.municipality_name} в срок до 1 декабря {IIF(String.IsNullOrEmpty(Header.datebegin_text), "", Header.datebegin_text.Substring(6, 4))} года.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;15. Лица, не получившие паспорт до даты, установленной пунктом 14 настоящей Программы, обязаны продолжить подготовку к отопительному периоду посредством устранения указанных в оценочном листе замечаний.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;16. В целях проведения оценки обеспечения готовности Комиссия рассматривает документы, подтверждающие выполнение требований по обеспечению готовности к отопительному периоду, установленных пунктами 9 - 11 Правил.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;По решению Комиссии проводится осмотр объектов оценки обеспечения готовности.&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;17. Значение индекса готовности потребителей тепловой энергии, не может быть более 0,8 в случае, если хотя бы один из нижеперечисленных показателей готовности равен 0:&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- показатель наличия акта промывки теплопотребляющей установки (подпункт 11.5.1 пункта 11 Правил);&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- показатель наличия акта о проведении наладки режимов потребления тепловой энергии и (или) теплоносителя (в том числе тепловых и гидравлических режимов) оборудования теплового пункта и внутридомовых сетей (подпункт 11.5.2 пункта 11 Правил);&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- показатель наличия акта о проведении гидравлических испытаний на прочность и плотность оборудования теплового пункта, тепловых сетей в границах балансовой принадлежности и эксплуатационной ответственности, включая трубопроводы теплового ввода и внутридомовых сетей (подпункт 11.5.5 пункта 11 Правил).&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;18. Значение индекса готовности теплоснабжающих организаций, не может быть более 0,8 в случае, если хотя бы один из нижеперечисленных показателей готовности равен 0:&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- показатель наличия акта о проведении очистки и промывки тепловых сетей, тепловых пунктов в соответствии с требованиями пунктов 5.3.37, 6.2.17, 12.18 Правил технической эксплуатации тепловых энергоустановок, утвержденных приказом Минэнерго России от 24 марта 2003 г. № 115 (далее - Правила № 115) (подпункт 9.3.21 пункта 9 Правил);&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- показатель наличия актов проведения гидравлических испытаний на прочность и плотность трубопроводов тепловых сетей в соответствии с пунктом 6.2.16 Правил № 115 (подпункт 9.3.19 пункта 9 Правил);&lt;br&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;- показатель наличия разработанного в соответствии с пунктом 2.7.10 Правил № 115 нормативно-технического документа по организации ремонтного производства, разработке ремонтной документации, планированию и подготовке к ремонту, выводу в ремонт и производству ремонта, а также приемке и оценке качества ремонта (пункт 9.3.14 пункта 9 Правил).&lt;br&gt;
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <TextQuality>Wysiwyg</TextQuality>
+              <Type>Expression</Type>
+            </Text8>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand3</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand3>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>c5a122b841fe4e5e9c29436ca1dd66e8</Guid>
+      <Margins>2,2,1.5,3</Margins>
+      <Name>Page1</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="16" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+    <Page2 Ref="17" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="3">
+        <DataBand4 Ref="18" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,0.4,17,4.58</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text9 Ref="19" type="Text" isKey="true">
+              <Border>AdvTransparent;1;None;Transparent;1;None;Transparent;1;None;Transparent;1;None;False;4;DimGray</Border>
+              <Brush>EmptyBrush</Brush>
+              <CanGrow>True</CanGrow>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>8.38,0,8.26,4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14,Bold</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text9</Name>
+              <Page isRef="17" />
+              <Parent isRef="18" />
+              <Text>Приложение № 1
+к Программе проведения оценки обеспечения готовности к отопительному периоду {IIF(String.IsNullOrEmpty(Header.datebegin_text), "", Header.datebegin_text.Substring(6, 4))} - {IIF(String.IsNullOrEmpty(Header.dateend_text), "", Header.dateend_text.Substring(6, 4))} годов теплоснабжающих организаций и потребителей тепловой энергии на территории {Header.municipality_name}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text9>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>Header</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand4</Name>
+          <Page isRef="17" />
+          <Parent isRef="17" />
+          <Sort isList="true" count="0" />
+        </DataBand4>
+        <DataBand5 Ref="20" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,5.78,17,1.9</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text11 Ref="21" type="Text" isKey="true">
+              <Border>AdvTransparent;1;None;Transparent;1;None;Transparent;1;None;Transparent;1;None;False;4;DimGray</Border>
+              <Brush>EmptyBrush</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0.04,17,1.75</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text11</Name>
+              <Page isRef="17" />
+              <Parent isRef="20" />
+              <Text>График проведения оценки готовности к отопительному периоду 
+{IIF(String.IsNullOrEmpty(Header.datebegin_text), "", Header.datebegin_text.Substring(6, 4))} - {IIF(String.IsNullOrEmpty(Header.dateend_text), "", Header.dateend_text.Substring(6, 4))} годов
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text11>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand5</Name>
+          <Page isRef="17" />
+          <Parent isRef="17" />
+          <Sort isList="true" count="0" />
+        </DataBand5>
+        <Table1 Ref="22" type="Stimulsoft.Report.Components.Table.StiTable" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,8.48,17,3.34</ClientRectangle>
+          <ColumnCount>4</ColumnCount>
+          <Components isList="true" count="8">
+            <Table1_Cell1 Ref="23" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,2.04,1.87</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <HorAlignment>Center</HorAlignment>
+              <ID>1</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table1_Cell1</Name>
+              <Page isRef="17" />
+              <Parent isRef="22" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>№ п/п</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table1_Cell1>
+            <Table1_Cell2 Ref="24" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.04,0,5.43,1.87</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <HorAlignment>Center</HorAlignment>
+              <ID>2</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table1_Cell2</Name>
+              <Page isRef="17" />
+              <Parent isRef="22" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>Объекты, подлежащие проверке</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table1_Cell2>
+            <Table1_Cell3 Ref="25" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.47,0,4.81,1.87</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <HorAlignment>Center</HorAlignment>
+              <ID>3</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table1_Cell3</Name>
+              <Page isRef="17" />
+              <Parent isRef="22" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>Количество объектов</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table1_Cell3>
+            <Table1_Cell4 Ref="26" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>12.28,0,4.72,1.87</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <HorAlignment>Center</HorAlignment>
+              <ID>4</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table1_Cell4</Name>
+              <Page isRef="17" />
+              <Parent isRef="22" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>Сроки проведения оценки обеспечения готовности</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table1_Cell4>
+            <Table1_Cell5 Ref="27" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,1.87,2.04,1.47</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <ID>21</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>1,1,1,1</Margins>
+              <Name>Table1_Cell5</Name>
+              <Page isRef="17" />
+              <Parent isRef="22" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{App1.nn}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table1_Cell5>
+            <Table1_Cell6 Ref="28" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>2.04,1.87,5.43,1.47</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <ID>22</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>1,1,1,1</Margins>
+              <Name>Table1_Cell6</Name>
+              <Page isRef="17" />
+              <Parent isRef="22" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{App1.object_function_name}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table1_Cell6>
+            <Table1_Cell7 Ref="29" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>7.47,1.87,4.81,1.47</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <ID>23</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>1,1,1,1</Margins>
+              <Name>Table1_Cell7</Name>
+              <Page isRef="17" />
+              <Parent isRef="22" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{App1.object_count}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table1_Cell7>
+            <Table1_Cell8 Ref="30" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>12.28,1.87,4.72,1.47</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <ID>24</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>1,1,1,1</Margins>
+              <Name>Table1_Cell8</Name>
+              <Page isRef="17" />
+              <Parent isRef="22" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{App1.startdate} - {App1.finishdate}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table1_Cell8>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>App1</DataSourceName>
+          <Filters isList="true" count="0" />
+          <HeaderRowsCount>1</HeaderRowsCount>
+          <Name>Table1</Name>
+          <NumberID>25</NumberID>
+          <Page isRef="17" />
+          <Parent isRef="17" />
+          <RowCount>2</RowCount>
+          <Sort isList="true" count="0" />
+        </Table1>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>88c8204afd60496395561cbf28469202</Guid>
+      <Margins>2,2,1.5,3</Margins>
+      <Name>Page2</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="31" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page2>
+    <Page3 Ref="32" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="6">
+        <DataBand6 Ref="33" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,17,4.57</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text10 Ref="34" type="Text" isKey="true">
+              <Border>AdvTransparent;1;None;Transparent;1;None;Transparent;1;None;Transparent;1;None;False;4;DimGray</Border>
+              <Brush>EmptyBrush</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>8.38,0,8.26,4.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14,Bold</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="32" />
+              <Parent isRef="33" />
+              <Text>Приложение № 2
+к Программе проведения оценки обеспечения готовности к отопительному периоду {IIF(String.IsNullOrEmpty(Header.datebegin_text), "", Header.datebegin_text.Substring(6, 4))} - {IIF(String.IsNullOrEmpty(Header.dateend_text), "", Header.dateend_text.Substring(6, 4))} годов теплоснабжающих организаций и потребителей тепловой энергии на территории {Header.municipality_name}
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text10>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand6</Name>
+          <Page isRef="32" />
+          <Parent isRef="32" />
+          <Sort isList="true" count="0" />
+        </DataBand6>
+        <DataBand7 Ref="35" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,5.77,17,3.02</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text12 Ref="36" type="Text" isKey="true">
+              <Border>AdvTransparent;1;None;Transparent;1;None;Transparent;1;None;Transparent;1;None;False;4;DimGray</Border>
+              <Brush>EmptyBrush</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0.05,16.94,2.73</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text12</Name>
+              <Page isRef="32" />
+              <Parent isRef="35" />
+              <Text>Перечень
+теплоснабжающих организаций и потребителей тепловой энергии, 
+в отношении которых проводится оценка обеспечения готовности 
+к отопительному периоду {IIF(String.IsNullOrEmpty(Header.datebegin_text), "", Header.datebegin_text.Substring(6, 4))} - {IIF(String.IsNullOrEmpty(Header.dateend_text), "", Header.dateend_text.Substring(6, 4))} годов
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text12>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <Name>DataBand7</Name>
+          <Page isRef="32" />
+          <Parent isRef="32" />
+          <Sort isList="true" count="0" />
+        </DataBand7>
+        <Table2 Ref="37" type="Stimulsoft.Report.Components.Table.StiTable" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,9.59,17,0.91</ClientRectangle>
+          <ColumnCount>2</ColumnCount>
+          <Components isList="true" count="2">
+            <Table2_Cell1 Ref="38" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,1.91,0.91</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <HorAlignment>Center</HorAlignment>
+              <ID>0</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table2_Cell1</Name>
+              <Page isRef="32" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>№ п/п</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table2_Cell1>
+            <Table2_Cell2 Ref="39" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.91,0,15.09,0.91</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <HorAlignment>Center</HorAlignment>
+              <ID>1</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table2_Cell2</Name>
+              <Page isRef="32" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>Наименований предприятий, организаций, учреждений, объектов</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table2_Cell2>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <Filters isList="true" count="0" />
+          <MinHeight>0.8</MinHeight>
+          <Name>Table2</Name>
+          <NumberID>29</NumberID>
+          <Page isRef="32" />
+          <Parent isRef="32" />
+          <RowCount>1</RowCount>
+          <Sort isList="true" count="0" />
+        </Table2>
+        <GroupHeaderBand2 Ref="40" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,11.3,17,0.6</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text3 Ref="41" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,17,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="32" />
+              <Parent isRef="40" />
+              <Text>{App2.object_function_name}
+</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text3>
+          </Components>
+          <Condition>{App2.object_function_name}
+</Condition>
+          <Conditions isList="true" count="0" />
+          <Name>GroupHeaderBand2</Name>
+          <Page isRef="32" />
+          <Parent isRef="32" />
+        </GroupHeaderBand2>
+        <GroupHeaderBand3 Ref="42" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,12.7,17,0.6</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text4 Ref="43" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,17,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="32" />
+              <Parent isRef="42" />
+              <Text>{App2.organization_name}
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text4>
+          </Components>
+          <Condition>{App2.organization_name}
+</Condition>
+          <Conditions isList="true" count="0" />
+          <Name>GroupHeaderBand3</Name>
+          <Page isRef="32" />
+          <Parent isRef="32" />
+        </GroupHeaderBand3>
+        <DataBand8 Ref="44" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,14.1,17,1</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text5 Ref="45" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,2,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="32" />
+              <Parent isRef="44" />
+              <Text>{LineThrough + "."}
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text5>
+            <Text6 Ref="46" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>2,0,15,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,14</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="32" />
+              <Parent isRef="44" />
+              <Text>{App2.workobject_name}
+</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text6>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>App2</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand8</Name>
+          <Page isRef="32" />
+          <Parent isRef="32" />
+          <Sort isList="true" count="0" />
+        </DataBand8>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>866e9787afe44ac4b8859d8721a70271</Guid>
+      <Margins>2,2,1.5,3</Margins>
+      <Name>Page3</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="47" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page3>
+  </Pages>
+  <PreviewSettings>268435455</PreviewSettings>
+  <PrinterSettings Ref="48" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>4/22/2026 5:18:51 PM</ReportChanged>
+  <ReportCreated>3/11/2026 12:50:12 PM</ReportCreated>
+  <ReportFile>D:\Projects\2234.PlatformDev\src\2234\Reports\AwpAssessingProgram.mrt</ReportFile>
+  <ReportGuid>f6d4db8ad39e4982a7cd22a6b8c4462f</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2015.3.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

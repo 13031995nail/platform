@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <Configurations>Debug;Release</Configurations>
+    <RootNamespace>Tmobis.Frameworks.Flexberry.Converters.OldFile</RootNamespace>
+    <PackageId>Tmobis.Frameworks.Flexberry.Converters.OldFile</PackageId>
+    <IsPackable>false</IsPackable>
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" />
+    <PackageReference Include="Microsoft.Data.SqlClient" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\business\core\backend\module.flexberry\tmobis.business.core.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+    <ProjectReference Include="..\tmobis.flexberry.ds.mssql\Tmobis.Flexberry.DS.MSSQL.csproj" />
+    <ProjectReference Include="..\tmobis.flexberry\backend\module\Tmobis.Flexberry.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,9 @@
+{{#if offlineMode}}
+    {{flexberry-checkbox
+      label=onlineStatus
+      class="toggle"
+      value=offlineState.checkedToggleOnline
+      onChange=(action "toggleWork")
+      readonly=(not offlineState.backupSynced)
+    }}
+{{/if}}

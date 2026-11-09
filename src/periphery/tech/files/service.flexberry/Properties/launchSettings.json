@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Tmobis.Files.Service.Flexberry": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:63351;http://localhost:63352"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Import.Excel</RootNamespace>
+    <PackageId>Tmobis.Import.Excel</PackageId>
+    <Description>Модуль импорта табличных данных из Excel. Пакет предоставляет базовые абстракции для построчного чтения Excel и записи данных в существующую книгу/шаблон.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NPOI" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+  </ItemGroup>
+
+</Project>

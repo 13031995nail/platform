@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>Tmobis.Data.EF</RootNamespace>
+        <PackageId>Tmobis.Data.EF</PackageId>
+        <Description>Модуль базового Entity Framework-адаптера репозиториев, транзакций и аудита.</Description>
+        <IsPackable>true</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="../../../../../core/backend/module/tmobis.core.csproj" />
+      <ProjectReference Include="..\..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+      <ProjectReference Include="..\..\..\audit\module\audit.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+    </ItemGroup>
+
+</Project>

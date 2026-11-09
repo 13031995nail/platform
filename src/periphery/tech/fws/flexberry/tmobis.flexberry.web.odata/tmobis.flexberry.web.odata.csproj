@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Frameworks.Flexberry.Web.OData</RootNamespace>
+    <PackageId>Tmobis.Frameworks.Flexberry.Web.OData</PackageId>
+    <Description>Модуль OData Web API-интеграции Flexberry.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />   
+    <PackageReference Include="NewPlatform.Flexberry.ORM" />
+    <PackageReference Include="NewPlatform.Flexberry.Security" />
+    <PackageReference Include="NewPlatform.Flexberry.ORM.PostgresDataService" />
+    <PackageReference Include="NewPlatform.Flexberry.Audit" />
+    <PackageReference Include="NewPlatform.Flexberry.LogService.Objects" />
+    <PackageReference Include="NewPlatform.Flexberry.LockService" />
+    <PackageReference Include="NewPlatform.Flexberry.UserSettingsService" />
+    <PackageReference Include="NewPlatform.Flexberry.ORM.ODataService" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\tmobis.flexberry.web\Tmobis.Flexberry.Web.csproj" />
+  </ItemGroup>
+
+</Project>

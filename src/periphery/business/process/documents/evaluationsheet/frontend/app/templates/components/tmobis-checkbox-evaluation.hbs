@@ -1,0 +1,9 @@
+{{#unless (eq relatedModel.verificationRequirement.code "0")}}
+  <div class="field">
+    {{flexberry-checkbox
+      value=value
+      readonly=readonly
+      sizeClass=sizeClass
+    }}
+  </div>
+{{/unless}}

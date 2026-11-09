@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-intelligence/models/dashboard';

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <Configurations>Debug;Release</Configurations>
+    <RootNamespace>Tmobis.Integrations.Email.Service</RootNamespace>
+    <AssemblyName>Tmobis.Integrations.Email.Service</AssemblyName>
+    <PackageId>Tmobis.Integrations.Email.Service</PackageId>
+    <Description>Готовый сервис email-интеграции.</Description>
+    <IsPackable>true</IsPackable>
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\data\ef\base\Tmobis.Data.EF.csproj" />
+    <ProjectReference Include="..\..\..\data\ef\postgres\Tmobis.Data.EF.Postgres.csproj" />
+    <ProjectReference Include="..\..\..\files\provider.remote\Tmobis.Files.Provider.Remote.csproj" />
+    <ProjectReference Include="..\..\..\auth\apikey\auth.apikey.csproj" />
+    <ProjectReference Include="..\..\..\medium\webapi\module\Tmobis.Medium.WebApi.Listeners.csproj" />
+    <ProjectReference Include="..\emailConsumer\Tmobis.Integrations.Email.Consumer.csproj" />
+    <ProjectReference Include="..\sender.mailkit\Tmobis.Integrations.Email.Sender.MailKit\Tmobis.Integrations.Email.Sender.MailKit.csproj" />
+    <ProjectReference Include="..\sender.consumer\Tmobis.Integrations.Email.Sender.Consumer\Tmobis.Integrations.Email.Sender.Consumer.csproj" />
+  </ItemGroup>
+</Project>

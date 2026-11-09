@@ -1,0 +1,93 @@
+include:
+- project: timepath/infrastructure/gitlab
+  file: "/cicd/dotnet/build.yml"
+- project: timepath/infrastructure/gitlab
+  file: "/cicd/dotnet/deps.yml"
+- project: timepath/infrastructure/gitlab
+  file: "/cicd/dotnet/versions.yml"
+- project: timepath/infrastructure/gitlab
+  file: "/cicd/dotnet/testing.yml"
+
+deps-back:
+  extends:
+    - .deps-back
+    - .back-base-net10
+    - .back-deps-cache-static
+  stage: deps
+  variables:
+    SLN_PATH: '$SLN_PATH_GLOB'
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true" || $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - Tmobis/Directory.Packages.props
+        - Tmobis/NuGet.config
+        - .gitlab-ci.yml
+        - .ci/backend.gitlab-ci.yml
+        - Tmobis/**/*.csproj
+    - if: $FORCE_DEPS_BACK == "1" || $FORCE_DEPS == "1"
+
+build-back:
+  extends:
+    - .back-cache-static
+    - .build-back-publish-project
+    - .back-base-net10
+  stage: build
+  variables:
+    SLN_PATH: '$SLN_PATH_GLOB'
+    BACKEND_DIR: '$BACKEND_DIR_GLOB'
+    CSPROJ_PATH: '$CSPROJ_PATH_GLOB'
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true" || $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - Tmobis/**/*
+        - .gitlab-ci.yml
+        - .ci/backend.gitlab-ci.yml
+        - deploy/**/*
+        - docker-compose.yml
+
+push-back:
+  stage: push
+  extends: ".push-docker-image"
+  variables:
+    IMAGE_NAME: '$BACK_IMAGE_NAME'
+    IMAGE_TAG: '$IMAGE_TAG_GLOB'
+    BUILD_DIR: '$BUILD_DIR_GLOB'
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_PIPELINE_SOURCE != "schedule" && $CI_PIPELINE_SOURCE != "merge_request_event"
+      changes:
+        - Tmobis/**/*
+        - .gitlab-ci.yml
+        - .ci/backend.gitlab-ci.yml
+        - deploy/**/*
+        - docker-compose.yml
+  needs:
+    - job: build-back
+      artifacts: true
+
+test-sonar:
+  extends:
+    - .back-cache-static
+    - .test-back-sonar
+    - .back-sonar-net10
+  stage: test
+  variables:
+    PROJECT_SLN: '$PROJECT_SLN_GLOB'
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+      allow_failure: true
+      interruptible: true
+      changes:
+        - .editorconfig
+        - Tmobis/**/*
+        - .gitlab-ci.yml
+        - .ci/**/*
+        - deploy/**/*
+        - docker-compose.yml
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - .editorconfig
+        - Tmobis/**/*
+        - .gitlab-ci.yml
+        - .ci/**/*
+        - deploy/**/*
+        - docker-compose.yml

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Medium.WebApi</RootNamespace>
+    <PackageId>Tmobis.Medium.WebApi</PackageId>
+    <Description>Модуль первичного адаптера Web API для слоя обмена сообщениями.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\audit\module\audit.csproj" />
+    <ProjectReference Include="..\..\..\fws\web\tmobis.web\tmobis.web.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-common-address-workobject/routes/work-objects';

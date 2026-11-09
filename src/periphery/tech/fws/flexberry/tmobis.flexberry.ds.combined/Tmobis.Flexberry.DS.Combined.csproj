@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>Tmobis.Frameworks.Flexberry.DataServices.Combined</RootNamespace>
+        <PackageId>Tmobis.Frameworks.Flexberry.DataServices.Combined</PackageId>
+        <Description>Модуль комбинированного Flexberry DataService для нескольких СУБД.</Description>
+        <IsPackable>true</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+      <ProjectReference Include="..\tmobis.flexberry.ds.mssql\Tmobis.Flexberry.DS.MSSQL.csproj" />
+      <ProjectReference Include="..\tmobis.flexberry.ds.postgres\Tmobis.Flexberry.DS.Postgres.csproj" />
+    </ItemGroup>
+
+</Project>

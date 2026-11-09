@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Process.Documents</RootNamespace>
+    <PackageId>Tmobis.Business.Process.Documents.RedinessActBase.Flexberry</PackageId>
+    <Description>Flexberry бизнес-модуль базовой сущности актов готовности.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\..\tech\fws\flexberry\tmobis.flexberry\backend\module\Tmobis.Flexberry.csproj" />
+    <ProjectReference Include="..\..\..\..\baseact\backend\flexberry\baseact.flexberry.csproj" />
+  </ItemGroup>
+</Project>

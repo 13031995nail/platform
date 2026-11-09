@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-common-personnel-admission-committee/services/admission-committee-provider';

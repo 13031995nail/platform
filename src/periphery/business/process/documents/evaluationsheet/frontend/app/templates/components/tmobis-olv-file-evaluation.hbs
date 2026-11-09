@@ -1,0 +1,14 @@
+{{#unless (or relatedModel.isCalculated (eq relatedModel.verificationRequirement.code "6"))}}
+  <div class="field">
+		{{tmobis-olv-file
+			showAddButton=showAddButton
+      useSidePageMode=useSidePageMode
+      fileFieldName=fileFieldName
+      relatedModel=relatedModel
+      customSyncFieldValue=customSyncFieldValue
+      value=value
+      readonly=readonly
+      allowedExtensions=".pdf,.doc,.docx"
+		}}
+	</div>
+{{/unless}}

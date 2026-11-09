@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Metrics.Prometheus</RootNamespace>
+    <PackageId>Tmobis.Metrics.Prometheus</PackageId>
+    <Description>Модуль Prometheus exporter для метрик приложения.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../fws/web/tmobis.web/tmobis.web.csproj" />
+    <ProjectReference Include="../opentelemetry/Tmobis.Metrics.OpenTelemetry.csproj" />
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry" />
+  </ItemGroup>
+
+</Project>

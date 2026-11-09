@@ -1,0 +1,57 @@
+<form class="ui {{appState.state}} flexberry-vertical-form form" role="form">
+  {{#if (v-get validationObject "messages")}}
+    <div class="field">
+      {{flexberry-validationsummary errors=(v-get validationObject "messages")}}
+    </div>
+    <hr>
+  {{/if}}
+  <div class="ui stackable grid">
+    <div class="row">
+      <div class="column">
+        <div class="new-white-panel">
+          {{flexberry-simpledatetime
+            type="date"
+            label=(t "forms.awp.dateBegin-caption")
+            value=model.dateBegin
+            required=true
+            disabled=readonly
+            error=(v-get validationModel "dateBegin" "message")
+            max=model.dateEnd
+          }}
+          {{flexberry-simpledatetime
+            type="date"
+            label=(t "forms.awp.dateEnd-caption")
+            value=model.dateEnd
+            required=true
+            disabled=readonly
+            error=(v-get validationModel "dateEnd" "message")
+            min=model.dateBegin
+          }}
+          <hr>
+          <div class="field">
+            {{flexberry-checkbox
+              label=(t "forms.awp.isCurrent-caption")
+              value=model.isCurrent
+              required=false
+              disabled=readonly
+              error=(if model.errors.isCurrent model.errors.isCurrent)
+              class="toggle"
+            }}
+          </div>
+          <hr>
+          <div class="field">
+            {{flexberry-checkbox
+              label=(t "forms.awp.actuality-caption")
+              value=model.actuality
+              required=false
+              disabled=readonly
+              error=(if model.errors.actuality model.errors.actuality)
+              class="toggle"
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+

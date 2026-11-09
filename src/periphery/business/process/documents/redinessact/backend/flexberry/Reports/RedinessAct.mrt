@@ -1,0 +1,1506 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Culture isNull="true" />
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="1">
+      <Соединение Ref="2" type="Stimulsoft.Report.Dictionary.StiPostgreSQLDatabase" isKey="true">
+        <Alias>Соединение</Alias>
+        <ConnectionStringEncrypted>+Nbby85X0+1FW/3M6QFlE9969+vFC5LNaxy56Mtcd2eCVnuJ6AVb3eFJuPTKPWUXxla3AmJck81ibISIahhlD99UzStJS2OBRQi5gU5AZUaeevuvVVGjCWhdpIRlHeA=</ConnectionStringEncrypted>
+        <Name>Соединение</Name>
+      </Соединение>
+    </Databases>
+    <DataSources isList="true" count="4">
+      <Act Ref="3" type="Stimulsoft.Report.Dictionary.StiPostgreSQLSource" isKey="true">
+        <Alias>Act</Alias>
+        <Columns isList="true" count="17">
+          <value>regdate,System.DateTime</value>
+          <value>actnumber,System.String</value>
+          <value>organizationname,System.String</value>
+          <value>organizationphone,System.String</value>
+          <value>organizationaddress,System.String</value>
+          <value>organization,System.Guid</value>
+          <value>partnerreadiness,System.String</value>
+          <value>datebegin,System.DateTime</value>
+          <value>dateend,System.DateTime</value>
+          <value>address,System.String</value>
+          <value>resolutionnumber,System.String</value>
+          <value>approveddate,System.DateTime</value>
+          <value>chairperson,System.String</value>
+          <value>orgname,System.String</value>
+          <value>objectcount,System.Int64</value>
+          <value>month_russian,System.String</value>
+          <value>approveddate_month_russian,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>Act</Name>
+        <NameInSource>Соединение</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>select act.*,
+	awp.datebegin, awp.dateend, 
+	org.address, org.name as orgname,
+	pr.resolutionnumber, pr.approveddate,
+	COALESCE(em.LastName || ' ', '') || COALESCE(em.firstname || ' ', '') || COALESCE(em.patronymic, '') as chairperson,
+	(select count(1) from redinessactobject where act = act.primarykey) as objectcount,
+	CASE EXTRACT(MONTH FROM act.regdate)::INT
+        WHEN 1 THEN 'января'
+        WHEN 2 THEN 'февраля'
+        WHEN 3 THEN 'марта'
+        WHEN 4 THEN 'апреля'
+        WHEN 5 THEN 'мая'
+        WHEN 6 THEN 'июня'
+        WHEN 7 THEN 'июля'
+        WHEN 8 THEN 'августа'
+        WHEN 9 THEN 'сентября'
+        WHEN 10 THEN 'октября'
+        WHEN 11 THEN 'ноября'
+        WHEN 12 THEN 'декабря'
+    END AS month_russian,
+CASE EXTRACT(MONTH FROM pr.approveddate)::INT
+        WHEN 1 THEN 'января'
+        WHEN 2 THEN 'февраля'
+        WHEN 3 THEN 'марта'
+        WHEN 4 THEN 'апреля'
+        WHEN 5 THEN 'мая'
+        WHEN 6 THEN 'июня'
+        WHEN 7 THEN 'июля'
+        WHEN 8 THEN 'августа'
+        WHEN 9 THEN 'сентября'
+        WHEN 10 THEN 'октября'
+        WHEN 11 THEN 'ноября'
+        WHEN 12 THEN 'декабря'
+    END AS approveddate_month_russian
+from redinessact act
+inner join awp on awp.primarykey = act.awp
+inner join awpassessingprogram pr on pr.primarykey=act.awpassessingprogram
+left join organization org on org.primarykey=act.organization
+left join employee em on em.primarykey=act.assignee
+where act.primarykey = '{pk}'
+</SqlCommand>
+      </Act>
+      <ProgramSchedule Ref="4" type="Stimulsoft.Report.Dictionary.StiPostgreSQLSource" isKey="true">
+        <Alias>ProgramSchedule</Alias>
+        <Columns isList="true" count="4">
+          <value>startdate,System.DateTime</value>
+          <value>finishdate,System.DateTime</value>
+          <value>startdate_month_russian,System.String</value>
+          <value>finishdate_month_russian,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>ProgramSchedule</Name>
+        <NameInSource>Соединение</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>select startdate, CASE EXTRACT(MONTH FROM startdate)::INT
+        WHEN 1 THEN 'января'
+        WHEN 2 THEN 'февраля'
+        WHEN 3 THEN 'марта'
+        WHEN 4 THEN 'апреля'
+        WHEN 5 THEN 'мая'
+        WHEN 6 THEN 'июня'
+        WHEN 7 THEN 'июля'
+        WHEN 8 THEN 'августа'
+        WHEN 9 THEN 'сентября'
+        WHEN 10 THEN 'октября'
+        WHEN 11 THEN 'ноября'
+        WHEN 12 THEN 'декабря'
+    END AS startdate_month_russian,
+finishdate, CASE EXTRACT(MONTH FROM finishdate)::INT
+        WHEN 1 THEN 'января'
+        WHEN 2 THEN 'февраля'
+        WHEN 3 THEN 'марта'
+        WHEN 4 THEN 'апреля'
+        WHEN 5 THEN 'мая'
+        WHEN 6 THEN 'июня'
+        WHEN 7 THEN 'июля'
+        WHEN 8 THEN 'августа'
+        WHEN 9 THEN 'сентября'
+        WHEN 10 THEN 'октября'
+        WHEN 11 THEN 'ноября'
+        WHEN 12 THEN 'декабря'
+    END AS finishdate_month_russian from (
+	select min(startdate) startdate, max(finishdate) finishdate from awpassessingprogramevaluationschedule sc
+inner join awpassessingprogram pr on pr.primarykey=sc.program
+inner join redinessact act on act.awpassessingprogram =pr.primarykey 
+where  act.primarykey = '{pk}') as r</SqlCommand>
+      </ProgramSchedule>
+      <WorkObjects Ref="5" type="Stimulsoft.Report.Dictionary.StiPostgreSQLSource" isKey="true">
+        <Alias>WorkObjects</Alias>
+        <Columns isList="true" count="3">
+          <value>name,System.String</value>
+          <value>objectreadiness,System.String</value>
+          <value>number,System.Int32</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>WorkObjects</Name>
+        <NameInSource>Соединение</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>select w.name, objectreadiness, r.number from redinessactobject r 
+inner join workobject w on w.primarykey =r.workobject 
+where r.act ='{pk}'
+order by r.number</SqlCommand>
+      </WorkObjects>
+      <Signs Ref="6" type="Stimulsoft.Report.Dictionary.StiPostgreSQLSource" isKey="true">
+        <Alias>Signs</Alias>
+        <Columns isList="true" count="9">
+          <value>signature,System.String</value>
+          <value>fio,System.String</value>
+          <value>signdate,System.DateTime</value>
+          <value>rolename,System.String</value>
+          <value>rolekey,System.Guid</value>
+          <value>month_russian,System.String</value>
+          <value>Data,System.String</value>
+          <value>FileName,System.String</value>
+          <value>FileExtId,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>Signs</Name>
+        <NameInSource>Соединение</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>select sign.signature, r.name as rolename, sign.fio, sign.signdate, r.primarykey as rolekey,
+	CASE EXTRACT(MONTH FROM sign.signdate)::INT
+        WHEN 1 THEN 'января'
+        WHEN 2 THEN 'февраля'
+        WHEN 3 THEN 'марта'
+        WHEN 4 THEN 'апреля'
+        WHEN 5 THEN 'мая'
+        WHEN 6 THEN 'июня'
+        WHEN 7 THEN 'июля'
+        WHEN 8 THEN 'августа'
+        WHEN 9 THEN 'сентября'
+        WHEN 10 THEN 'октября'
+        WHEN 11 THEN 'ноября'
+        WHEN 12 THEN 'декабря'
+    END AS month_russian,
+	f.Value AS "Data",
+	f.Name AS "FileName",
+	COALESCE(f.ExternalId, f.primaryKey) AS "FileExtId"
+	from readinessactsign sign
+inner join signrole r on r.primarykey=sign.signrole
+LEFT JOIN "file" as f ON CAST(f.primaryKey AS VARCHAR(70)) = sign.Signature
+where act = '{pk}'</SqlCommand>
+      </Signs>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="4">
+      <value>,pk,pk,,System.String,_x0030_7b6effa-8db8-4c7e-b236-4798dcfe51eb,False,False,False,False</value>
+      <value>,filePath,filePath,,System.String,,False,False,False,False</value>
+      <value>,fileApiKey,fileApiKey,,System.String,,False,False,False,False</value>
+      <value>,fileApiKeyHeader,fileApiKeyHeader,,System.String,,False,False,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="7" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="23">
+        <ReportTitleBand1 Ref="8" type="ReportTitleBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,20,4.2</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text1 Ref="9" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,20,3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,26,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text1</Name>
+              <Page isRef="7" />
+              <Parent isRef="8" />
+              <Text>АКТ ОЦЕНКИ ОБЕСПЕЧЕНИЯ ГОТОВНОСТИ К ОТОПИТЕЛЬНОМУ ПЕРИОДУ</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text1>
+            <Text2 Ref="10" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,3,20,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,26,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="7" />
+              <Parent isRef="8" />
+              <Text>{Format("{0:yyyy}", Act.datebegin)}/{Format("{0:yyyy}", Act.dateend)} гг.</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text2>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>ReportTitleBand1</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+        </ReportTitleBand1>
+        <ReportTitleBand2 Ref="11" type="ReportTitleBand" isKey="true">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,5.4,20,1.8</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text6 Ref="12" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.2,11.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="7" />
+              <Parent isRef="11" />
+              <Text>{Act.organizationaddress}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text6>
+            <Text5 Ref="13" type="Text" isKey="true">
+              <Border>Top;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.8,11.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>b4123715d566417fac57330eab6a199a</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="7" />
+              <Parent isRef="11" />
+              <Text>(место составления акта)</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text5>
+            <Text3 Ref="14" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>14.6,0.2,5.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="7" />
+              <Parent isRef="11" />
+              <Text>"{Format("{0:dd}", Act.regdate)}" {Act.month_russian} {Format("{0:yyyy}", Act.regdate)}г.</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text3>
+            <Text4 Ref="15" type="Text" isKey="true">
+              <Border>Top;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>14.6,0.8,5.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="7" />
+              <Parent isRef="11" />
+              <Text>(дата составления акта)</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text4>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>ReportTitleBand2</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+        </ReportTitleBand2>
+        <ReportTitleBand8 Ref="16" type="ReportTitleBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,8,20,0.4</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <Name>ReportTitleBand8</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+        </ReportTitleBand8>
+        <ReportTitleBand3 Ref="17" type="ReportTitleBand" isKey="true">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,9.2,20,1.8</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text7 Ref="18" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,2.6,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="7" />
+              <Parent isRef="17" />
+              <Text>Комиссия, 
+образованная</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text7>
+            <Text8 Ref="19" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.8,0.4,17,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="7" />
+              <Parent isRef="17" />
+              <Text>Постановление о создании комиссии № {Act.resolutionnumber}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text8>
+            <Text9 Ref="20" type="Text" isKey="true">
+              <Border>Top;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.8,1,17,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>4f8c9734431848d5b2a3a320dd1b732f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text9</Name>
+              <Page isRef="7" />
+              <Parent isRef="17" />
+              <Text>(форма документа и его реквизиты, которым образована комиссия)</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text9>
+            <Text44 Ref="21" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>19.8,0.4,0.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>469fef892c9a4c939e285c73d4fb01bd</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text44</Name>
+              <Page isRef="7" />
+              <Parent isRef="17" />
+              <Text>,</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text44>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>ReportTitleBand3</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+        </ReportTitleBand3>
+        <ReportTitleBand4 Ref="22" type="ReportTitleBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,11.8,20,1.4</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text10 Ref="23" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,20,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="7" />
+              <Parent isRef="22" />
+              <Text>в соответствии с программой проведения оценки обеспечения готовности к отопительному периоду от "{IIF(Act["approveddate"] == DBNull.Value,"__",Format("{0:dd}", Act["approveddate"]))}" {IIF(Act["approveddate"] == DBNull.Value,"______ 20__ ",Act.approveddate_month_russian+ToLowerCase(Format("{0: yyyy}", Act["approveddate"])))}г., утвержденной</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text10>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>ReportTitleBand4</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+        </ReportTitleBand4>
+        <ReportTitleBand5 Ref="24" type="ReportTitleBand" isKey="true">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,14,20,2</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text11 Ref="25" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.2,19.8,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text11</Name>
+              <Page isRef="7" />
+              <Parent isRef="24" />
+              <Text>{Act.chairperson}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text11>
+            <Text12 Ref="26" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>19.8,0.2,0.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text12</Name>
+              <Page isRef="7" />
+              <Parent isRef="24" />
+              <Text>,</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text12>
+            <Text13 Ref="27" type="Text" isKey="true">
+              <Border>Top;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.8,19.8,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>eb04cbcd9b0648d5abfea1698b192026</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text13</Name>
+              <Page isRef="7" />
+              <Parent isRef="24" />
+              <Text>(Фамилия, инициалы руководителя (его заместителя) уполномоченного органа, проводящего оценку обеспечения готовности к отопительному периоду)</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text13>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>ReportTitleBand5</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+        </ReportTitleBand5>
+        <ReportTitleBand6 Ref="28" type="ReportTitleBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,16.8,20,1.4</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text14 Ref="29" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,20,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>4dc8524aad7f4ff0997782b2f80dc50c</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text14</Name>
+              <Page isRef="7" />
+              <Parent isRef="28" />
+              <Text>с "{IIF(ProgramSchedule["startdate"] == DBNull.Value,"__",Format("{0:dd}", ProgramSchedule["startdate"]))}" {IIF(ProgramSchedule["startdate"] == DBNull.Value,"______ 20__ ",ProgramSchedule.startdate_month_russian + ToLowerCase(Format("{0: yyyy}", ProgramSchedule["startdate"])))}г. по "{IIF(ProgramSchedule["finishdate"] == DBNull.Value,"__",Format("{0:dd}", ProgramSchedule["finishdate"]))}" {IIF(ProgramSchedule["finishdate"] == DBNull.Value,"______ 20__ ",ProgramSchedule.finishdate_month_russian+ToLowerCase(Format("{0: yyyy}", ProgramSchedule["finishdate"])))}г. в соответствии с Федеральным законом от 27 июля 2010 г. N 190-ФЗ "О теплоснабжении" провела оценку обеспечения готовности к отопительному периоду</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text14>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>ReportTitleBand6</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+        </ReportTitleBand6>
+        <ReportTitleBand7 Ref="30" type="ReportTitleBand" isKey="true">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,19,20,1.6</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text15 Ref="31" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.2,20,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>f920850469dc45a58eb2801d5bbaee1b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text15</Name>
+              <Page isRef="7" />
+              <Parent isRef="30" />
+              <Text>{Act.orgname}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+            </Text15>
+            <Text16 Ref="32" type="Text" isKey="true">
+              <Border>Top;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.8,20,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>0ded54af72c14d52ae57cf4debc2e6b8</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text16</Name>
+              <Page isRef="7" />
+              <Parent isRef="30" />
+              <Text>(наименование лица, подлежащего оценке обеспечения готовности)</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text16>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>ReportTitleBand7</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+        </ReportTitleBand7>
+        <HeaderBand1 Ref="33" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,21.4,20,1</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text17 Ref="34" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,20,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text17</Name>
+              <Page isRef="7" />
+              <Parent isRef="33" />
+              <Text>Оценка обеспечения готовности к отопительному периоду проводилась в отношении следующих объектов оценки обеспечения готовности:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text17>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>HeaderBand1</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <PrintIfEmpty>True</PrintIfEmpty>
+        </HeaderBand1>
+        <DataBand1 Ref="35" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,23.2,20,0.8</ClientRectangle>
+          <Components isList="true" count="3">
+            <Text45 Ref="36" type="Text" isKey="true">
+              <Border>Bottom;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0.8,0,19,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text45</Name>
+              <Page isRef="7" />
+              <Parent isRef="35" />
+              <Text>{WorkObjects.name}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text45>
+            <Text46 Ref="37" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>19.8,0,0.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>b38d9ea06ee24b12bd80660e6a920fa8</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text46</Name>
+              <Page isRef="7" />
+              <Parent isRef="35" />
+              <Text>;</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text46>
+            <Text47 Ref="38" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,0.8,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text47</Name>
+              <Page isRef="7" />
+              <Parent isRef="35" />
+              <Text>{WorkObjects.number}.</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text47>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>WorkObjects</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand1</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <PrintIfDetailEmpty>True</PrintIfDetailEmpty>
+          <Sort isList="true" count="0" />
+        </DataBand1>
+        <HeaderBand2 Ref="39" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,24.8,20,2.6</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text18 Ref="40" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,20,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text18</Name>
+              <Page isRef="7" />
+              <Parent isRef="39" />
+              <Text>В ходе проведения оценки обеспечения готовности к отопительному периоду комиссия установила:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text18>
+            <Text20 Ref="41" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,1.6,10.8,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text20</Name>
+              <Page isRef="7" />
+              <Parent isRef="39" />
+              <Text>Объект оценки обеспечения готовности</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text20>
+            <Text21 Ref="42" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.8,1.6,9.2,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>e1b8502f4f424c04bed3405966e9c392</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text21</Name>
+              <Page isRef="7" />
+              <Parent isRef="39" />
+              <Text>Уровень готовности
+(Готов/готов с условиями/не готов)</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text21>
+            <Text50 Ref="43" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.8,20,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>b21cca7e8c11405f8b3b7a3da4821aeb</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text50</Name>
+              <Page isRef="7" />
+              <Parent isRef="39" />
+              <Text>Уровни готовности объектов оценки обеспечения готовности:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text50>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>HeaderBand2</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <PrintOn>OnlyFirstPage</PrintOn>
+        </HeaderBand2>
+        <DataBand2 Ref="44" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,28.2,20,0.8</ClientRectangle>
+          <Components isList="true" count="2">
+            <Text48 Ref="45" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,10.8,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>4bf5e0aa69b84982b4062b96a4e522ba</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text48</Name>
+              <Page isRef="7" />
+              <Parent isRef="44" />
+              <Text>{WorkObjects.number}. {WorkObjects.name}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text48>
+            <Text49 Ref="46" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.8,0,9.2,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>993654baa89d40e8a7a603b234d22b14</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text49</Name>
+              <Page isRef="7" />
+              <Parent isRef="44" />
+              <Text>{WorkObjects.objectreadiness}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text49>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>WorkObjects</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand2</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand2>
+        <HeaderBand3 Ref="47" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,29.8,20,2.8</ClientRectangle>
+          <Components isList="true" count="5">
+            <Text19 Ref="48" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,20,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text19</Name>
+              <Page isRef="7" />
+              <Parent isRef="47" />
+              <Text>Уровень готовности лица, подлежащего оценке обеспечения готовности:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text19>
+            <Text22 Ref="49" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.8,10.8,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>84b4daa646684094896ccd1e8500a8c5</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text22</Name>
+              <Page isRef="7" />
+              <Parent isRef="47" />
+              <Text>Лицо, подлежащее оценке обеспечения готовности</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text22>
+            <Text23 Ref="50" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.8,0.8,9.2,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>f43b1175f80f479283fe70cdaa98b732</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text23</Name>
+              <Page isRef="7" />
+              <Parent isRef="47" />
+              <Text>Уровень готовности
+(Готов/готов с условиями/не готов)</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text23>
+            <Text24 Ref="51" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,1.8,10.8,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>cae48937ef724f238c211986492a7bc5</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text24</Name>
+              <Page isRef="7" />
+              <Parent isRef="47" />
+              <Text>{Act.orgname}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text24>
+            <Text25 Ref="52" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.8,1.8,9.2,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>eb1fac02752d4f76929a63077efb7165</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text25</Name>
+              <Page isRef="7" />
+              <Parent isRef="47" />
+              <Text>{Act.partnerreadiness}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text25>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>HeaderBand3</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <PrintIfEmpty>True</PrintIfEmpty>
+        </HeaderBand3>
+        <HeaderBand6 Ref="53" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,33.4,20,0.6</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <Name>HeaderBand6</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <PrintIfEmpty>True</PrintIfEmpty>
+        </HeaderBand6>
+        <DataBand3 Ref="54" type="DataBand" isKey="true">
+          <Border>Left, Right;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,34.8,20,2</ClientRectangle>
+          <Components isList="true" count="5">
+            <Text26 Ref="55" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,2.6,0.6</ClientRectangle>
+              <Conditions isList="true" count="1">
+                <value>_x007B_Line_x0020__x003E__x0020_1_x007D_,Red,Transparent,Arial_x002C_8,False,False,,,None</value>
+              </Conditions>
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text26</Name>
+              <Page isRef="7" />
+              <Parent isRef="54" />
+              <Text>Приложение:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text26>
+            <Text28 Ref="56" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10,0,8.4,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text28</Name>
+              <Page isRef="7" />
+              <Parent isRef="54" />
+              <Text>{WorkObjects.name}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text28>
+            <Text29 Ref="57" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>18.4,0,1.6,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>d09b236e458846fa9beadaec78485571</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text29</Name>
+              <Page isRef="7" />
+              <Parent isRef="54" />
+              <Text>на 1 л. 
+в 1 экз.</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text29>
+            <Text30 Ref="58" type="Text" isKey="true">
+              <Border>Top;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10,1,8.4,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>01ce2be28c2e49a5a9385ad6e2ec9205</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text30</Name>
+              <Page isRef="7" />
+              <Parent isRef="54" />
+              <Text>(объект оценки обеспечения готовности)</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text30>
+            <Text27 Ref="59" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.6,0,7.4,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text27</Name>
+              <Page isRef="7" />
+              <Parent isRef="54" />
+              <Text>{WorkObjects.number}. Оценочный лист для расчета индекса готовности к отопительному периоду</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text27>
+          </Components>
+          <Conditions isList="true" count="3">
+            <value>_x007B_Line_x0020__x003D__x003D__x0020_1_x007D_,Black,Transparent,Arial_x002C_8,True,False,,,Top_x002C__x0020_Left_x002C__x0020_Right</value>
+            <value>_x007B_Line_x0020__x003D__x003D__x0020_Act.objectcount_x007D_,Black,Transparent,Arial_x002C_8,True,False,,,Left_x002C__x0020_Right_x002C__x0020_Bottom</value>
+            <value>_x007B_Act.objectcount_x0020__x003D__x003D__x0020_1_x007D_,Black,Transparent,Arial_x002C_8,True,False,,,All</value>
+          </Conditions>
+          <DataSourceName>WorkObjects</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Name>DataBand3</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand3>
+        <HeaderBand8 Ref="60" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,37.6,20,0.6</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <Guid>6e3ef45be8854a36be381e1be330b2b4</Guid>
+          <Name>HeaderBand8</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <PrintIfEmpty>True</PrintIfEmpty>
+        </HeaderBand8>
+        <DataBand7 Ref="61" type="DataBand" isKey="true">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,39,20,1.6</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text52 Ref="62" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.2,0,12.8,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>57c3fc7cd6bc40e0bb73636008a4f731</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text52</Name>
+              <Page isRef="7" />
+              <Parent isRef="61" />
+              <Text>{Signs.fio}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Bottom</VertAlignment>
+            </Text52>
+            <Text53 Ref="63" type="Text" isKey="true">
+              <Border>Top;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3,1,17,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>28c97d6e362c4efaad7e3202fcd07c39</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text53</Name>
+              <Page isRef="7" />
+              <Parent isRef="61" />
+              <Text>(подпись, расшифровка подписи)</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text53>
+            <Text51 Ref="64" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,3,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>d0fced9715894521a258026b2323c428</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text51</Name>
+              <Page isRef="7" />
+              <Parent isRef="61" />
+              <Text>Председатель комиссии:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text51>
+            <Panel1 Ref="65" type="Panel" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>3.4,0,3.6,1</ClientRectangle>
+              <Components isList="true" count="1">
+                <Image1 Ref="66" type="Image" isKey="true">
+                  <AspectRatio>True</AspectRatio>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0,0,3.6,1</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <GetImageDataEvent> if (!string.IsNullOrEmpty(Signs.FileName) &amp;&amp; !string.IsNullOrEmpty(Signs.FileExtId.ToLower()))
+ {
+   var url = filePath.Replace("{fileName}", Signs.FileName).Replace("{fileId}", Signs.FileExtId.ToLower());
+   var request = System.Net.WebRequest.Create(url);
+   request.Headers.Add(fileApiKeyHeader, fileApiKey);
+   using (var imageStream = request.GetResponse().GetResponseStream())
+   {
+	   Image image = Image.FromStream(imageStream, true);
+	   e.Value = image;
+	   imageStream.Close();
+   }
+ }
+                  </GetImageDataEvent>
+                  <GrowToHeight>True</GrowToHeight>
+                  <Guid>52ac7e6018934b5a99c69bde670d6270</Guid>
+                  <HorAlignment>Center</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Image1</Name>
+                  <Page isRef="7" />
+                  <Parent isRef="65" />
+                  <ShiftMode>IncreasingSize, DecreasingSize, OnlyInWidthOfComponent</ShiftMode>
+                  <Stretch>True</Stretch>
+                  <VertAlignment>Center</VertAlignment>
+                </Image1>
+              </Components>
+              <Conditions isList="true" count="0" />
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>755c5d7e6d81402cb6afafcef53730bd</Guid>
+              <Name>Panel1</Name>
+              <Page isRef="7" />
+              <Parent isRef="61" />
+            </Panel1>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>Signs</DataSourceName>
+          <Filters isList="true" count="1">
+            <value>rolekey,EqualTo,fc83a517-d109-4c75-9ee3-a5fa52df0e93,,String</value>
+          </Filters>
+          <Guid>d8c0392bf58341a087d1675a948e630e</Guid>
+          <Name>DataBand7</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand7>
+        <HeaderBand9 Ref="67" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,41.4,20,0.6</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <Guid>82a2dd85fd244654bda8f7546e53cd1b</Guid>
+          <Name>HeaderBand9</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <PrintIfEmpty>True</PrintIfEmpty>
+        </HeaderBand9>
+        <DataBand4 Ref="68" type="DataBand" isKey="true">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,42.8,20,1.6</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text34 Ref="69" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,3,1.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>9d89f02b44ba4da9b7c3ad025485be77</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text34</Name>
+              <Page isRef="7" />
+              <Parent isRef="68" />
+              <Text>Заместитель председателя комиссии:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text34>
+            <Text35 Ref="70" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.2,0,12.8,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>0561d5cf06384920a0eb7832deca8a40</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text35</Name>
+              <Page isRef="7" />
+              <Parent isRef="68" />
+              <Text>{Signs.fio}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Bottom</VertAlignment>
+            </Text35>
+            <Text36 Ref="71" type="Text" isKey="true">
+              <Border>Top;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3,1,17,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>781fb0c0a8604f33b6fffa9cbbe9365f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text36</Name>
+              <Page isRef="7" />
+              <Parent isRef="68" />
+              <Text>(подпись, расшифровка подписи)</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text36>
+            <Panel2 Ref="72" type="Panel" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>3.4,0,3.6,1</ClientRectangle>
+              <Components isList="true" count="1">
+                <Image2 Ref="73" type="Image" isKey="true">
+                  <AspectRatio>True</AspectRatio>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0,0,3.6,1</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <GetImageDataEvent> if (!string.IsNullOrEmpty(Signs.FileName) &amp;&amp; !string.IsNullOrEmpty(Signs.FileExtId.ToLower()))
+ {
+   var url = filePath.Replace("{fileName}", Signs.FileName).Replace("{fileId}", Signs.FileExtId.ToLower());
+   var request = System.Net.WebRequest.Create(url);
+   request.Headers.Add(fileApiKeyHeader, fileApiKey);
+   using (var imageStream = request.GetResponse().GetResponseStream())
+   {
+	   Image image = Image.FromStream(imageStream, true);
+	   e.Value = image;
+	   imageStream.Close();
+   }
+ }
+                  </GetImageDataEvent>
+                  <GrowToHeight>True</GrowToHeight>
+                  <Guid>61ec9cb2eff743b698d417f633b9ec49</Guid>
+                  <HorAlignment>Center</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Image2</Name>
+                  <Page isRef="7" />
+                  <Parent isRef="72" />
+                  <ShiftMode>IncreasingSize, DecreasingSize, OnlyInWidthOfComponent</ShiftMode>
+                  <Stretch>True</Stretch>
+                  <VertAlignment>Center</VertAlignment>
+                </Image2>
+              </Components>
+              <Conditions isList="true" count="0" />
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>abc03c25023f46fd91659fce0b73d183</Guid>
+              <Name>Panel2</Name>
+              <Page isRef="7" />
+              <Parent isRef="68" />
+            </Panel2>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>Signs</DataSourceName>
+          <Filters isList="true" count="1">
+            <value>rolekey,EqualTo,fc83a517-d109-4c75-9ee3-a5fa52df0e96,,String</value>
+          </Filters>
+          <Name>DataBand4</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand4>
+        <HeaderBand10 Ref="74" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,45.2,20,0.6</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Conditions isList="true" count="0" />
+          <Guid>fd5b3bf71818437a94cf9988bfb61fc1</Guid>
+          <Name>HeaderBand10</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <PrintIfEmpty>True</PrintIfEmpty>
+        </HeaderBand10>
+        <DataBand5 Ref="75" type="DataBand" isKey="true">
+          <Border>All;Black;1;Solid;False;4;Black</Border>
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,46.6,20,1.6</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text37 Ref="76" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,3,1.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>22dd5c435fb34457b1941677d241073b</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text37</Name>
+              <Page isRef="7" />
+              <Parent isRef="75" />
+              <Text>Члены комиссии:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text37>
+            <Text38 Ref="77" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.2,0,12.8,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>ae05e723f0ea4c349d9c8a3b58a82b81</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text38</Name>
+              <Page isRef="7" />
+              <Parent isRef="75" />
+              <Text>{Signs.fio}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Bottom</VertAlignment>
+            </Text38>
+            <Text39 Ref="78" type="Text" isKey="true">
+              <Border>Top;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3,1,17,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>22549119d5e4443b98b5636b1ff46b29</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text39</Name>
+              <Page isRef="7" />
+              <Parent isRef="75" />
+              <Text>(подпись, расшифровка подписи)</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text39>
+            <Panel3 Ref="79" type="Panel" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>3.4,0,3.6,1</ClientRectangle>
+              <Components isList="true" count="1">
+                <Image3 Ref="80" type="Image" isKey="true">
+                  <AspectRatio>True</AspectRatio>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0,0,3.6,1</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <GetImageDataEvent> if (!string.IsNullOrEmpty(Signs.FileName) &amp;&amp; !string.IsNullOrEmpty(Signs.FileExtId.ToLower()))
+ {
+   var url = filePath.Replace("{fileName}", Signs.FileName).Replace("{fileId}", Signs.FileExtId.ToLower());
+   var request = System.Net.WebRequest.Create(url);
+   request.Headers.Add(fileApiKeyHeader, fileApiKey);
+   using (var imageStream = request.GetResponse().GetResponseStream())
+   {
+	   Image image = Image.FromStream(imageStream, true);
+	   e.Value = image;
+	   imageStream.Close();
+   }
+ }
+                  </GetImageDataEvent>
+                  <GrowToHeight>True</GrowToHeight>
+                  <Guid>f25f12ccfd1348918c8e89a170eed9d4</Guid>
+                  <HorAlignment>Center</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Image3</Name>
+                  <Page isRef="7" />
+                  <Parent isRef="79" />
+                  <ShiftMode>IncreasingSize, DecreasingSize, OnlyInWidthOfComponent</ShiftMode>
+                  <Stretch>True</Stretch>
+                  <VertAlignment>Center</VertAlignment>
+                </Image3>
+              </Components>
+              <Conditions isList="true" count="0" />
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>037f19e95e9e4493a30c864ced964256</Guid>
+              <Name>Panel3</Name>
+              <Page isRef="7" />
+              <Parent isRef="75" />
+            </Panel3>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>Signs</DataSourceName>
+          <Filters isList="true" count="1">
+            <value>rolekey,EqualTo,fc83a517-d109-4c75-9ee3-a5fa52df0e92,,String</value>
+          </Filters>
+          <Guid>f4233f7f89684fd294b2d9fb01a15414</Guid>
+          <Name>DataBand5</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand5>
+        <HeaderBand5 Ref="81" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,49,20,1</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text40 Ref="82" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.2,20,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>b288ecf4e10c4838bf5a4bc8e02a32b5</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text40</Name>
+              <Page isRef="7" />
+              <Parent isRef="81" />
+              <Text>С актами оценки обеспечения готовности ознакомлен, один экземпляр акта получил:</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text40>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>d01717bd94b74b21a2044ccdeeeb1f15</Guid>
+          <Name>HeaderBand5</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <PrintIfEmpty>True</PrintIfEmpty>
+        </HeaderBand5>
+        <DataBand6 Ref="83" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,50.8,20,2.4</ClientRectangle>
+          <Components isList="true" count="4">
+            <Text41 Ref="84" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,3.6,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>485743fb42054f508136ccff2aa7edd8</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text41</Name>
+              <Page isRef="7" />
+              <Parent isRef="83" />
+              <Text>"{IIF(Signs["signdate"] == DBNull.Value,"__",Format("{0:dd}", Signs["signdate"]))}" {IIF(Signs["signdate"] == DBNull.Value,"______ 20__ ",Signs.month_russian + ToLowerCase(Format("{0: yyyy}", Signs["signdate"])))}г.</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text41>
+            <Text42 Ref="85" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.2,0,12.8,1</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>a96acffc579848f0b8b3dca8c812554f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text42</Name>
+              <Page isRef="7" />
+              <Parent isRef="83" />
+              <Text>{Signs.fio}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>DataColumn</Type>
+              <VertAlignment>Bottom</VertAlignment>
+            </Text42>
+            <Panel4 Ref="86" type="Panel" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>3.6,0,3.6,1</ClientRectangle>
+              <Components isList="true" count="1">
+                <Image4 Ref="87" type="Image" isKey="true">
+                  <AspectRatio>True</AspectRatio>
+                  <Brush>Transparent</Brush>
+                  <ClientRectangle>0,0,3.6,1</ClientRectangle>
+                  <Conditions isList="true" count="0" />
+                  <GetImageDataEvent> if (!string.IsNullOrEmpty(Signs.FileName) &amp;&amp; !string.IsNullOrEmpty(Signs.FileExtId.ToLower()))
+ {
+   var url = filePath.Replace("{fileName}", Signs.FileName).Replace("{fileId}", Signs.FileExtId.ToLower());
+   var request = System.Net.WebRequest.Create(url);
+   request.Headers.Add(fileApiKeyHeader, fileApiKey);
+   using (var imageStream = request.GetResponse().GetResponseStream())
+   {
+	   Image image = Image.FromStream(imageStream, true);
+	   e.Value = image;
+	   imageStream.Close();
+   }
+ }
+                  </GetImageDataEvent>
+                  <GrowToHeight>True</GrowToHeight>
+                  <Guid>1aca4c4933f64108a3edd841da840fd2</Guid>
+                  <HorAlignment>Center</HorAlignment>
+                  <Margins>0,0,0,0</Margins>
+                  <Name>Image4</Name>
+                  <Page isRef="7" />
+                  <Parent isRef="86" />
+                  <ShiftMode>IncreasingSize, DecreasingSize, OnlyInWidthOfComponent</ShiftMode>
+                  <Stretch>True</Stretch>
+                  <VertAlignment>Center</VertAlignment>
+                </Image4>
+              </Components>
+              <Conditions isList="true" count="0" />
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>95ea025238814c3b8b81a7cfbfac747c</Guid>
+              <Name>Panel4</Name>
+              <Page isRef="7" />
+              <Parent isRef="83" />
+            </Panel4>
+            <Text43 Ref="88" type="Text" isKey="true">
+              <Border>Top;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.6,1,16.4,1.4</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,12</Font>
+              <Guid>b61551231532417d8e59745d74e43393</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text43</Name>
+              <Page isRef="7" />
+              <Parent isRef="83" />
+              <Text>(подпись, расшифровка подписи руководителя (его уполномоченного представителя) в отношении которого проводилась оценка обеспечения готовности к отопительному периоду)</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+            </Text43>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>Signs</DataSourceName>
+          <Filters isList="true" count="1">
+            <value>rolekey,EqualTo,fc83a517-d109-4c75-9ee3-a5fa52df0e94,,String</value>
+          </Filters>
+          <Guid>9e5f08973d3642a192121c38ea8cfc26</Guid>
+          <Name>DataBand6</Name>
+          <Page isRef="7" />
+          <Parent isRef="7" />
+          <Sort isList="true" count="0" />
+        </DataBand6>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>c7fd23a0f00b44e1a93847b199aacb8c</Guid>
+      <Margins>0.5,0.5,0.5,0.5</Margins>
+      <Name>Page1</Name>
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="89" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PreviewSettings>268435455</PreviewSettings>
+  <PrinterSettings Ref="90" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+ <ReferencedAssemblies isList="true" count="16">
+    <value>System.Dll</value>
+    <value>System.Core.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+    <value>Stimulsoft.Report.WebDesignSL.dll</value>
+    <value>System.Net.Dll</value>
+    <value>ICSSoft.STORMNET.UserDataTypes.dll</value>
+    <value>System.Net.Requests.dll</value>
+    <value>System.Private.Uri.dll</value>
+    <value>System.Net.WebHeaderCollection.dll</value>
+    <value>System.Collections.Specialized.dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>3/19/2026 3:45:00 PM</ReportChanged>
+  <ReportCreated>3/19/2026 3:33:44 PM</ReportCreated>
+  <ReportFile>D:\Projects\2234.PlatformDev\src\tmobis.core\src\periphery\business\process\documents\redinessact\backend\flexberry\Reports\RedinessAct.mrt</ReportFile>
+  <ReportGuid>53302112656a46e081d76036d7e6783f</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2015.3.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.IO;
+using System.IO.Compression;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

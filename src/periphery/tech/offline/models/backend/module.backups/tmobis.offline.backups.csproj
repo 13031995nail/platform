@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Offline.Backups</RootNamespace>
+    <PackageId>Tmobis.Offline.Backups</PackageId>
+    <Description>Модуль хранения, планирования и обслуживания офлайн бэкапов.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\business\core\backend\module.flexberry\tmobis.business.core.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\..\jobs\scheduled\Tmobis.Jobs.Scheduled.csproj" />
+    <ProjectReference Include="..\module\tmobis.offline.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,268 @@
+:root {
+  --navy:    #0b2d5c;
+  --blue:    #1268b3;
+  --blue2:   #3b91d8;
+  --orange:  #f28c28;
+  --orange2: #ffb45b;
+  --red:     #d95d5d;
+  --green:   #259b76;
+  --ink:     #172b4d;
+  --muted:   #72809a;
+  --line:    #e4eaf2;
+  --bg:      #f3f6fb;
+  --shadow:  0 8px 24px rgba(18, 46, 86, .07);
+  --shadow-lg: 0 24px 60px rgba(4, 20, 48, .35);
+}
+
+/* ---------- Фон страницы ---------- */
+html.login-pf,
+.login-pf body {
+  height: 100%;
+  background: linear-gradient(115deg, #092858 0%, #10569a 62%, #1477bb 100%) fixed !important;
+  color: var(--ink);
+  font: 14px/1.45 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+
+/* декоративное кольцо, как в шапке дашборда */
+.login-pf body::before {
+  content: "";
+  position: fixed;
+  right: -120px;
+  top: -260px;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  border: 80px solid rgba(255, 255, 255, .055);
+  pointer-events: none;
+}
+.login-pf body::after {
+  content: "";
+  position: fixed;
+  left: -160px;
+  bottom: -300px;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  border: 80px solid rgba(242, 140, 40, .08);
+  pointer-events: none;
+}
+
+.login-pf-page {
+  position: relative;
+  z-index: 1;
+  padding-top: 6vh;
+  background: transparent !important;
+}
+
+#kc-header,
+.login-pf-page-header {
+  display: none !important;
+}
+
+/* ---------- Карточка ---------- */
+.login-pf-page .card-pf {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 30px 34px 28px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-top: 0;
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* оранжевая полоса сверху */
+.login-pf-page .card-pf::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--orange), var(--orange2));
+}
+
+/* логотип */
+.login-pf-page .card-pf::before {
+  content: "";
+  display: block;
+  height: 76px;
+  margin: 4px 0 18px;
+  background: url("../img/logo.svg") no-repeat center / contain;
+}
+
+/* ---------- Заголовок ---------- */
+.login-pf-header {
+  margin: 0 0 22px;
+  padding: 0;
+  text-align: center;
+  border: 0;
+}
+.login-pf-header h1,
+#kc-page-title {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.25;
+  font-weight: 800;
+  letter-spacing: -.2px;
+  color: var(--navy);
+}
+.login-pf-header h1::after,
+#kc-page-title::after {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 3px;
+  margin: 12px auto 0;
+  border-radius: 4px;
+  background: var(--orange);
+}
+
+/* ---------- Поля формы ---------- */
+.login-pf-page .form-group { margin-bottom: 16px; }
+
+.pf-c-form__label,
+.pf-c-form__label-text,
+.login-pf-page label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  color: var(--muted);
+}
+
+.pf-c-form-control,
+.login-pf-page input[type="text"],
+.login-pf-page input[type="password"],
+.login-pf-page input[type="email"] {
+  height: 42px;
+  padding: 0 12px;
+  background: #fbfcfe;
+  color: var(--ink);
+  font: inherit;
+  border: 1px solid #d8e1ed;
+  border-radius: 9px;
+  box-shadow: none;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.pf-c-form-control:hover { border-color: #b9c8dc; }
+.pf-c-form-control:focus,
+.login-pf-page input:focus {
+  background: #fff;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(18, 104, 179, .14);
+  outline: 0;
+}
+.pf-c-form-control[aria-invalid="true"] {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(217, 93, 93, .12);
+}
+
+/* поле пароля + «глаз» */
+.pf-c-input-group { display: flex; }
+.pf-c-input-group .pf-c-form-control {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.pf-c-button.pf-m-control {
+  height: 42px;
+  padding: 0 13px;
+  background: #edf4fc;
+  color: #15558e;
+  border: 1px solid #d8e1ed;
+  border-left: 0;
+  border-radius: 0 9px 9px 0;
+  box-shadow: none;
+}
+.pf-c-button.pf-m-control:hover { background: #e0ecf9; color: var(--blue); }
+.pf-c-button.pf-m-control::after { border: 0; }
+
+/* ---------- Кнопки ---------- */
+.pf-c-button.pf-m-primary,
+#kc-login {
+  height: 42px;
+  padding: 0 15px;
+  background: var(--orange);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  border: 0;
+  border-radius: 9px;
+  box-shadow: 0 6px 16px rgba(242, 140, 40, .28);
+  cursor: pointer;
+  transition: background .15s, transform .05s, box-shadow .15s;
+}
+.pf-c-button.pf-m-primary:hover,
+#kc-login:hover {
+  background: #e47f1c;
+  box-shadow: 0 8px 20px rgba(242, 140, 40, .36);
+}
+.pf-c-button.pf-m-primary:active,
+#kc-login:active { transform: translateY(1px); }
+.pf-c-button.pf-m-primary:focus-visible,
+#kc-login:focus-visible { outline: 3px solid rgba(18, 104, 179, .35); outline-offset: 2px; }
+.pf-c-button.pf-m-primary:disabled,
+#kc-login:disabled { background: var(--orange2); box-shadow: none; cursor: default; }
+
+#kc-form-buttons { margin-top: 22px; margin-bottom: 0; }
+
+/* ---------- Ссылки, чекбоксы ---------- */
+.login-pf-page a,
+.login-pf-settings a { color: var(--blue); text-decoration: none; }
+.login-pf-page a:hover,
+.login-pf-settings a:hover { color: var(--navy); text-decoration: underline; }
+
+.login-pf-settings { margin-bottom: 0; font-size: 12px; }
+.checkbox label { font-size: 12px; font-weight: 600; color: #4f617a; }
+input[type="checkbox"] { accent-color: var(--orange); }
+
+#kc-registration { margin-top: 14px; text-align: center; font-size: 12px; color: var(--muted); }
+
+/* ---------- Сообщения ---------- */
+.alert {
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  font-size: 12px;
+  border-radius: 10px;
+  border: 1px solid;
+}
+.alert-error,   .pf-m-danger  { background: #fdf0f0; border-color: #f3caca; color: #9c3b3b; }
+.alert-warning, .pf-m-warning { background: #fff8ed; border-color: #f7dfbd; color: #8a5b22; }
+.alert-success, .pf-m-success { background: #edf8f4; border-color: #c4e6d9; color: #1d7459; }
+.alert-info,    .pf-m-info    { background: #f5f9fe; border-color: #d3e4f6; color: #15558e; }
+
+.pf-c-form__helper-text,
+.kc-feedback-text,
+.instruction { font-size: 11px; color: var(--muted); }
+.pf-m-error, .has-error .help-block { color: var(--red); font-size: 11px; }
+
+/* ---------- Вход через провайдеров ---------- */
+#kc-social-providers hr { border-color: var(--line); }
+#kc-social-providers h2,
+#kc-social-providers h4 { font-size: 11px; color: var(--muted); font-weight: 700; }
+.pf-c-button.pf-m-tertiary,
+.kc-social-link a,
+.pf-c-button.pf-m-secondary {
+  background: #edf4fc;
+  color: #15558e;
+  font-weight: 700;
+  border: 0;
+  border-radius: 9px;
+}
+
+/* ---------- Выбор языка ---------- */
+#kc-locale { font-size: 11px; }
+#kc-locale-dropdown a { color: var(--muted); }
+
+/* ---------- Мобильные ---------- */
+@media (max-width: 520px) {
+  .login-pf-page { padding-top: 0; }
+  .login-pf-page .card-pf {
+    max-width: none;
+    margin: 0;
+    padding: 24px 20px;
+    border-radius: 0 0 16px 16px;
+  }
+  .login-pf-page .card-pf::before { height: 64px; }
+}

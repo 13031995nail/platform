@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-primaryadapters-signalr/services/signalr';

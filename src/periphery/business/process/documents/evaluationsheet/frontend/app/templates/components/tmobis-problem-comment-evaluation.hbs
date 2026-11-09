@@ -1,0 +1,7 @@
+{{#unless (eq relatedModel.verificationRequirement.code "0")}}
+  {{flexberry-field
+    textarea=true
+    value=value
+    readonly=readonly
+  }}
+{{/unless}}

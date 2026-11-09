@@ -1,0 +1,52 @@
+include:
+- project: timepath/infrastructure/gitlab
+  file: "/cicd/kaniko-make-image.yml"
+- project: timepath/infrastructure/gitlab
+  file: "/cicd/deploy-ansible.yml"
+- local: "src/templates/gitlab-ci/backend.gitlab-ci.yml"
+- local: "src/templates/gitlab-ci/frontend.gitlab-ci.yml"
+- local: "src/templates/gitlab-ci/db.gitlab-ci.yml"
+- local: "src/templates/gitlab-ci/security.gitlab-ci.yml"
+
+variables:
+  SLN_PATH_GLOB: "./Tmobis/Tmobis.Backend.sln"
+  BACKEND_DIR_GLOB: "Tmobis"
+  CSPROJ_PATH_GLOB: "./ODataBackend/Tmobis.Backend.csproj"
+  PROJECT_SLN_GLOB: "Tmobis/Tmobis.Backend.sln"
+  BACK_IMAGE_NAME: "timepath/tmobis/ИМЯПРОЕКТА/backend"
+  IMAGE_TAG_GLOB: "latest"
+  BUILD_DIR_GLOB: "dist"
+  SQL_DIR_GLOB: liquibase/main/remote
+  EMBER_PROJ_DIR_GLOB: "ember-app"
+  EMBER_ROOT_DIR_GLOB: "ember-app"
+  TEST_CATEGORY_GLOB: UnitTest
+  FRONT_IMAGE_NAME: "timepath/tmobis/ИМЯПРОЕКТА/frontend"
+  GITLAB_ADVANCED_SAST_ENABLED_GLOB: 'false'
+  DS_MAX_DEPTH_GLOB: 5
+  SECRET_DETECTION_HISTORIC_SCAN_GLOB: "true"
+  SAST_DISABLED_GLOB: 'true'
+  DEPENDENCY_SCANNING_DISABLED_GLOB: 'true'
+  SECRET_DETECTION_DISABLED_GLOB: 'true'
+
+stages:
+  - deps
+  - build
+  - test
+  - push
+  - deploy
+
+deploy:
+  extends: ".deploy-ansible-docker-compose"
+  stage: deploy
+  environment:
+    name: dev
+    deployment_tier: development
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_PIPELINE_SOURCE != "schedule" && $CI_PIPELINE_SOURCE != "merge_request_event"
+      changes:
+        - Tmobis/**/*
+        - ember-app/**/*
+        - ".gitlab-ci.yml"
+        - ".ci/**/*"
+        - deploy/**/*
+        - docker-compose.yml

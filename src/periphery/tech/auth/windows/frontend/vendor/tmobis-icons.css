@@ -1,0 +1,113 @@
+@font-face {
+  font-family: 'tmobis';
+  src: url('./fonts/tmobis-icons.eot');
+  src: url('./fonts/tmobis-icons.eot') format('embedded-opentype'),
+       url('./fonts/tmobis-icons.woff2') format('woff2'),
+       url('./fonts/tmobis-icons.woff') format('woff'),
+       url('./fonts/tmobis-icons.ttf') format('truetype'),
+       url('./fonts/tmobis-icons.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'tmobis';
+    src: url('../font/tmobis.svg?6030109#tmobis') format('svg');
+  }
+}
+*/
+[class^="tmobis-"]:before, [class*=" tmobis-"]:before {
+  font-family: "tmobis";
+  font-style: normal;
+  font-weight: normal;
+  speak: never;
+
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin: 0;
+  text-align: center;
+
+  font-variant: normal;
+  text-transform: none;
+
+  line-height: 1em;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+[class^="tmobis-"], [class*=" tmobis-"] {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+[class^="tmobis-"].large, [class*=" tmobis-"].large {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+[class^="tmobis-"].small, [class*=" tmobis-"].small {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.tmobis-settings:before { content: '\e800'; } /* '' */
+.tmobis-sliders:before { content: '\e801'; } /* '' */
+.tmobis-trash:before { content: '\e802'; } /* '' */
+.tmobis-upload:before { content: '\e803'; } /* '' */
+.tmobis-user:before { content: '\e804'; } /* '' */
+.tmobis-users:before { content: '\e805'; } /* '' */
+.tmobis-apps:before { content: '\e806'; } /* '' */
+.tmobis-arrow-down:before { content: '\e807'; } /* '' */
+.tmobis-arrow-left:before { content: '\e808'; } /* '' */
+.tmobis-arrow-right:before { content: '\e809'; } /* '' */
+.tmobis-arrow-up:before { content: '\e80a'; } /* '' */
+.tmobis-bell:before { content: '\e80b'; } /* '' */
+.tmobis-calendar:before { content: '\e80c'; } /* '' */
+.tmobis-camera:before { content: '\e80d'; } /* '' */
+.tmobis-check:before { content: '\e80e'; } /* '' */
+.tmobis-check-square:before { content: '\e80f'; } /* '' */
+.tmobis-chevron-down:before { content: '\e810'; } /* '' */
+.tmobis-chevron-left:before { content: '\e811'; } /* '' */
+.tmobis-chevron-right:before { content: '\e812'; } /* '' */
+.tmobis-chevrons-down:before { content: '\e813'; } /* '' */
+.tmobis-chevrons-left:before { content: '\e814'; } /* '' */
+.tmobis-chevrons-right:before { content: '\e815'; } /* '' */
+.tmobis-chevrons-up:before { content: '\e816'; } /* '' */
+.tmobis-chevron-up:before { content: '\e817'; } /* '' */
+.tmobis-clip:before { content: '\e818'; } /* '' */
+.tmobis-clock:before { content: '\e819'; } /* '' */
+.tmobis-cross:before { content: '\e81a'; } /* '' */
+.tmobis-edit:before { content: '\e81b'; } /* '' */
+.tmobis-edit-2:before { content: '\e81c'; } /* '' */
+.tmobis-eye:before { content: '\e81d'; } /* '' */
+.tmobis-eye-off:before { content: '\e81e'; } /* '' */
+.tmobis-filter:before { content: '\e820'; } /* '' */
+.tmobis-flash:before { content: '\e821'; } /* '' */
+.tmobis-helmet:before { content: '\e822'; } /* '' */
+.tmobis-help:before { content: '\e823'; } /* '' */
+.tmobis-info-1:before { content: '\e824'; } /* '' */
+.tmobis-list:before { content: '\e825'; } /* '' */
+.tmobis-log-in:before { content: '\e826'; } /* '' */
+.tmobis-log-out:before { content: '\e827'; } /* '' */
+.tmobis-mail:before { content: '\e828'; } /* '' */
+.tmobis-marker:before { content: '\e829'; } /* '' */
+.tmobis-menu:before { content: '\e82a'; } /* '' */
+.tmobis-minus:before { content: '\e82b'; } /* '' */
+.tmobis-money:before { content: '\e82c'; } /* '' */
+.tmobis-more-horizontal:before { content: '\e82d'; } /* '' */
+.tmobis-more-vertical:before { content: '\e82e'; } /* '' */
+.tmobis-newspaper:before { content: '\e82f'; } /* '' */
+.tmobis-percent:before { content: '\e830'; } /* '' */
+.tmobis-phone:before { content: '\e831'; } /* '' */
+.tmobis-plus:before { content: '\e832'; } /* '' */
+.tmobis-refresh:before { content: '\e833'; } /* '' */
+.tmobis-search:before { content: '\e834'; } /* '' */
+.tmobis-file-text:before { content: '\e835'; } /* '' */

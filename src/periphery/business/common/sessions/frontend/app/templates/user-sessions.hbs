@@ -1,0 +1,37 @@
+<form class="ui {{appState.state}} form fixed-header-table">
+  {{flexberry-objectlistview
+    modelName=modelName
+    modelProjection=modelProjection
+    componentName="sessionList"
+    content=model.records
+    fixedHeader=true
+    tableStriped=false
+    showCheckBoxInRow=false
+    showDeleteButtonInRow=false
+    showDeleteMenuItemInRow=false
+    createNewButton=false
+    refreshButton=true
+    deleteButton=false
+    colsConfigButton=false
+    pages=pages
+    perPageValue=perPageValue
+    perPageValues=perPageValues
+    recordsTotalCount=recordsTotalCount
+    hasPreviousPage=hasPreviousPage
+    ulfRowViewSettings=ulfRowViewSettings
+    hasNextPage=hasNextPage
+    previousPage=(action "previousPage")
+    gotoPage=(action "gotoPage")
+    nextPage=(action "nextPage")
+    sorting=computedSorting
+    orderable=true
+    sortByColumn=(action "sortByColumn")
+    addColumnToSorting=(action "addColumnToSorting")
+    filterButton=listFormOperationsComputed.filter
+    filterText=filter
+    filterByAllWords=true
+    filterByAnyMatch=(action "filterByAnyMatch")
+    menuInRowAdditionalItems=sessionAddItems
+    stopSessionAction=(action "stopSession")
+  }}
+</form>

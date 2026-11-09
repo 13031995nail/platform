@@ -1,0 +1,152 @@
+<form class="ui {{appState.state}} flexberry-vertical-form form" role="form">
+  {{#if (v-get validationObject "messages")}}
+    <div class="field">
+      {{flexberry-validationsummary errors=(v-get validationObject "messages")}}
+    </div>
+    <hr>
+  {{/if}}
+  <div class="ui stackable grid">
+    <div class="two column row">
+      <div class="column">
+        <div class="new-white-panel">
+          <div class="field m-0">
+            {{tmobis-caption key="Номер акта" value=model.actNumber}}
+          </div>
+          {{#if model.regDate}}
+            <div class="field m-0">
+              {{tmobis-caption key="Дата оформления" value=(moment-format model.regDate "DD.MM.YYYY HH:mm")}}
+            </div>
+          {{/if}}
+          {{#if model.approvedDate}}
+            <div class="field m-0">
+              {{tmobis-caption key="Дата утверждения" value=(moment-format model.approvedDate "DD.MM.YYYY HH:mm")}}
+            </div>
+          {{/if}}
+          {{#if model.actStatus}}
+            <div class="field m-0">
+              {{#tmobis-caption key="Статус"}}
+                {{tmobis-badge label=model.actStatus.name}}
+              {{/tmobis-caption}}
+            </div>
+          {{/if}}
+          {{#if (or model.regDate model.actStatus model.actNumber)}}
+            <hr>
+          {{/if}}
+          {{flexberry-lookup
+            componentName="awpAwpAssessingProgram"
+            label=(t "forms.awp-assessing-program.awp-caption")
+            value=model.awp
+            displayAttributeName="name"
+            relationName="awp"
+            projection="AwpL"
+            lookupLimitPredicate=actualityCustomLimitPredicate
+            required=true
+            disabled=isNotNewReadonly
+            error=(v-get validationModel "awp" "message")
+          }}
+        </div>
+      </div>
+      <div class="column">
+        <div class="new-white-panel">
+          {{flexberry-lookup
+            componentName="organizationAwpAssessingProgram"
+            label=(t "forms.awp-assessing-program.organization-caption")
+            value=model.organization
+            displayAttributeName="name"
+            relationName="organization"
+            projection="OrganizationName"
+            lookupLimitPredicate=organizationLimitPredicate
+            required=true
+            disabled=isNotNewReadonly
+            error=(v-get validationModel "organization" "message")
+          }}
+          {{flexberry-lookup
+            componentName="assigneeAwpAssessingProgram"
+            label=(t "forms.awp-assessing-program.assignee-caption")
+            value=model.assignee
+            displayAttributeName="fio"
+            relationName="assignee"
+            projection="EmployeeL"
+            required=true
+            disabled=true
+            error=(v-get validationModel "assignee" "message")
+          }}
+          {{flexberry-field
+            label=(t "forms.awp-assessing-program.resolutionNumber-caption")
+            value=model.resolutionNumber
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "resolutionNumber" "message")
+          }}
+          {{flexberry-simpledatetime
+            type="date"
+            label=(t "forms.awp-assessing-program.resolutionDate-caption")
+            value=model.resolutionDate
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "resolutionDate" "message")
+          }}
+          {{tmobis-photos
+            title=(t "forms.awp-assessing-program.resolutionDoc-caption")
+            value=model.resolutionDoc
+            disabled=readonly
+          }}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <div class="new-white-panel">
+          {{#flexberry-toggler
+            title=(t "forms.awp-assessing-program.schedule-caption")
+            expanded=true
+            componentName="awpAssessingProgramSchedule"
+          }}
+            {{flexberry-groupedit
+              componentName="scheduleAwpAssessingProgram"
+              modelName="awp-assessing-program-schedules"
+              modelProjection=modelProjection.attributes.schedules
+              content=model.schedules
+              searchForContentChange=true
+              readonly=readonly
+              showCheckBoxInRow=true
+              showDeleteButtonInRow=true
+              showDeleteMenuItemInRow=true
+              createNewButton=false
+              rowClickable=true
+            }}
+          {{/flexberry-toggler}}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <div class="new-white-panel">
+          {{#flexberry-toggler
+            title=(t "forms.awp-assessing-program.signs-caption")
+            expanded=true
+            componentName="awpAssessingProgramSigns"
+          }}
+            <label class="input-label">Обязательным и единственным подписантом документа является Председатель комиссии выбранного муниципального округа. </label>
+            <label class="input-label">Он инициирует подписание и утверждает программу подготовки к ОП. Его роль "Контролирущий орган".</label>
+            <hr>
+            {{act-signing
+              componentName="signersGroupEdit"
+              groupEditClass="flexberry-groupedit"
+              content=model.actSigns
+              readonly=readonly
+              hideAllButtons=(not updateEnabled)
+              contentPropertyName="actSigns"
+              stylusSigningIsAvailable=true
+              rolesToAdd=rolesToAdd
+              signModelName="awp-assessing-program-sign"
+              baseSignRole=baseSignRole
+              refreshSigns=(action "refreshSigns")
+            }}
+          {{/flexberry-toggler}}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+

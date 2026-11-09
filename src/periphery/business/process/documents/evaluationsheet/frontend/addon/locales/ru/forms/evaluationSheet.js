@@ -1,0 +1,16 @@
+export default {
+  caption: 'Оценочный лист',
+  'actNumber-caption': 'Номер документа',
+  'regDate-caption': 'Дата оформления',
+  'actStatus-caption': 'Статус',
+  'organization-caption': 'Организация',
+  'assignee-caption': 'Ответственный',
+  'objectReadinessLevel-caption': 'Уровень готовности',
+  'objectReadinessIndex-caption': 'Индекс готовности',
+  'workObject-caption': 'Объект',
+  'awp-caption': 'ОЗП',
+  'representative-caption': 'Представитель',
+  'requirements-caption': 'Требования',
+  'isVerifiedTSO-caption': 'Проверено ТСО',
+  'signs-caption': 'Участники',
+};

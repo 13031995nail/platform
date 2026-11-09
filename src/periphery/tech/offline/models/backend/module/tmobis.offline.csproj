@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Offline</RootNamespace>
+    <PackageId>Tmobis.Offline</PackageId>
+    <Description>Модуль настроек офлайн-режима мобильного приложения.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+  </ItemGroup>
+
+</Project>

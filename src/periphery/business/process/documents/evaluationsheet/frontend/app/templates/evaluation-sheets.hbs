@@ -1,0 +1,41 @@
+<div class="ui {{appState.state}} form">
+  {{flexberry-objectlistview
+    action=(action "clickByRow")
+    showCheckBoxInRow=true
+    showDeleteButtonInRow=true
+    showDeleteMenuItemInRow=true
+    modelName=modelName
+    modelProjection=modelProjection
+    editFormRoute=editFormRoute
+    content=model
+    createNewButton=listFormOperationsComputed.create
+    refreshButton=listFormOperationsComputed.refresh
+    colsConfigButton=listFormOperationsComputed.configureColumns
+    deleteButton=listFormOperationsComputed.delete
+    filterButton=listFormOperationsComputed.filter
+    exportExcelButton=listFormOperationsComputed.exportExcel
+    sorting=computedSorting
+    orderable=true
+    sortByColumn=(action "sortByColumn")
+    addColumnToSorting=(action "addColumnToSorting")
+    pages=pages
+    perPageValue=perPageValue
+    perPageValues=perPageValues
+    recordsTotalCount=recordsTotalCount
+    hasPreviousPage=hasPreviousPage
+    hasNextPage=hasNextPage
+    previousPage=(action "previousPage")
+    gotoPage=(action "gotoPage")
+    nextPage=(action "nextPage")
+    componentName = objectlistviewComponentName
+    filterByAnyMatch=(action 'filterByAnyMatch')
+    filterText=filter
+    filterByAllWords=true
+    tableStriped=false
+    configurateRow = (action 'configurateObjectlistviewRow')
+    beforeDeleteRecord=(action 'beforeDeleteRecord')
+    beforeDeleteAllRecords=(action 'beforeDeleteRecord')
+    applyFilters=(action "applyFilters")
+    resetFilters=(action "resetFilters")
+  }}
+</div>

@@ -1,0 +1,46 @@
+<div class="field">
+  <label class="input-label">Подпись</label>
+  {{#if signatureImage}}
+    <div class="field">
+      <div class="olv-image-preview">
+        <img class="ui bordered image" {{action "enlargeSignatureImage" }} src="{{signatureImage}}" />
+      </div>
+    </div>
+  {{/if}}
+  <div class="field">
+    <div class="ui fluid armti-primary-btn button" {{action "stilusSigningButtonClick" }}>
+      {{if signatureImage "Изменить подпись" "Добавить подпись"}}
+    </div>
+  </div>
+</div>
+
+{{#if stilusSigningVisible}}
+  <div>
+    {{#tmobis-modal-dialog
+      title="Подпись"
+      visible=stilusSigningVisible
+      needScrolling=true
+      onVisible=(action "onVisibleStilusSigningModal")
+      onHidden=(action "onHiddenStilusSigningModal")
+    }}
+    <div class="stilus-signing-control">
+      {{act-signing-stilus
+      visible=signingModalShowed
+      signClick=(action "stilusSignClick")
+      }}
+    </div>
+    {{/tmobis-modal-dialog}}
+  </div>
+{{/if}}
+{{#if showSignatureImage}}
+  <div>
+    {{#tmobis-modal-dialog
+      title="Подпись"
+      needScrolling=false
+      onHidden=(action "onHiddenStilusSigningModal")
+    }}
+    <img src="{{signatureImage}}" />
+    {{/tmobis-modal-dialog}}
+  </div>
+{{/if}}
+

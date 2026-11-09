@@ -1,0 +1,53 @@
+{
+  "name": "@timepath/tmobis-business-process-acts-redinessact",
+  "version": "4.5.2",
+  "description": "Ember бизнес-модуль сущности актов готовности.",
+  "author": "ООО \"Траектория времени\"",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "publishConfig": {
+    "@timepath:registry": "https://repository.flexberry.org/repository/timepath-tmobis-npm/"
+  },
+  "scripts": {
+    "build": "ember build",
+    "lint:js": "eslint ./*.js app blueprints config lib server tests",
+    "start": "ember serve",
+    "test": "ember test"
+  },
+  "devDependencies": {
+    "broccoli-asset-rev": "^2.4.5",
+    "broccoli-merge-trees": "^4.2.0",
+    "ember-browserify": "1.1.9",
+    "ember-cli": "~3.1.4",
+    "ember-source": "~3.1.0",
+    "eslint": "^7.0.0",
+    "eslint-formatter-gitlab": "^3.0.0",
+    "eslint-plugin-diff": "1.0.12",
+    "eslint-plugin-ember": "^7.0.0",
+    "flatpickr": "4.6.1",
+    "inflection": "^1.12.0",
+    "loader.js": "^4.2.3",
+    "node-uuid": "^1.4.7"
+  },
+  "dependencies": {
+    "@timepath/tmobis-core": "workspace:^",
+    "ember-cli-babel": "^6.6.0",
+    "ember-cli-htmlbars": "^2.0.1"
+  },
+  "engines": {
+    "node": ">= 16.*"
+  },
+  "keywords": [
+    "ember-addon"
+  ],
+  "ember-addon": {
+    "configPath": "tests/dummy/config"
+  },
+  "volta": {
+    "node": "16.20.0",
+    "yarn": "1.22.19"
+  },
+  "gitHead": "c4be2f4e2fe2e9e1f1d55131f9abcdec6810dba0"
+}

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Process.Documents</RootNamespace>
+    <PackageId>Tmobis.Business.Process.Documents.BaseAct</PackageId>
+    <Description>Бизнес-модуль сущности актов.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../../../common/contacts/organization.base/tmobis.business.common.contacts.organization.base.csproj" />
+    <ProjectReference Include="../../../../../common/contacts/organization/backend/module/tmobis.organization/tmobis.business.common.contacts.organization.csproj" />
+    <ProjectReference Include="../base/baseact.base.csproj" />
+  </ItemGroup>
+</Project>

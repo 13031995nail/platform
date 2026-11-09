@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Metrics.OpenTelemetry</RootNamespace>
+    <PackageId>Tmobis.Metrics.OpenTelemetry</PackageId>
+    <Description>Модуль OpenTelemetry-адаптера метрик приложения.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../module/Tmobis.Metrics.csproj" />
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry" />
+  </ItemGroup>
+
+</Project>

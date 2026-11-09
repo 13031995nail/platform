@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Common.Contacts.Supplier.Base</RootNamespace>
+    <PackageId>Tmobis.Business.Common.Contacts.Supplier.Base</PackageId>
+    <Description>Бизнес-модуль базовой сущности поставщиков. Flexberry-only на данный момент.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../../tech/fws/flexberry/tmobis.flexberry/backend/module/Tmobis.Flexberry.csproj" />
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+  </ItemGroup>
+</Project>

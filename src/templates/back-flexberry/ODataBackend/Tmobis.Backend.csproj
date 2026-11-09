@@ -1,0 +1,74 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <ForceUsePlatformPackage>$(MSBuildThisFileDirectory)..\..\..\..\.platformPackage</ForceUsePlatformPackage>
+    <PlatformSlnPath>$(MSBuildThisFileDirectory)..\..\..\..\Tmobis.Platform.slnx</PlatformSlnPath>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Uploads\**" />
+    <Content Remove="Uploads\**" />
+    <EmbeddedResource Remove="Uploads\**" />
+    <None Remove="Uploads\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\periphery\tech\files\primaryAdapter.flexberry\Tmobis.Files.PrimaryAdapter.Flexberry.csproj" />
+    <ProjectReference Include="..\BusinessServers\Tmobis.BusinessServers.csproj" />
+    <ProjectReference Include="..\Objects\Tmobis.Objects.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="NewPlatform.Flexberry.Audit" />
+    <PackageReference Include="NewPlatform.Flexberry.ORM.ODataService" />
+    <PackageReference Include="NewPlatform.Flexberry.LockService" />
+    <PackageReference Include="NewPlatform.Flexberry.LogService.Objects" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" />
+    <PackageReference Include="NewPlatform.Flexberry.UserSettingsService" />
+	  <PackageReference Include="Swashbuckle.AspNetCore" />
+
+    <PackageReference Include="NewPlatform.Flexberry.ORM" />
+    <PackageReference Include="NewPlatform.Flexberry.Security" />
+    <PackageReference Include="NewPlatform.Flexberry.ORM.PostgresDataService" />
+    <PackageReference Include="Newtonsoft.Json" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(ForceUsePlatformPackage)') Or !Exists('$(PlatformSlnPath)')">
+    <PackageReference Include="Tmobis.Core" />
+    <PackageReference Include="Tmobis.Business.Common.Sessions.Flexberry" />
+    <PackageReference Include="Tmobis.Flexberry.Autoincrement" />                    
+    <PackageReference Include="Tmobis.Frameworks.Flexberry.DataServices.Postgres" />
+    <PackageReference Include="Tmobis.Frameworks.Flexberry.Web" />
+    <PackageReference Include="Tmobis.Frameworks.Flexberry.Web.OData" />                   
+    <PackageReference Include="Tmobis.Frameworks.Web" />
+    <PackageReference Include="Tmobis.Frameworks.Web.Auth.JwtAuth" />
+    <PackageReference Include="Tmobis.Frameworks.Web.Auth.Password" />
+    <PackageReference Include="Tmobis.Medium.WebApi" />
+    <PackageReference Include="Tmobis.Files.Provider.Flexberry" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="Exists('$(PlatformSlnPath)') And !Exists('$(ForceUsePackagePlatform)')">
+    <ProjectReference Include="..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\periphery\tech\auth\jwtauth\auth.jwtauth.csproj" />
+    <ProjectReference Include="..\..\..\periphery\tech\auth\password\auth.password.csproj" />
+    <ProjectReference Include="..\..\..\periphery\business\common\sessions\backend\module.flexberry\tmobis.sessions.flexberry.csproj" />
+    <ProjectReference Include="../../../periphery/tech/fws/flexberry/tmobis.flexberry.ds.postgres/Tmobis.Flexberry.DS.Postgres.csproj" />
+    <ProjectReference Include="../../../periphery/tech/fws/web/tmobis.web/tmobis.web.csproj" />
+    <ProjectReference Include="../../../periphery/tech/fws/flexberry/tmobis.flexberry.autoincrement/Tmobis.Flexberry.Autoincrement.csproj" />
+    <ProjectReference Include="../../../periphery/tech/fws/flexberry/tmobis.flexberry.web.odata/tmobis.flexberry.web.odata.csproj" />
+    <ProjectReference Include="../../../periphery/tech/fws/flexberry/tmobis.flexberry.web/Tmobis.Flexberry.Web.csproj" />
+    <ProjectReference Include="../../../periphery/tech/medium/webapi/module/Tmobis.Medium.WebApi.Listeners.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SqlFiles Include="$(TargetDir)\sql\**\*.sql" />
+  </ItemGroup>
+
+  <Target Name="CopySqlFiles" AfterTargets="AfterBuild">
+    <Copy SourceFiles="@(SqlFiles)" DestinationFolder="$(MSBuildThisFileDirectory)/sql/%(RecursiveDir)/platform" />
+  </Target>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+</Project>

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Notification.WebSocket</RootNamespace>
+    <PackageId>Tmobis.Notification.WebSocket</PackageId>
+    <Description>Модуль доставки уведомлений через WebSocket/SignalR.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\medium\signalr\backend\module\Tmobis.Medium.Signalr\tmobis.medium.signalr.csproj" />
+    <ProjectReference Include="..\model\Tmobis.Notification.csproj" />
+    <ProjectReference Include="..\sender\Tmobis.Notification.Sender.csproj" />
+  </ItemGroup>
+
+</Project>
+

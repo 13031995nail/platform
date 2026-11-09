@@ -1,0 +1,53 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@/assets/*": [
+        "./assets/*"
+      ],
+      "@tmobis/core/*": [
+        "../../core/react/src/*"
+      ],
+      "@tmobis/auth-keycloak/*": [
+        "../../periphery/tech/auth/keycloak/react/src/*"
+      ],
+      "@tmobis/business-process-workshift/*": [
+        "../../periphery/business/process/workshift/react/src/*"
+      ],
+      "@tmobis/core-business/*": [
+        "../../periphery/business/core/react/src/*"
+      ],
+      "@tmobis/notification/*": [
+        "../../periphery/tech/notifications/front/react/src/*"
+      ],
+      "@tmobis/notification-websocket/*": [
+        "../../periphery/tech/notifications/front/websocket/src/*"
+      ],
+      "@tmobis/signalr/*": [
+        "../../periphery/tech/medium/signalr/react/src/*"
+      ],
+      "@tmobis/reports/*": [
+        "../../periphery/tech/reports/react/src/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "../../core/react/**/*.ts",
+    "../../core/react/**/*.tsx",
+    "../../periphery/tech/auth/keycloak/react/src/*/*.ts",
+    "../../periphery/tech/auth/keycloak/react/src/*/*.tsx",
+    "../../periphery/tech/medium/signalr/react/src/**/*.ts",
+    "../../periphery/tech/notifications/front/websocket/src/**/*.ts",
+    "../../periphery/tech/reports/react/src/**/*.ts",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "nativewind-env.d.ts",
+    "react-native-css-env.d.ts"
+  ]
+}

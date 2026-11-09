@@ -1,0 +1,13 @@
+<form class="ui form" role="form">
+  <div class="ui vertical segment no-border-bottom"></div>
+  <div class="ui doubling six column grid">
+    {{#each sitemap.documents as |item|}}
+      <div class="column">
+        {{tmobis-folder
+          title=item.caption
+          link=item.link
+        }}
+      </div>
+    {{/each}}
+  </div>
+</form>

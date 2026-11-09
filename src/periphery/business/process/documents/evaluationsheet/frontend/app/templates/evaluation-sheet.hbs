@@ -1,0 +1,169 @@
+<form class="ui {{appState.state}} flexberry-vertical-form form" role="form">
+  {{#if (v-get validationObject "messages")}}
+    <div class="field">
+      {{flexberry-validationsummary errors=(v-get validationObject "messages")}}
+    </div>
+    <hr>
+  {{/if}}
+  <div class="ui stackable grid">
+    <div class="two column row">
+      <div class="column">
+        <div class="new-white-panel">
+          <div class="field">
+            <h3>Общая информация</h3>
+          </div>
+          <hr>
+          {{!-- <div class="field m-0">
+            {{tmobis-caption key="Номер акта" value=model.actNumber}}
+          </div> --}}
+          {{#if model.regDate}}
+            <div class="field m-0">
+              {{tmobis-caption key="Дата оформления" value=(moment-format model.regDate "DD.MM.YYYY HH:mm")}}
+            </div>
+          {{/if}}
+          {{#if model.actStatus}}
+            <div class="field m-0">
+              {{#tmobis-caption key="Статус"}}
+                {{tmobis-badge label=model.actStatus.name}}
+              {{/tmobis-caption}}
+            </div>
+          {{/if}}
+          {{#if (or model.regDate model.actStatus model.actNumber)}}
+            <hr>
+          {{/if}}
+          {{flexberry-lookup
+            componentName="evaluationSheet-awp"
+            label=(t "forms.evaluation-sheet.awp-caption")
+            value=model.awp
+            required=true
+            readonly=isNotNewReadonly
+            displayAttributeName="name"
+            relationName="awp"
+            projection="AwpL"
+            lookupLimitPredicate=awpCustomLimitPredicate
+            error=(v-get validationModel "awp" "message")
+          }}
+        </div>
+      </div>
+      <div class="column">
+        <div class="new-white-panel">
+          <div class="field">
+            <h3>Информация об объекте</h3>
+          </div>
+          <hr>
+          {{flexberry-lookup
+            componentName="evaluationSheet-organization"
+            label=(t "forms.evaluation-sheet.organization-caption")
+            value=model.organization
+            required=true
+            readonly=isNotNewReadonly
+            displayAttributeName="name"
+            relationName="organization"
+            projection="OrganizationName"
+            lookupLimitPredicate=organizationCustomLimitPredicate
+            error=(v-get validationModel "organization" "message")
+          }}
+          {{flexberry-lookup
+            componentName="evaluationSheet-workObject"
+            label=(t "forms.evaluation-sheet.workObject-caption")
+            value=model.workObject
+            required=true
+            readonly=isNotNewReadonly
+            displayAttributeName="name"
+            relationName="workObject"
+            projection="WorkObjectL"
+            lookupLimitPredicate=workObjectLimitPredicate
+            error=(v-get validationModel "workObject" "message")
+          }}
+          {{flexberry-field
+            label=(t "forms.evaluation-sheet.objectReadinessLevel-caption")
+            value=model.objectReadinessLevel
+            readonly=true
+            error=(v-get validationModel "objectReadinessLevel" "message")
+          }}
+          {{flexberry-field
+            label=(t "forms.evaluation-sheet.objectReadinessIndex-caption")
+            value=model.objectReadinessIndex
+            readonly=true
+            error=(v-get validationModel "objectReadinessIndex" "message")
+          }}
+        </div>
+      </div>
+    </div>
+    {{#unless model.isNew}}
+      <div class="row">
+        <div class="column">
+          <div class="new-white-panel">
+            {{#flexberry-toggler
+              componentName="evaluation-sheet-requirements"
+              title=(t "forms.evaluation-sheet.caption")
+              expanded=true
+            }}
+              <div class="field">
+                {{flexberry-groupedit
+                  componentName="evaluation-sheet-requirements"
+                  modelName="evaluation-sheet-requirement"
+                  modelProjection=modelProjection.attributes.requirements
+                  content=model.requirements
+                  searchForContentChange=true
+                  readonly=readonlyControls
+                  showCheckBoxInRow=false
+                  showDeleteButtonInRow=false
+                  showDeleteMenuItemInRow=false
+                  deleteButton=false
+                  createNewButton=false
+                  defaultSettingsButton=false
+                  rowClickable=false
+                  showToolbar=false
+                  allowColumnResize=false
+                  minAutoColumnWidth=64
+                }}
+              </div>
+              {{#if isOrganizationTypeOther}}
+                <hr>
+                <div class="field">
+                  {{flexberry-checkbox
+                    label=(t "forms.evaluation-sheet.isVerifiedTSO-caption")
+                    value=model.isVerifiedTSO
+                    readonly=(or readonly (not canEditIsVerifiedTSO))
+                    class=(if (v-get validationModel "isVerifiedTSO" "isInvalid") "error")
+                    error=(v-get validationModel "isVerifiedTSO" "message")
+                  }}
+                </div>
+              {{/if}}
+            {{/flexberry-toggler}}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <div class="new-white-panel">
+            {{#flexberry-toggler
+              title=(t "forms.evaluation-sheet.signs-caption")
+              expanded=true
+              componentName="evaluationSheetSigns"
+            }}
+              <div class="ui message yellow">
+                <p>Для документа обязательными подписантами должны быть: Представитель проверяемой организации, Сотрудник ТСО (только для организаций с типом "Прочие") и члены комиссии.</p>
+                <p>Иницирует подписание документа член комиссии.</p>
+              </div>
+              <hr>
+              {{act-signing
+                componentName="signersGroupEdit"
+                content=model.actSigns
+                readonly=readonlyControls
+                hideAllButtons=(not (and updateEnabled enableEdit))
+                contentPropertyName="actSigns"
+                stylusSigningIsAvailable=true
+                rolesToAdd=rolesToAdd
+                signModelName="evaluation-sheet-sign"
+                baseSignRole=baseSignRole
+                refreshSigns=(action "refreshSigns")
+              }}
+            {{/flexberry-toggler}}
+          </div>
+        </div>
+      </div>
+    {{/unless}}
+  </div>
+</form>

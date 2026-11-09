@@ -1,0 +1,25 @@
+<div class="content">
+  <h2>Подписание: {{signingInternalModel.currentSigning.employee.fio}}</h2>
+
+  {{#if (eq signingInternalModel.state 'signingSucceeded')}}
+  <i class="checkmark box large green icon"></i><span>Подписание завершено успешно</span>
+  {{/if}}
+
+  {{#if (eq signingInternalModel.state 'signingTypeSelection')}}
+  {{#if stylusSigningIsAvailable}}
+  <div class="stilus-signing-sign-box">
+    <button class="ui button" {{action 'stilusSigningButtonClick'}}>
+      Подписание стилусом
+    </button>
+  </div>
+  {{/if}}
+  {{#if (not stylusSigningIsAvailable)}}
+  <h4>Ни один вид подписания недоступен</h4>
+  {{/if}}
+  {{/if}}
+  <div class="stilus-signing-sign-box">
+    <button class="ui button" {{action 'cancelSigningButtonClick'}}>
+      Отмена
+    </button>
+  </div>
+</div>

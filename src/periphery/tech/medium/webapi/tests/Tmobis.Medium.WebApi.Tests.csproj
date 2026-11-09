@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="JUnitTestLogger" PrivateAssets="all" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+    <ProjectReference Include="../module/Tmobis.Medium.WebApi.Listeners.csproj" />
+    <ProjectReference Include="../../../auth/jwtauth/auth.jwtauth.csproj" />
+    <ProjectReference Include="../../../fws/web/tmobis.web.backend/tmobis.web.backend.csproj" />
+  </ItemGroup>
+</Project>

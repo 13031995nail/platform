@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Integrations.Email.Reports.UseCases</RootNamespace>
+    <PackageId>Tmobis.Integrations.Email.Reports.UseCases</PackageId>
+    <Description>Модуль сценариев формирования и отправки отчётов по email.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\reports\base\tmobis.reports.adapter\Tmobis.Reports.Adapter.csproj" />
+    <ProjectReference Include="..\..\..\..\..\reports\base\tmobis.reports\backend\module\tmobis.reports.csproj" />
+    <ProjectReference Include="..\..\..\..\..\reports\stimulsoft\tmobis.reports.stimulsoft.client.adapter\tmobis.reports.stimulsoft.client.adapter.csproj" />
+    <ProjectReference Include="..\..\..\emailConsumer\Tmobis.Integrations.Email.Consumer.csproj" />
+    <ProjectReference Include="..\..\model\Tmobis.Integrations.Email.Reports.csproj" />
+  </ItemGroup>
+</Project>

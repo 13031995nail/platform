@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Reports.Adapter</RootNamespace>
+    <PackageId>Tmobis.Reports.Adapter</PackageId>
+    <Description>Модуль бизнес-обработки подсистемы отчетов и печатных форм.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\tmobis.reports\backend\module\tmobis.reports.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SharpZipLib" />
+  </ItemGroup>
+</Project>

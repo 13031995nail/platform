@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Notification.Mattermost</RootNamespace>
+    <PackageId>Tmobis.Notification.Mattermost</PackageId>
+    <Description>Модуль отправки уведомлений через Mattermost.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../../../core/backend/module/tmobis.core.csproj" />
+    <ProjectReference Include="../../../../business/core/backend/module/tmobis.business.core.csproj" />
+    <ProjectReference Include="../../../integrations/messengers/mattermost/module/Tmobis.Integrations.Messengers.Mattermost.csproj" />
+    <ProjectReference Include="../messenger/Tmobis.Notification.Messenger.csproj" />
+    <ProjectReference Include="../model/Tmobis.Notification.csproj" />
+    <ProjectReference Include="../sender/Tmobis.Notification.Sender.csproj" />
+  </ItemGroup>
+</Project>

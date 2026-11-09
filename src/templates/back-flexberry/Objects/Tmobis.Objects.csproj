@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ForceUsePlatformPackage>$(MSBuildThisFileDirectory)..\..\..\..\.platformPackage</ForceUsePlatformPackage>
+    <PlatformSlnPath>$(MSBuildThisFileDirectory)..\..\..\..\Tmobis.Platform.slnx</PlatformSlnPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="NewPlatform.Flexberry.ORM" />
+    <PackageReference Include="NewPlatform.Flexberry.Security" />
+    <PackageReference Include="NewPlatform.Flexberry.ORM.PostgresDataService" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(ForceUsePlatformPackage)') Or !Exists('$(PlatformSlnPath)')">
+    <PackageReference Include="Tmobis.Core" />
+    <PackageReference Include="Tmobis.Frameworks.Flexberry" />
+  </ItemGroup>
+
+  <ItemGroup Condition="!Exists('$(ForceUsePlatformPackage)') And Exists('$(PlatformSlnPath)')">
+    <ProjectReference Include="..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\periphery\tech\fws\flexberry\tmobis.flexberry\backend\module\Tmobis.Flexberry.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Objects\" />
+  </ItemGroup>
+</Project>

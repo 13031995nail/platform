@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-offline/adapters/application-offline';

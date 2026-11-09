@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Medium.Delayed.InRepo</RootNamespace>
+    <PackageId>Tmobis.Medium.Delayed.InRepo</PackageId>
+    <Description>Модуль хранения и обработки отложенных сообщений.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+    <ProjectReference Include="..\..\..\fws\flexberry\tmobis.flexberry\backend\module\Tmobis.Flexberry.csproj" />
+    <ProjectReference Include="..\..\..\jobs\scheduled\Tmobis.Jobs.Scheduled.csproj" />
+    <ProjectReference Include="..\..\inrepo\Tmobis.Medium.InRepo.csproj" />
+    <ProjectReference Include="..\..\rabbitmq\module\Tmobis.Medium.RabbitMQ.csproj" />
+  </ItemGroup>
+
+</Project>

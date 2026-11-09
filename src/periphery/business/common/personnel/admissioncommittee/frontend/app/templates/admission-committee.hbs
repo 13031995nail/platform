@@ -1,0 +1,110 @@
+
+<form class="ui {{appState.state}} flexberry-vertical-form form" role="form">
+  {{#if (v-get validationObject "messages")}}
+    <div class="field">
+      {{flexberry-validationsummary errors=(v-get validationObject "messages")}}
+    </div>
+    <hr>
+  {{/if}}
+  <div class="ui stackable grid">
+    <div class="two column row">
+      <div class="column">
+        <div class="new-white-panel">
+          {{#if model.regDate}}
+            <div class="field m-0">
+              {{tmobis-caption key=(t "forms.admission-committee.reg-date-caption") value=(moment-format model.regDate "DD.MM.YYYY HH:mm")}}
+            </div>
+          {{/if}}
+          {{#if model.approvedDate}}
+            <div class="field m-0">
+              {{tmobis-caption key=(t "forms.admission-committee.approved-date-caption") value=(moment-format model.approvedDate "DD.MM.YYYY HH:mm")}}
+            </div>
+          {{/if}}
+          {{#if model.status}}
+            <div class="field m-0">
+              {{#tmobis-caption key=(t "forms.admission-committee.status-caption")}}
+                {{tmobis-badge label=model.status}}
+              {{/tmobis-caption}}
+            </div>
+          {{/if}}
+          {{flexberry-lookup
+            componentName="organizationAdmissionCommittee"
+            label=(t "forms.admission-committee.organization-caption")
+            value=model.organization
+            displayAttributeName="name"
+            relationName="organization"
+            projection="OrganizationL"
+            lookupLimitPredicate=organizationCustomLimitPredicate
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "organization" "message")
+          }}
+          {{flexberry-lookup
+            componentName="awpAdmissionCommittee"
+            label=(t "forms.admission-committee.awp-caption")
+            value=model.awp
+            displayAttributeName="name"
+            relationName="awp"
+            projection="AwpL"
+            lookupLimitPredicate=actualityCustomLimitPredicate
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "awp" "message")
+          }}
+          {{flexberry-field
+            dropdown=true
+            label=(t "forms.admission-committee.leader-caption")
+            items=leaderItems
+            value=leaderKey
+            required=false
+            disabled=readonly
+            dynamicProperties=(hash
+              displayCaptions=true
+              _value=leaderKey
+              onChange=(action "onChangeLeaderDropdown")
+            )
+            error=(v-get validationModel "leader" "message")
+          }}
+          {{flexberry-field
+            dropdown=true
+            label=(t "forms.admission-committee.deputy-leader-caption")
+            items=deputyLeaderItems
+            value=deputyLeaderKey
+            required=false
+            disabled=readonly
+            dynamicProperties=(hash
+              displayCaptions=true
+              _value=deputyLeaderKey
+              onChange=(action "onChangeDeputyLeaderDropdown")
+            )
+            error=(v-get validationModel "deputyLeader" "message")
+          }}
+
+        </div>
+      </div>
+      <div class="column">
+        <div class="new-white-panel">
+          {{#flexberry-toggler
+            title=(t "forms.admission-committee.employees-caption")
+            componentName="admissionCommitteeEmployeesToggler"
+            expanded=true
+          }}
+            {{flexberry-groupedit
+              componentName="AdmissionCommittee-employees"
+              modelName="admission-committee-employee"
+              modelProjection="AdmissionCommitteeEmployeeD"
+              content=model.admissionCommitteeEmployee
+              searchForContentChange=true
+              readonly=readonly
+              showCheckBoxInRow=true
+              showDeleteButtonInRow=false
+              showDeleteMenuItemInRow=true
+              createNewButton=true
+              rowClickable=true
+            }}
+          {{/flexberry-toggler}}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Jobs.Quartz</RootNamespace>
+    <PackageId>Tmobis.Jobs.Quartz</PackageId>
+    <Description>Модуль Quartz-адаптера планирования фоновых и отложенных задач.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\scheduled\Tmobis.Jobs.Scheduled.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Quartz.AspNetCore" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,31 @@
+/**
+ * Токены главного бокового меню.
+ */
+export const sidebarTokens = {
+  width: 260,
+  background: '#f8f8fb',
+  border: 'rgba(35, 35, 36, 0.1)',
+  divider: 'rgba(35, 35, 36, 0.08)',
+  labelPrimary: '#383838',
+  labelSecondary: 'rgba(60, 60, 67, 0.75)',
+  labelTertiary: 'rgba(60, 60, 67, 0.45)',
+  menuitemHover: 'rgba(35, 35, 36, 0.05)',
+  menuitemActive: 'rgba(35, 35, 36, 0.05)',
+  buttonSecondary: 'rgba(35, 35, 36, 0.1)',
+  buttonSecondaryHover: 'rgba(35, 35, 36, 0.15)',
+  accent: '#f05b25',
+  fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+  iconSize: 20,
+  itemRadius: 4,
+  buttonRadius: 8,
+  buttonHeight: 42,
+  headerSegmentHeight: 80,
+  sitemapPadding: 16,
+  itemPaddingVertical: 12,
+  itemPaddingHorizontal: 8,
+  itemGap: 8,
+  groupTitleSize: 17,
+  groupTitleLineHeight: 20,
+  itemFontSize: 16,
+  itemLineHeight: 20,
+};

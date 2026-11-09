@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Files.PrimaryAdapter</RootNamespace>
+    <PackageId>Tmobis.Files.PrimaryAdapter</PackageId>
+    <IsPackable>true</IsPackable>
+    <Description>Модуль первичного Web API-адаптера файлового сервиса.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+    <ProjectReference Include="..\..\medium\webapi\module\Tmobis.Medium.WebApi.Listeners.csproj" />
+    <ProjectReference Include="..\..\fws\web\tmobis.web\tmobis.web.csproj" />
+  </ItemGroup>
+</Project>

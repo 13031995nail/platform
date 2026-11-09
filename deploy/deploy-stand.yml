@@ -1,0 +1,24 @@
+---
+- name: Деплой стенда
+  become: true
+  hosts: all
+  remote_user: root
+
+  tasks:
+    - name: Создать папку react на сервере
+      file: path=/opt/stands/platform/react state=directory
+    - name: Скопировать docker-compose.yml
+      copy:
+        src: docker-compose.yml
+        dest: /opt/stands/platform/react/docker-compose.yml
+    - name: Остановить стек react
+      community.docker.docker_compose_v2:
+        project_src: /opt/stands/platform/react
+        state: absent
+    - name: Запуллить новые образы в react
+      community.docker.docker_compose_v2_pull:
+        project_src: /opt/stands/platform/react
+    - name: Поднять стек react
+      community.docker.docker_compose_v2:
+        project_src: /opt/stands/platform/react
+        state: present

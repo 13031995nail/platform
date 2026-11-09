@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.PrimaryAdapters.BaseWcfService</RootNamespace>
+    <PackageId>Tmobis.PrimaryAdapters.BaseWcfService</PackageId>
+    <Description>Модуль первичного адаптера WCF на основе CoreWCF.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CoreWCF.ConfigurationManager" />
+    <PackageReference Include="CoreWCF.Http" />
+    <PackageReference Include="CoreWCF.Primitives" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Core" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\auth\apikey\auth.apikey.csproj" />
+  </ItemGroup>
+
+</Project>

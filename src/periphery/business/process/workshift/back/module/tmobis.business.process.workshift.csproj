@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Process.WorkShift</RootNamespace>
+    <PackageId>Tmobis.Business.Process.WorkShift</PackageId>
+    <Description>Бизнес-модуль сущности рабочих смен, пунктов смены и операций над ними.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.business.core.csproj" />
+  </ItemGroup>
+</Project>

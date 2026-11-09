@@ -1,0 +1,87 @@
+{
+  "name": "@timepath/tmobis-business-common-address-object-function",
+  "version": "4.5.2",
+  "description": "Ember бизнес-модуль справочника функций объектов.",
+  "author": "ООО \"Траектория времени\"",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "publishConfig": {
+    "@timepath:registry": "https://repository.flexberry.org/repository/timepath-tmobis-npm/"
+  },
+  "scripts": {
+    "build": "ember build",
+    "lint:js": "eslint ./*.js app blueprints config lib server tests",
+    "start": "ember serve",
+    "test": "ember test"
+  },
+  "devDependencies": {
+    "broccoli-asset-rev": "^2.4.5",
+    "broccoli-merge-trees": "^4.2.0",
+    "crypto-js": "^4.0.0",
+    "dexie": "^2.0.2",
+    "ember-ajax": "^3.0.0",
+    "ember-block-slots": "1.1.11",
+    "ember-browserify": "1.1.9",
+    "ember-can": "^1.1.1",
+    "ember-cli": "~3.1.4",
+    "ember-cli-app-version": "^3.1.0",
+    "ember-cli-dependency-checker": "^2.0.0",
+    "ember-cli-eslint": "^4.2.1",
+    "ember-cli-htmlbars-inline-precompile": "^1.0.0",
+    "ember-cli-inject-live-reload": "^1.4.1",
+    "ember-cli-md5": "^0.1.0",
+    "ember-cli-moment-shim": "^3.8.0",
+    "ember-cli-qunit": "^4.1.1",
+    "ember-cli-sass": "^10.0.1",
+    "ember-cli-shims": "^1.2.0",
+    "ember-cli-sri": "^2.1.0",
+    "ember-cli-swiper": "1.0.4",
+    "ember-cli-uglify": "^2.0.0",
+    "ember-cp-validations": "~3.5.2",
+    "ember-data": "~3.1.1",
+    "ember-export-application-global": "^2.0.0",
+    "ember-flexberry": "3.8.0-beta.1",
+    "ember-flexberry-data": "3.8.0-beta.0",
+    "ember-flexberry-security": "3.6.1-beta.2",
+    "ember-i18n-cp-validations": "^3.1.0",
+    "ember-link-action": "0.0.36",
+    "ember-load-initializers": "^1.0.0",
+    "ember-maybe-import-regenerator": "^0.1.6",
+    "ember-moment": "7.7.0",
+    "ember-pdf-js": "1.0.0",
+    "ember-resolver": "^4.0.0",
+    "ember-simple-auth": "1.1.0",
+    "ember-source": "~3.1.0",
+    "eslint": "^7.0.0",
+    "eslint-formatter-gitlab": "^3.0.0",
+    "eslint-plugin-diff": "1.0.12",
+    "eslint-plugin-ember": "^7.0.0",
+    "flatpickr": "4.6.1",
+    "inflection": "^1.12.0",
+    "loader.js": "^4.2.3",
+    "node-uuid": "^1.4.7",
+    "sass": "^1.50.0",
+    "semantic-ui-ember": "^3.0.5"
+  },
+  "dependencies": {
+    "@timepath/tmobis-core": "workspace:^",
+    "ember-cli-babel": "^6.6.0",
+    "ember-cli-htmlbars": "^2.0.1"
+  },
+  "engines": {
+    "node": ">= 16.*"
+  },
+  "keywords": [
+    "ember-addon"
+  ],
+  "ember-addon": {
+    "configPath": "tests/dummy/config"
+  },
+  "volta": {
+    "node": "16.20.0",
+    "yarn": "1.22.19"
+  },
+  "gitHead": "c4be2f4e2fe2e9e1f1d55131f9abcdec6810dba0"
+}

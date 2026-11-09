@@ -1,0 +1,32 @@
+{
+  "name": "conventional-changelog-tmobis",
+  "type": "module",
+  "version": "4.5.0",
+  "description": "",
+  "private": true,
+  "homepage": "",
+  "keywords": [
+    "conventional-changelog",
+    "conventionalcommits.org",
+    "preset"
+  ],
+  "engines": {
+    "node": ">=16"
+  },
+  "exports": "./src/index.js",
+  "publishConfig": {
+    "directory": "package",
+    "linkDirectory": false
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "clear": "del ./package",
+    "prepublishOnly": "run clear clean-publish",
+    "postpublish": "pnpm clear"
+  },
+  "dependencies": {
+    "compare-func": "^2.0.0"
+  }
+}

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Tmobis.Auth.Keycloak</AssemblyName>
+    <RootNamespace>Tmobis.Auth.Keycloak</RootNamespace>
+    <PackageId>Tmobis.Auth.Keycloak</PackageId>
+    <Description>Модуль Backend-интеграции аутентификации с Keycloak.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\business\common\sessions\backend\module\tmobis.sessions.csproj" />
+    <ProjectReference Include="..\..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+    <ProjectReference Include="..\..\..\fws\web\tmobis.web\tmobis.web.csproj" />
+    <ProjectReference Include="..\..\jwtauth\auth.jwtauth.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Modules\" />
+  </ItemGroup>
+
+</Project>

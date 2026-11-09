@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - includeAll:
+      path: ../../../Tmobis/ODataBackend/sql/main
+      endsWithFilter: .sql
+      errorIfMissingOrEmpty: false

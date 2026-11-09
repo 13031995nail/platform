@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Tmobis.Auth.Windows</AssemblyName>
+        <RootNamespace>Tmobis.Auth.Windows</RootNamespace>
+        <PackageId>Tmobis.Auth.Windows</PackageId>
+        <Description>Модуль Windows-аутентификации для backend-приложений.</Description>
+        <IsPackable>true</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\jwtauth\auth.jwtauth.csproj" />
+    </ItemGroup>
+</Project>

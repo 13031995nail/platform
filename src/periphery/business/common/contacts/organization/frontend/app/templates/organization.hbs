@@ -1,0 +1,98 @@
+<form class="ui {{appState.state}} flexberry-vertical-form form" role="form">
+  {{#if (v-get validationObject "messages")}}
+    <div class="field">
+      {{flexberry-validationsummary errors=(v-get validationObject "messages")}}
+    </div>
+    <hr>
+  {{/if}}
+  <div class="ui stackable grid">
+    <div class="row">
+      <div class="column">
+        <div class="new-white-panel">
+          {{flexberry-field
+            label=(t "forms.organization-e.name-caption")
+            value=model.name
+            required=true
+            disabled=readonly
+            error=(v-get validationModel "name" "message")
+            data-test-organization-e-name=true
+          }}
+          {{flexberry-field
+            label=(t "forms.organization-e.address-caption")
+            value=model.address
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "address" "message")
+            data-test-organization-e-address=true
+          }}
+          {{flexberry-field
+            label=(t "forms.organization-e.legal-address-caption")
+            value=model.legalAddress
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "legalAddress" "message")
+            data-test-organization-e-legalAddress=true
+          }}
+          {{flexberry-lookup
+            componentName="hierarchyOrganization"
+            label=(t "forms.organization-e.hierarchy-caption")
+            value=model.hierarchy
+            displayAttributeName="name"
+            relationName="hierarchy"
+            projection="OrganizationL"
+            lookupLimitPredicate=hierarchyCustomLimitPredicate
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "hierarchy" "message")
+          }}
+          {{flexberry-lookup
+            componentName="organizationTypeOrganization"
+            label=(t "forms.organization-e.organization-type-caption")
+            value=model.organizationType
+            displayAttributeName="name"
+            relationName="organizationType"
+            projection="OrganizationTypeLookup"
+            lookupLimitPredicate=organizationTypeCustomLimitPredicate
+            required=true
+            disabled=readonly
+            error=(v-get validationModel "organizationType" "message")
+          }}
+          {{flexberry-field
+            label=(t "forms.organization-e.phone-caption")
+            value=model.phone
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "phone" "message")
+            data-test-organization-e-phone=true
+          }}
+          {{flexberry-field
+            label=(t "forms.organization-e.email-caption")
+            value=model.email
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "email" "message")
+            data-test-organization-e-email=true
+          }}
+          {{flexberry-field
+            label=(t "forms.organization-e.acronym-caption")
+            value=model.acronym
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "acronym" "message")
+          }}
+          <hr>
+          <div class="field">
+            {{flexberry-checkbox
+              label=(t "forms.organization-e.actuality-caption")
+              value=model.actuality
+              required=false
+              disabled=readonly
+              error=(if model.errors.actuality model.errors.actuality)
+              class="toggle"
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

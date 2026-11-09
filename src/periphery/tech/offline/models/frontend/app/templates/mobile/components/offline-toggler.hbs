@@ -1,0 +1,12 @@
+{{#if offlineMode}}
+  <div class="ui vertical segment">
+    {{flexberry-checkbox
+      label=onlineStatus
+      class="toggle"
+      value=offlineState.checkedToggleOnline
+      onChange=(action "toggleWork")
+      readonly=(not offlineState.backupSynced)
+    }}
+  </div>
+  <hr class="m-0">
+{{/if}}

@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-process-acts-awpassessingprogram/controllers/awp-assessing-programs';

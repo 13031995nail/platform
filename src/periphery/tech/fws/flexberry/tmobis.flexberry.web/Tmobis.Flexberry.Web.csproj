@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Frameworks.Flexberry.Web</RootNamespace>
+    <PackageId>Tmobis.Frameworks.Flexberry.Web</PackageId>
+    <Description>Модуль Web-инфраструктуры Flexberry: OData, логирование и экспорт.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="NewPlatform.Flexberry.LogService.WebApi" />
+    <PackageReference Include="NewPlatform.Flexberry.Reports.ExportToExcel" />
+    <PackageReference Include="NewPlatform.Flexberry.ORM.ODataService" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\business\core\backend\module.flexberry\tmobis.business.core.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\files\primaryAdapter.flexberry\Tmobis.Files.PrimaryAdapter.Flexberry.csproj" />
+    <ProjectReference Include="..\..\web\tmobis.web.backend\tmobis.web.backend.csproj" />
+    <ProjectReference Include="..\tmobis.flexberry\backend\module\Tmobis.Flexberry.csproj" />
+  </ItemGroup>
+
+</Project>

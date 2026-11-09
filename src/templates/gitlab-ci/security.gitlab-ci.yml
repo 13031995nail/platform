@@ -1,0 +1,36 @@
+# You can override the included template(s) by including variable overrides
+# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
+# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/pipeline/#customization
+# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
+# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
+# Note that environment variables can be set in several places
+# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
+
+include:
+  - template: Jobs/SAST.latest.gitlab-ci.yml
+  - template: Jobs/Dependency-Scanning.latest.gitlab-ci.yml
+  - template: Jobs/Secret-Detection.latest.gitlab-ci.yml
+
+variables:
+  SAST_DISABLED: true
+  GITLAB_ADVANCED_SAST_ENABLED: false
+  DS_MAX_DEPTH: '$DS_MAX_DEPTH_GLOB'
+  DEPENDENCY_SCANNING_DISABLED: true
+  SECRET_DETECTION_DISABLED: true
+
+sast:
+  stage: test
+  tags:
+    - docker
+
+dependency_scanning:
+  stage: test
+  tags:
+    - docker
+
+secret_detection:
+  stage: test
+  tags:
+    - docker
+  variables:
+    SECRET_DETECTION_HISTORIC_SCAN: '$SECRET_DETECTION_HISTORIC_SCAN_GLOB'

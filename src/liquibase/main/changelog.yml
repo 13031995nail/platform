@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - includeAll:
+      path: ../../../periphery/business/core/backend/module.flexberry/sql/main/2025
+      endsWithFilter: .sql
+      errorIfMissingOrEmpty: false
+  - includeAll:
+      path: ../../../periphery/business/common/address/workobject/backend/module/sql/main
+      endsWithFilter: .sql
+      errorIfMissingOrEmpty: false
+  - includeAll:
+      path: ../../../periphery/business/common/address/workobject.base/backend/module/sql/main
+      endsWithFilter: .sql
+      errorIfMissingOrEmpty: false

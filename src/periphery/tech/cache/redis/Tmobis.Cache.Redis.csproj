@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Cache.Redis</RootNamespace>
+    <PackageId>Tmobis.Cache.Redis</PackageId>
+    <IsPackable>true</IsPackable>
+    <Description>Модуль Redis-адаптера платформенного кэша.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="sample\**" />
+    <Content Remove="sample\**" />
+    <EmbeddedResource Remove="sample\**" />
+    <None Remove="sample\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
+  </ItemGroup>
+
+</Project>

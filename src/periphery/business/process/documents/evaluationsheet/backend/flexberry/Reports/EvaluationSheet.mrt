@@ -1,0 +1,1140 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="1">
+      <Соединение Ref="2" type="Stimulsoft.Report.Dictionary.StiPostgreSQLDatabase" isKey="true">
+        <Alias>Соединение</Alias>
+        <ConnectionStringEncrypted>+NZ7y2EK+81rR/mY6QRlE9/W1yvFA3n1axy56E1c4GeAVMmJ6ApbgfJ9KezrPeE3g1b140ZPk/XiG6Wl6BhiH9FUzQndUUOB6U2hnElA9g+NVNnCxQOjzW1GhITpTK0S</ConnectionStringEncrypted>
+        <Name>Соединение</Name>
+      </Соединение>
+    </Databases>
+    <DataSources isList="true" count="3">
+      <ИсточникДанных1 Ref="3" type="Stimulsoft.Report.Dictionary.StiPostgreSQLSource" isKey="true">
+        <Alias>ИсточникДанных1</Alias>
+        <Columns isList="true" count="6">
+          <value>evaluation_sheet_id,System.Guid</value>
+          <value>partner_type_id,System.Guid</value>
+          <value>document_title,System.String</value>
+          <value>readiness_index,System.Decimal</value>
+          <value>has_bh_objects,System.Boolean</value>
+          <value>bh_break_comment,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>ИсточникДанных1</Name>
+        <NameInSource>Соединение</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>pk,pk,27,0</value>
+        </Parameters>
+        <SqlCommand>WITH doc AS (
+SELECT
+	es.primarykey AS evaluation_sheet_id,
+	es.objectreadinessindex AS readiness_index,
+	COALESCE(es.ownerlessobjects, false) AS has_bh_objects,
+	ot.primarykey AS partner_type_id
+	FROM evaluationsheet es
+    JOIN organization o ON o.primarykey = es.organization
+    JOIN organizationtype ot ON ot.primarykey = o.organizationtype
+    WHERE es.primarykey = @pk
+)
+SELECT
+	d.evaluation_sheet_id,
+	d.partner_type_id,
+	CASE d.partner_type_id
+        WHEN '7909c321-f77c-4bdf-9d4d-e618fac50c81'::uuid THEN
+            'ОЦЕНОЧНЫЙ ЛИСТ ДЛЯ РАСЧЕТА ИНДЕКСА ГОТОВНОСТИ К ОТОПИТЕЛЬНОМУ ПЕРИОДУ МУНИЦИПАЛЬНОГО ОБРАЗОВАНИЯ'
+        WHEN '44cf13f0-5b06-4509-a11d-1c05c9c39e80'::uuid THEN
+            'ОЦЕНОЧНЫЙ ЛИСТ ДЛЯ РАСЧЕТА ИНДЕКСА ГОТОВНОСТИ К ОТОПИТЕЛЬНОМУ ПЕРИОДУ ТЕПЛОСНАБЖАЮЩИХ, ТЕПЛОСЕТЕВЫХ ОРГАНИЗАЦИЙ'
+        WHEN '3859980c-562d-4ef3-b716-e3dc72dc6bbe'::uuid THEN
+            'ОЦЕНОЧНЫЙ ЛИСТ ДЛЯ РАСЧЕТА ИНДЕКСА ГОТОВНОСТИ К ОТОПИТЕЛЬНОМУ ПЕРИОДУ ВЛАДЕЛЬЦЕВ ТЕПЛОВЫХ СЕТЕЙ, НЕ ЯВЛЯЮЩИХСЯ ТЕПЛОСЕТЕВЫМИ ОРГАНИЗАЦИЯМИ'
+        WHEN '1fb68a1f-7533-4822-a312-29d978168327'::uuid THEN
+            'ОЦЕНОЧНЫЙ ЛИСТ ДЛЯ РАСЧЕТА ИНДЕКСА ГОТОВНОСТИ К ОТОПИТЕЛЬНОМУ ПЕРИОДУ ПОТРЕБИТЕЛЕЙ ТЕПЛОВОЙ ЭНЕРГИИ'
+        ELSE
+            'ОЦЕНОЧНЫЙ ЛИСТ'
+    END AS document_title,
+    d.readiness_index,
+    d.has_bh_objects,
+    CASE
+        WHEN d.partner_type_id = '7909c321-f77c-4bdf-9d4d-e618fac50c81'::uuid
+         AND d.has_bh_objects
+        THEN 'Приложение к оценочному листу для расчета индекса готовности к отопительному периоду муниципального образования в случае наличия у них бесхозяйных объектов теплоснабжения, которым не определена организация, осуществляющая их содержание и обслуживание'
+        ELSE NULL
+    END AS bh_break_comment
+FROM doc d;</SqlCommand>
+      </ИсточникДанных1>
+      <ИсточникДанных3 Ref="4" type="Stimulsoft.Report.Dictionary.StiPostgreSQLSource" isKey="true">
+        <Alias>ИсточникДанных3</Alias>
+        <Columns isList="true" count="11">
+          <value>requirement_id,System.Guid</value>
+          <value>reqorder,System.Int32</value>
+          <value>reqnumber,System.String</value>
+          <value>shortreqname,System.String</value>
+          <value>supportingdocname,System.String</value>
+          <value>indicatorname,System.String</value>
+          <value>calculatedreq,System.Decimal</value>
+          <value>problemcomment,System.String</value>
+          <value>deadline,System.DateTime</value>
+          <value>deadline_text,System.String</value>
+          <value>sort_key,System.Int32</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>ИсточникДанных3</Name>
+        <NameInSource>Соединение</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>pk,pk,27,0</value>
+        </Parameters>
+        <SqlCommand>SELECT
+	r.primarykey AS requirement_id,
+	r.reqorder,
+	r.reqnumber,
+	r.shortreqname,
+	r.supportingdocname,
+	r.indicatorname,
+	r.calculatedreq,
+	r.problemcomment,
+	r.deadline,
+	to_char(r.deadline + interval '5 hour', 'DD.MM.YYYY HH24:MI') AS deadline_text,
+	r.sortorder AS sort_key
+	FROM evaluationsheetrequirement r
+JOIN evaluationsheet es
+    ON es.primarykey = r.evaluationsheet
+JOIN organization o
+    ON o.primarykey = es.organization
+JOIN organizationtype ot
+    ON ot.primarykey = o.organizationtype
+LEFT JOIN verificationrequierement vr
+    ON vr.primarykey = r.verificationrequirement
+WHERE r.evaluationsheet = @pk
+  AND (
+        ot.primarykey &lt;&gt; '7909c321-f77c-4bdf-9d4d-e618fac50c81'::uuid
+        OR COALESCE(vr.ownerlessobjects, false) = true
+      )
+ORDER BY
+    r.sortorder,
+    r.reqorder NULLS LAST,
+    r.primarykey;
+</SqlCommand>
+      </ИсточникДанных3>
+      <ИсточникДанных4 Ref="5" type="Stimulsoft.Report.Dictionary.StiPostgreSQLSource" isKey="true">
+        <Alias>ИсточникДанных4</Alias>
+        <Columns isList="true" count="11">
+          <value>requirement_id,System.Guid</value>
+          <value>reqorder,System.Int32</value>
+          <value>reqnumber,System.String</value>
+          <value>shortreqname,System.String</value>
+          <value>supportingdocname,System.String</value>
+          <value>indicatorname,System.String</value>
+          <value>calculatedreq,System.Decimal</value>
+          <value>problemcomment,System.String</value>
+          <value>deadline,System.DateTime</value>
+          <value>deadline_text,System.String</value>
+          <value>sort_key,System.String</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>ИсточникДанных4</Name>
+        <NameInSource>Соединение</NameInSource>
+        <Parameters isList="true" count="1">
+          <value>pk,pk,27,0</value>
+        </Parameters>
+        <SqlCommand>WITH src AS (
+SELECT
+	r.primarykey,
+	r.reqorder,
+	r.sortorder,
+	r.reqnumber,
+	r.shortreqname,
+	r.supportingdocname,
+	r.indicatorname,
+	r.calculatedreq,
+	r.problemcomment,
+	r.deadline,
+	NULLIF(
+	trim(both '.' from regexp_replace(coalesce(r.reqnumber, ''), '[^0-9.]', '', 'g')),
+            ''
+        ) AS req_norm
+    FROM evaluationsheetrequirement r
+    JOIN evaluationsheet es
+        ON es.primarykey = r.evaluationsheet
+    JOIN organization o
+        ON o.primarykey = es.organization
+    JOIN organizationtype ot
+        ON ot.primarykey = o.organizationtype
+    JOIN verificationrequierement vr
+        ON vr.primarykey = r.verificationrequirement
+    WHERE r.evaluationsheet = @pk
+      AND ot.primarykey = '7909c321-f77c-4bdf-9d4d-e618fac50c81'::uuid
+      AND COALESCE(es.ownerlessobjects, false) = true
+      AND COALESCE(vr.ownerlessobjects, false) = false
+      AND COALESCE(vr.code, '') &lt;&gt; '0'
+),
+x AS (
+SELECT
+	s.*,
+        CASE
+            WHEN s.req_norm ~ '^[0-9]+([.][0-9]+)*$'
+            THEN string_to_array(s.req_norm, '.')::int[]
+            ELSE NULL
+        END AS req_path
+    FROM src s
+)
+SELECT
+	x.primarykey AS requirement_id,
+	x.reqorder,
+	x.reqnumber,
+	x.shortreqname,
+	x.supportingdocname,
+	x.indicatorname,
+	x.calculatedreq,
+	x.problemcomment,
+	x.deadline,
+	to_char(x.deadline + interval '5 hour', 'DD.MM.YYYY HH24:MI') AS deadline_text,
+	array_to_string(
+	ARRAY(
+	SELECT lpad(u.n::text, 5, '0')
+            FROM unnest(x.req_path) WITH ORDINALITY AS u(n, ord)
+            ORDER BY u.ord
+        ),
+        '.'
+    ) AS sort_key
+FROM x
+WHERE x.req_path IS NOT NULL
+ORDER BY
+    sort_key,
+    x.reqorder NULLS LAST,
+    x.sortorder,
+    x.primarykey;
+</SqlCommand>
+      </ИсточникДанных4>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="1">
+      <value>,pk,pk,,System.Guid,_x0033_7b9b6d1-9cdc-4702-ae26-4e1cf6de5478,False,False,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="2">
+    <Page1 Ref="6" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="4">
+        <ReportTitleBand1 Ref="7" type="ReportTitleBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,25.7,1.2</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text17 Ref="8" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0.2,25.62,0.55</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10,Bold</Font>
+              <Guid>aa948b8936494c40a88cb879d9dd2b01</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text17</Name>
+              <Page isRef="6" />
+              <Parent isRef="7" />
+              <Text>{ИсточникДанных1.document_title}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text17>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>ReportTitleBand1</Name>
+          <Page isRef="6" />
+          <Parent isRef="6" />
+        </ReportTitleBand1>
+        <HeaderBand1 Ref="9" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,2.4,25.7,0.8</ClientRectangle>
+          <Components isList="true" count="7">
+            <Text2 Ref="10" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,1.6,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text2</Name>
+              <Page isRef="6" />
+              <Parent isRef="9" />
+              <Text>№</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text2>
+            <Text4 Ref="11" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.6,0,4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <Guid>701521dd0d13438bb4f8de036aa0d164</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text4</Name>
+              <Page isRef="6" />
+              <Parent isRef="9" />
+              <Text>Требование</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </Text4>
+            <Text5 Ref="12" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.6,0,5.6,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <Guid>8f1989d029e6483f8d5b0f58c8b4f787</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text5</Name>
+              <Page isRef="6" />
+              <Parent isRef="9" />
+              <Text>Подтверждающий документ</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text5>
+            <Text6 Ref="13" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>11.2,0,4.4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <Guid>122c2d1162394c71885d728ceb6cf9fc</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="6" />
+              <Parent isRef="9" />
+              <Text>Показатель</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text6>
+            <Text7 Ref="14" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>15.6,0,2.8,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <Guid>513faae1b12c42f1aba8c3eaae07b190</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text7</Name>
+              <Page isRef="6" />
+              <Parent isRef="9" />
+              <Text>Значение</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text7>
+            <Text8 Ref="15" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>18.4,0,4.8,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <Guid>2bd5c8844652426a841ccf0e29cf99e3</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="6" />
+              <Parent isRef="9" />
+              <Text>Замечание</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text8>
+            <Text9 Ref="16" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>23.2,0,2.4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <Guid>7f729652392b43b5b33c23a8510ad2d4</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text9</Name>
+              <Page isRef="6" />
+              <Parent isRef="9" />
+              <Text>Срок исполнения</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text9>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>HeaderBand1</Name>
+          <Page isRef="6" />
+          <Parent isRef="6" />
+        </HeaderBand1>
+        <HeaderBand2 Ref="17" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,4,25.7,0.8</ClientRectangle>
+          <Components isList="true" count="7">
+            <Text10 Ref="18" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,1.6,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <Guid>c7c9fc8f00ca45d3aed0287baed2e234</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text10</Name>
+              <Page isRef="6" />
+              <Parent isRef="17" />
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text10>
+            <Text11 Ref="19" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.6,0,4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <Guid>371e35a13ae44ce0bebd03d16dbc2703</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text11</Name>
+              <Page isRef="6" />
+              <Parent isRef="17" />
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text11>
+            <Text12 Ref="20" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.6,0,5.6,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <Guid>d23bd9202f79477f80a4faef23ca82b8</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text12</Name>
+              <Page isRef="6" />
+              <Parent isRef="17" />
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text12>
+            <Text13 Ref="21" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>11.2,0,4.4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <Guid>cc1993f3b3e94ba7b0e63b89e68ef499</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text13</Name>
+              <Page isRef="6" />
+              <Parent isRef="17" />
+              <Text>Индекс готовности</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text13>
+            <Text14 Ref="22" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>15.6,0,2.8,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <Guid>bad4d46f042e4d0d9bd59211cffa8c04</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text14</Name>
+              <Page isRef="6" />
+              <Parent isRef="17" />
+              <Text>{ИсточникДанных1.readiness_index}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text14>
+            <Text15 Ref="23" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>18.4,0,4.8,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <Guid>ae7f01f53bf84d4d822fa8e012138952</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text15</Name>
+              <Page isRef="6" />
+              <Parent isRef="17" />
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text15>
+            <Text16 Ref="24" type="Text" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>23.2,0,2.4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <Guid>75b163f4ef6342bfacdd1afaa77064d9</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text16</Name>
+              <Page isRef="6" />
+              <Parent isRef="17" />
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text16>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>HeaderBand2</Name>
+          <Page isRef="6" />
+          <Parent isRef="6" />
+          <PrintOn>OnlyFirstPage</PrintOn>
+        </HeaderBand2>
+        <Table5 Ref="25" type="Stimulsoft.Report.Components.Table.StiTable" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,5.6,25.7,0.87</ClientRectangle>
+          <ColumnCount>7</ColumnCount>
+          <Components isList="true" count="7">
+            <Table5_Cell1 Ref="26" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,1.6,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>515e2307043848548690da926c69efb1</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>0</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table5_Cell1</Name>
+              <Page isRef="6" />
+              <Parent isRef="25" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных3.reqnumber}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table5_Cell1>
+            <Table5_Cell2 Ref="27" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>1.6,0,4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>301bdf9fd4b74bb296b59463cc0a044a</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>1</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table5_Cell2</Name>
+              <Page isRef="6" />
+              <Parent isRef="25" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных3.shortreqname}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table5_Cell2>
+            <Table5_Cell3 Ref="28" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>5.6,0,5.6,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>223ba9ed4b054a37911d01caca1700c8</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>2</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table5_Cell3</Name>
+              <Page isRef="6" />
+              <Parent isRef="25" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных3.supportingdocname}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table5_Cell3>
+            <Table5_Cell4 Ref="29" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>11.2,0,4.4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>03f5866086864531b40602e21ce2e43a</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>3</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table5_Cell4</Name>
+              <Page isRef="6" />
+              <Parent isRef="25" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных3.indicatorname}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table5_Cell4>
+            <Table5_Cell5 Ref="30" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>15.6,0,2.8,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>752370cbe200469f854c91d811bd525a</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>4</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table5_Cell5</Name>
+              <Page isRef="6" />
+              <Parent isRef="25" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных3.calculatedreq}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table5_Cell5>
+            <Table5_Cell6 Ref="31" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>18.4,0,4.8,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>de4a371a862347faac0957beae2afd16</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>25</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table5_Cell6</Name>
+              <Page isRef="6" />
+              <Parent isRef="25" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных3.problemcomment}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table5_Cell6>
+            <Table5_Cell7 Ref="32" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>23.2,0,2.4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>41f6c5edac784570a31b6d2ac3053d22</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>30</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table5_Cell7</Name>
+              <Page isRef="6" />
+              <Parent isRef="25" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных3.deadline_text}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table5_Cell7>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>ИсточникДанных3</DataSourceName>
+          <Filters isList="true" count="0" />
+          <FooterPrintOnAllPages>True</FooterPrintOnAllPages>
+          <Guid>f8abd87135c94bfbb0f119d89bbbae9f</Guid>
+          <MinHeight>0.2</MinHeight>
+          <Name>Table5</Name>
+          <NumberID>54</NumberID>
+          <Page isRef="6" />
+          <Parent isRef="6" />
+          <PrintOnAllPages>True</PrintOnAllPages>
+          <RowCount>1</RowCount>
+          <Sort isList="true" count="2">
+            <value>ASC</value>
+            <value>sort_key</value>
+          </Sort>
+        </Table5>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>94c855f22e9146fe9923b8360429dfa7</Guid>
+      <Margins>2,2,1.5,3</Margins>
+      <Name>Page1</Name>
+      <Orientation>Landscape</Orientation>
+      <PageHeight>21</PageHeight>
+      <PageWidth>29.7</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="33" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <ImageMultipleFactor>0.335</ImageMultipleFactor>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+    <Page2 Ref="34" type="Page" isKey="true">
+      <BeforePrintEvent>bool showBhPage = ИсточникДанных1.has_bh_objects;
+
+Page2.Enabled = showBhPage;</BeforePrintEvent>
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="2">
+        <GroupHeaderBand1 Ref="35" type="GroupHeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,25.7,3.2</ClientRectangle>
+          <Components isList="true" count="1">
+            <Text3 Ref="36" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>18.45,0,7.2,2.75</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,10</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text3</Name>
+              <Page isRef="34" />
+              <Parent isRef="35" />
+              <Text>Приложение к оценочному листу для расчета индекса готовности к отопительному периоду муниципального образования в случае наличия у них бесхозяйных объектов теплоснабжения, которым не определена организация, осуществляющая их содержание и обслуживание</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Text3>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Name>GroupHeaderBand1</Name>
+          <Page isRef="34" />
+          <Parent isRef="34" />
+        </GroupHeaderBand1>
+        <Table6 Ref="37" type="Stimulsoft.Report.Components.Table.StiTable" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,4.4,25.7,2.43</ClientRectangle>
+          <ColumnCount>7</ColumnCount>
+          <Components isList="true" count="14">
+            <Table6_Cell1 Ref="38" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,1.72,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <ID>35</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table6_Cell1</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>№</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell1>
+            <Table6_Cell2 Ref="39" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1.72,0,3.77,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <ID>36</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table6_Cell2</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>Требование</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell2>
+            <Table6_Cell3 Ref="40" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.49,0,5.71,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <ID>37</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table6_Cell3</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>Подтверждающий документ</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell3>
+            <Table6_Cell4 Ref="41" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>11.2,0,4.21,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <ID>38</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table6_Cell4</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>Показатель</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell4>
+            <Table6_Cell5 Ref="42" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>15.41,0,2.99,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <ID>39</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table6_Cell5</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>Значение</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell5>
+            <Table6_Cell6 Ref="43" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>18.4,0,4.76,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <ID>40</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table6_Cell6</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>Замечание</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell6>
+            <Table6_Cell7 Ref="44" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>23.16,0,2.54,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9,Bold</Font>
+              <HorAlignment>Center</HorAlignment>
+              <ID>41</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>Table6_Cell7</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>Срок исполнения</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell7>
+            <Table6_Cell8 Ref="45" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0.8,1.72,1.63</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>fb2a3bf451674773b0b83cdcdf19ca17</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>0</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>1,1,1,1</Margins>
+              <Name>Table6_Cell8</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных4.reqnumber}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell8>
+            <Table6_Cell9 Ref="46" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>1.72,0.8,3.77,1.63</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>49e1c3d92f664fada2abe3f157cd038b</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>1</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>1,1,1,1</Margins>
+              <Name>Table6_Cell9</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных4.shortreqname}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell9>
+            <Table6_Cell10 Ref="47" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>5.49,0.8,5.71,1.63</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>93eed710c333493e98aa21134b1321e5</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>2</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>1,1,1,1</Margins>
+              <Name>Table6_Cell10</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных4.supportingdocname}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell10>
+            <Table6_Cell11 Ref="48" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>11.2,0.8,4.21,1.63</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>6b598688b3b249609ebec793f876fa92</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>3</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>1,1,1,1</Margins>
+              <Name>Table6_Cell11</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных4.indicatorname}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell11>
+            <Table6_Cell12 Ref="49" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>15.41,0.8,2.99,1.63</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>5a8cfb22d5524a01a466cdc45140d204</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>4</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>1,1,1,1</Margins>
+              <Name>Table6_Cell12</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных4.calculatedreq}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell12>
+            <Table6_Cell13 Ref="50" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>18.4,0.8,4.76,1.63</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>4def0f087558463b82e76a2fe07bf8f8</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>25</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>1,1,1,1</Margins>
+              <Name>Table6_Cell13</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных4.problemcomment}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell13>
+            <Table6_Cell14 Ref="51" type="TableCell" isKey="true">
+              <Border>All;[105:105:105];1;Solid;False;4;[105:105:105]</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>23.16,0.8,2.54,1.63</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Times New Roman,9</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>1f432fb79c634b3abe03d368b40ab8e1</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <ID>26</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>1,1,1,1</Margins>
+              <Name>Table6_Cell14</Name>
+              <Page isRef="34" />
+              <Parent isRef="37" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{ИсточникДанных4.deadline_text}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>,,,,WordWrap=True,A=0</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Table6_Cell14>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName isNull="true" />
+          <DataSourceName>ИсточникДанных4</DataSourceName>
+          <Filters isList="true" count="0" />
+          <Guid>aacf0e6f34da4ffe9b074cf2ddb89a4d</Guid>
+          <HeaderRowsCount>1</HeaderRowsCount>
+          <MinHeight>0.2</MinHeight>
+          <Name>Table6</Name>
+          <NumberID>42</NumberID>
+          <Page isRef="34" />
+          <Parent isRef="34" />
+          <RowCount>2</RowCount>
+          <Sort isList="true" count="2">
+            <value>ASC</value>
+            <value>sort_key</value>
+          </Sort>
+        </Table6>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>dd59d022bd864c32a26a07baa64b1c3c</Guid>
+      <Margins>2,2,1.5,3</Margins>
+      <Name>Page2</Name>
+      <Orientation>Landscape</Orientation>
+      <PageHeight>21</PageHeight>
+      <PageWidth>29.7</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="52" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <ImageMultipleFactor>0.335</ImageMultipleFactor>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page2>
+  </Pages>
+  <PreviewSettings>268435455</PreviewSettings>
+  <PrinterSettings Ref="53" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>4/22/2026 5:14:54 PM</ReportChanged>
+  <ReportCreated>3/5/2026 7:26:58 AM</ReportCreated>
+  <ReportFile>D:\Projects\2234.PlatformDev\src\2234\Reports\EvaluationSheet.mrt</ReportFile>
+  <ReportGuid>9c8bda03f73548338725977be4dfce91</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2015.3.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Common.Sessions</RootNamespace>
+    <PackageId>Tmobis.Business.Common.Sessions</PackageId>
+    <Description>Бизнес-модуль сущности пользовательских сессий.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\tech\auth\base\auth.base.csproj" />
+    <ProjectReference Include="..\..\..\..\..\tech\jobs\scheduled\Tmobis.Jobs.Scheduled.csproj" />
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.business.core.csproj" />
+  </ItemGroup>
+</Project>

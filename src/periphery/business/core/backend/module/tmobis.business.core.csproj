@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Core</RootNamespace>
+    <PackageId>Tmobis.Business.Core</PackageId>
+    <Description>Бизнес-модуль ядра бизнес-логики Платформы Т-Мобис.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="sql/**/*.sql">
+      <Pack>true</Pack>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <!--Грязноватый хак, чтобы сэкономить место и не дублировать файлы контента
+          ContentTargetFolders не помогает-->
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' == 'true' ">contentFiles\any\net8.0\sql\</PackagePath>
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' != 'true' ">contentFiles\any\net8.0\sql</PackagePath>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Attributes\" />
+  </ItemGroup>
+</Project>

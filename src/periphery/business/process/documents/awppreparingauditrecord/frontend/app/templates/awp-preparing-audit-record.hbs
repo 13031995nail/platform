@@ -1,0 +1,160 @@
+<form class="ui {{appState.state}} flexberry-vertical-form form" role="form">
+  {{#if (v-get validationObject "messages")}}
+    <div class="field">
+      {{flexberry-validationsummary errors=(v-get validationObject "messages")}}
+    </div>
+    <hr>
+  {{/if}}
+  <div class="ui stackable grid">
+    <div class="two column row">
+      <div class="column">
+        <h3 class="ui top attached header">Общая информация</h3>
+        <div class="ui attached segment">
+          <div class="field m-0">
+            {{tmobis-caption key="Осенне-зимний период" value=model.awp.name}}
+          </div>
+          <div class="field m-0">
+						{{tmobis-caption key="Объект" value=model.workObject.name}}
+					
+          </div>
+					<div class='two fields'>
+						<div class="field">
+						</div>
+						<div class="field fluid">
+							{{flexberry-button
+								caption='Перейти к объекту'
+								tooltip='Перейти к объекту'
+								class="secondary fluid"
+								sizeClass="small"
+								iconClass="search"
+								click=(action "viewWorkObject")
+							}}
+						</div>
+					</div>
+					<div class="field m-0">
+						{{tmobis-caption key="Организация" value=model.workObject.organization.name}}
+					</div>
+          <div class="field m-0">
+            {{tmobis-caption key="Назначение объекта" value=model.workObject.objectFunction.name}}
+          </div>
+          <div class="field m-0">
+            {{tmobis-caption key="Тип организации" value=model.workObject.organization.organizationType.shortName}}
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <h3 class="ui top attached header">Документы</h3>
+        <div class="ui attached segment">
+					<div class="field">
+						{{#if model.evaluationSheet}}
+							{{#link-to "evaluation-sheet" model.evaluationSheet.id class="ui card secondary"}}
+								<div class="header ui secondary menu">
+									<div class="fitted item m-0 card-title">Оценочный лист №{{model.evaluationSheet.actNumber}}</div>
+									<div class="right menu">
+										{{flexberry-button
+											class="tertiary ui"
+											iconClass="search"
+											sizeClass="small"
+											action=(action "viewEvaluationSheet")
+										}}
+									</div>
+								</div>
+								{{#if (or model.evaluationSheet.createTime model.evaluationSheetDate)}}
+									<div class="content">
+										{{#if model.evaluationSheet.createTime}}
+											{{tmobis-caption key="Дата создания" value=(moment-format model.evaluationSheet.createTime "DD.MM.YYYY")}}
+										{{/if}}
+										{{#if model.evaluationSheetDate}}
+											{{tmobis-caption key="Дата подписания" value=(moment-format model.evaluationSheetDate "DD.MM.YYYY")}}
+										{{/if}}
+									</div>
+								{{/if}}
+							{{/link-to}}
+						{{else}}
+							<div class="ui card secondary">
+								<div class="header ui secondary menu">
+									<div class="fitted item m-0 card-title">Оценочный лист</div>
+								</div>
+								<div class="content">
+									{{tmobis-caption key="Не создан"}}
+								</div>
+							</div>
+						{{/if}}
+					</div>
+					<div class="field">
+						{{#if model.readinessAct}}
+							{{#link-to "rediness-act" model.readinessAct.id class="ui card secondary"}}
+								<div class="header ui secondary menu">
+									<div class="fitted item m-0 card-title">Акт оценки обеспечения готовности к отопительному периоду №{{model.readinessAct.actNumber}}</div>
+									<div class="right menu">
+										{{flexberry-button
+											class="tertiary ui"
+											iconClass="search"
+											sizeClass="small"
+											action=(action "viewReadinessAct")
+										}}
+									</div>
+								</div>
+								{{#if (or model.readinessAct.createTime model.readinessActDate)}}
+									<div class="content">
+										{{#if model.readinessAct.createTime}}
+											{{tmobis-caption key="Дата создания" value=(moment-format model.readinessAct.createTime "DD.MM.YYYY")}}
+										{{/if}}
+										{{#if model.readinessActDate}}
+											{{tmobis-caption key="Дата подписания" value=(moment-format model.readinessActDate "DD.MM.YYYY")}}
+										{{/if}}
+									</div>
+								{{/if}}
+							{{/link-to}}
+						{{else}}
+							<div class="ui card secondary">
+								<div class="header ui secondary menu">
+									<div class="fitted item m-0 card-title">Акт оценки обеспечения готовности к отопительному периоду</div>
+								</div>
+								<div class="content">
+									{{tmobis-caption key="Не создан"}}
+								</div>
+							</div>
+						{{/if}}
+					</div>
+					<div class="field">
+						{{#if model.awpReadinessPassport}}
+							{{#link-to "awp-readiness-passport" model.awpReadinessPassport.id class="ui card secondary"}}
+								<div class="header ui secondary menu">
+									<div class="fitted item m-0 card-title">Паспорт обеспечения готовности к отопительному периоду №{{model.awpReadinessPassport.actNumber}}</div>
+									<div class="right menu">
+										{{flexberry-button
+											class="tertiary ui"
+											iconClass="search"
+											sizeClass="small"
+											action=(action "viewAwpReadinessPassport")
+										}}
+									</div>
+								</div>
+								{{#if (or model.awpReadinessPassport.createTime model.passportDate)}}
+									<div class="content">
+										{{#if model.awpReadinessPassport.createTime}}
+											{{tmobis-caption key="Дата создания" value=(moment-format model.awpReadinessPassport.createTime "DD.MM.YYYY")}}
+										{{/if}}
+										{{#if model.passportDate}}
+											{{tmobis-caption key="Дата подписания" value=(moment-format model.passportDate "DD.MM.YYYY")}}
+										{{/if}}
+									</div>
+								{{/if}}
+							{{/link-to}}
+						{{else}}
+							<div class="ui card secondary">
+								<div class="header ui secondary menu">
+									<div class="fitted item m-0 card-title">Паспорт обеспечения готовности к отопительному периоду</div>
+								</div>
+								<div class="content">
+									{{tmobis-caption key="Не создан"}}
+								</div>
+							</div>
+						{{/if}}
+					</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

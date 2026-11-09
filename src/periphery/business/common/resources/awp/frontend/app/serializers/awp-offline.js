@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-common-resources-awp/serializers/awp-offline';

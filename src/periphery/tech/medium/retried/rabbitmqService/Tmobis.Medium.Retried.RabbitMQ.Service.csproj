@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Tmobis.Medium.Retried.RabbitMQ.Service</RootNamespace>
+    <PackageId>Tmobis.Medium.Retried.RabbitMQ.Service</PackageId>
+    <Description>Готовый сервис обработки DLQ и повторной отправки RabbitMQ-сообщений.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\jobs\quartz\Tmobis.Jobs.Quartz.csproj" />
+    <ProjectReference Include="..\..\..\jobs\scheduled\Tmobis.Jobs.Scheduled.csproj" />
+    <ProjectReference Include="..\..\delayed\InRepo\Tmobis.Medium.Delayed.InRepo.csproj" />
+    <ProjectReference Include="..\..\inrepo\Tmobis.Medium.InRepo.csproj" />
+    <ProjectReference Include="..\..\rabbitmq\module\Tmobis.Medium.RabbitMQ.csproj" />
+    <ProjectReference Include="..\rabbitmq\Tmobis.Medium.Retried.RabbitMQ.csproj" />
+    <ProjectReference Include="..\withdelay\Tmobis.Medium.Retried.WithDelay.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+  </ItemGroup>
+
+</Project>

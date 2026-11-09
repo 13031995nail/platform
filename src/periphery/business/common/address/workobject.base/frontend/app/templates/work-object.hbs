@@ -1,0 +1,70 @@
+<form class="ui {{appState.state}} flexberry-vertical-form form" role="form">
+  {{#if (and processComponent model.id (not model.isNew))}}
+    {{component processComponent workObjectId=model.id workspace=processWorkspace awpId=awpId}}
+  {{/if}}
+  {{#if (v-get validationObject "messages")}}
+    <div class="field">
+      {{flexberry-validationsummary errors=(v-get validationObject "messages")}}
+    </div>
+    <hr>
+  {{/if}}
+  <div class="ui stackable grid">
+    <div class="row">
+      <div class="column">
+        <div class="new-white-panel">
+          {{flexberry-field
+            label=(t "forms.work-object-e.name-caption")
+            value=model.name
+            required=true
+            disabled=readonly
+            error=(v-get validationModel "name" "message")
+            data-test-work-object-e-name=true
+          }}
+          {{flexberry-field
+            label=(t "forms.work-object-e.addressString-caption")
+            value=model.addressString
+            required=true
+            disabled=readonly
+            error=(v-get validationModel "addressString" "message")
+            data-test-work-object-e-addressString=true
+          }}
+          {{flexberry-lookup
+            componentName="objectFunctionWorkObject"
+            label=(t "forms.work-object-e.object-function-caption")
+            value=model.objectFunction
+            displayAttributeName="name"
+            relationName="objectFunction"
+            projection="ObjectFunctionL"
+            lookupLimitPredicate=objectFunctionCustomLimitPredicate
+            required=true
+            disabled=readonly
+            error=(v-get validationModel "objectFunction" "message")
+          }}
+          {{flexberry-lookup
+            componentName="organizationWorkObject"
+            label=(t "forms.work-object-e.organization-caption")
+            value=model.organization
+            displayAttributeName="name"
+            relationName="organization"
+            projection="OrganizationL"
+            lookupLimitPredicate=organizationCustomLimitPredicate
+            required=true
+            disabled=readonly
+            error=(v-get validationModel "organization" "message")
+          }}
+          <hr>
+          <div class="field">
+            {{flexberry-checkbox
+              label=(t "forms.work-object-e.actuality-caption")
+              value=model.actuality
+              required=false
+              disabled=readonly
+              error=(if model.errors.actuality model.errors.actuality)
+              class="toggle"
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

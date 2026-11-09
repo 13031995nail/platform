@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Tmobis.Business.Override2</AssemblyName>
+    <RootNamespace>Tmobis.Business.Override2</RootNamespace>
+    <PackageId>Tmobis.Business.Override2</PackageId>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\core\backend\module\tmobis.business.core.csproj" />
+  </ItemGroup>
+</Project>

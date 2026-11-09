@@ -1,0 +1,30 @@
+
+<div class="fields ulf-row-wrapper">
+  <div class="field">
+    <label class="input-label">{{t "forms.user-sessions.showArchived"}}</label>
+    {{flexberry-checkbox
+      disabled=readonly
+      value=ulfRowViewSettings.model.showArchived
+      class="toggle"
+    }}
+  </div>
+  {{flexberry-simpledatetime
+    label=(t "forms.user-sessions.beginDate")
+    type="date"
+    value=ulfRowViewSettings.model.sessionDateBegin
+    class="fluid"
+  }}
+  {{flexberry-simpledatetime
+    label=(t "forms.user-sessions.endDate")
+    type="date"
+    value=ulfRowViewSettings.model.sessionDateEnd
+    class="fluid"
+  }}
+  <div class="field setup-filter-button-field">
+    {{flexberry-button
+      caption=(t "forms.act-journal.upon-list-filter.setup-filter-button.caption")
+      tooltip=(t "forms.act-journal.upon-list-filter.setup-filter-button.title")
+      click=(action ulfRowViewSettings.setupFilterAction)
+    }}
+  </div>
+</div>

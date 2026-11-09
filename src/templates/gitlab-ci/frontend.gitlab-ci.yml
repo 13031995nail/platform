@@ -1,0 +1,106 @@
+include:
+  - project: 'timepath/infrastructure/gitlab'
+    file: '/cicd/node/sonar.yml'
+  # - project: 'timepath/infrastructure/gitlab'
+  #   file: '/cicd/test-front-lint-ember3.yml'
+  # - project: 'timepath/infrastructure/gitlab'
+  #   file: '/cicd/test-front-unit.yml'
+  - project: 'timepath/infrastructure/gitlab'
+    file: '/cicd/node/ember3.yml'
+  - project: 'timepath/infrastructure/gitlab'
+    file: '/cicd/node/versions.yml'
+
+deps-front:
+  extends: 
+    - .deps-front
+    - .front-base-yarn4
+  stage: deps
+  variables:
+    EMBER_PROJ_DIR: '$EMBER_PROJ_DIR_GLOB'
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true" || $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - ember-app/yarn.lock
+        - .gitlab-ci.yml
+        - .ci/frontend.gitlab-ci.yml
+    - if: $FORCE_DEPS && ($CI_COMMIT_REF_PROTECTED == "true" || $CI_PIPELINE_SOURCE == "merge_request_event")
+
+build-front:
+  extends: 
+    - .build-front
+    - .front-base-yarn4
+  stage: build
+  variables:
+    EMBER_PROJ_DIR: '$EMBER_PROJ_DIR_GLOB'
+    NODE_OPTIONS: --max_old_space_size=4096
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true" || $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - ember-app/**/*
+        - .gitlab-ci.yml
+        - .ci/frontend.gitlab-ci.yml
+        - deploy/**/*
+        - docker-compose.yml
+
+test-sonar-front:
+  extends: ".sonarqube-check"
+  stage: test
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+      allow_failure: true
+      interruptible: true
+      changes:
+        - ember-app/**/*
+        - .gitlab-ci.yml
+        - .ci/frontend.yml
+        - deploy/**/*
+        - docker-compose.yml
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - ember-app/**/*
+        - .gitlab-ci.yml
+        - .ci/frontend.yml
+        - deploy/**/*
+        - docker-compose.yml
+
+# test-unit-front:
+#   extends: .unit-test
+#   stage: test
+#   variables:
+#     EMBER_ROOT_DIR: '$EMBER_ROOT_DIR_GLOB/'
+#     EMBER_PROJ_DIR: .
+#     TEST_CATEGORY: '$TEST_CATEGORY_GLOB'
+#   cache:
+#     key: ${CI_COMMIT_REF_SLUG}-yarn
+#     paths:
+#     - ember-app/node_modules/
+#     - ember-app/bower_components/
+#     - "ember-app/.yarn/"
+#   rules:
+#     - if: $CI_COMMIT_REF_PROTECTED == "true"
+#       allow_failure: true
+#       interruptible: true
+#     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+#       changes:
+#         - ember-app/**/*
+#         - .gitlab-ci.yml
+#         - .ci/frontend.yml
+
+push-front:
+  stage: push
+  extends: ".push-docker-image"
+  variables:
+    IMAGE_NAME: '$FRONT_IMAGE_NAME'
+    IMAGE_TAG: '$IMAGE_TAG_GLOB'
+    BUILD_DIR: '$BUILD_DIR_GLOB'
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_PIPELINE_SOURCE != "schedule" && $CI_PIPELINE_SOURCE != "merge_request_event"
+      changes:
+        - ember-app/**/*
+        - .gitlab-ci.yml
+        - .ci/frontend.gitlab-ci.yml
+        - deploy/**/*
+        - docker-compose.yml
+  needs:
+    - job: build-front
+      artifacts: true

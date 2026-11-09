@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Frameworks.Flexberry</RootNamespace>
+    <PackageId>Tmobis.Frameworks.Flexberry</PackageId>
+    <Description>Модуль интеграции с Flexberry ORM, security, audit и служебными сервисами.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NewPlatform.Flexberry.ORM" />
+    <PackageReference Include="NewPlatform.Flexberry.Security" />
+    <PackageReference Include="NewPlatform.Flexberry.LogService" />
+    <PackageReference Include="NewPlatform.Flexberry.LogService.Objects" />
+    <PackageReference Include="NewPlatform.Flexberry.LockService" />
+    <PackageReference Include="NewPlatform.Flexberry.UserSettingsService" />
+    <PackageReference Include="NewPlatform.Flexberry.Audit" />
+    <PackageReference Include="NewPlatform.Flexberry.AuditBigData" />
+    <PackageReference Include="NewPlatform.Flexberry.AuditBigData.Serialization.Json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+  </ItemGroup>
+          
+</Project>

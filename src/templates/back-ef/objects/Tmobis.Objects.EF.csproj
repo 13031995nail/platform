@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ForceUsePlatformPackage>$(MSBuildThisFileDirectory)..\..\..\..\.platformPackage</ForceUsePlatformPackage>
+    <PlatformSlnPath>$(MSBuildThisFileDirectory)..\..\..\..\Tmobis.Platform.slnx</PlatformSlnPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(ForceUsePlatformPackage)') Or !Exists('$(PlatformSlnPath)')">
+    <PackageReference Include="Tmobis.Core" />
+    <PackageReference Include="Tmobis.Data.EF" />
+  </ItemGroup>
+
+  <ItemGroup Condition="!Exists('$(ForceUsePlatformPackage)') And Exists('$(PlatformSlnPath)')">
+    <ProjectReference Include="..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="../../../periphery/tech/data/ef/base/Tmobis.Data.EF.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\periphery\tech\audit\json\jsonAudit.csproj" />
+    <ProjectReference Include="../../../periphery/tech/data/ef/postgres/Tmobis.Data.EF.Postgres.csproj" />
+    <ProjectReference Include="..\..\..\periphery\business\common\sessions\backend\module\tmobis.sessions.csproj" />
+    <ProjectReference Include="..\..\..\periphery\business\testing\override1\business.override1.csproj" />
+    <ProjectReference Include="..\..\..\periphery\business\testing\override2\business.override2.csproj" />
+    <ProjectReference Include="..\..\..\periphery\business\process\workshift\back\module\tmobis.business.process.workshift.csproj" />
+    <ProjectReference Include="..\..\..\periphery\tech\integrations\messengers\common\module\Tmobis.Integrations.Messengers.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <Configurations>Debug;Release</Configurations>
+    <RootNamespace>Tmobis.Reports.Stimulsoft.Service</RootNamespace>
+    <AssemblyName>Tmobis.Reports.Stimulsoft.Service</AssemblyName>
+    <PackageId>Tmobis.Reports.Stimulsoft.Service</PackageId>
+    <Description>Готовый сервис формирования отчетов и печатных форм на основе Stimulsoft.</Description>
+    <IsPackable>true</IsPackable>
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+    <UserSecretsId>22208a6b-6e4f-457a-af4b-18089fbe23c7</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Stimulsoft.Reports.Engine.NetCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="bin\Debug\net8.0\" />
+  </ItemGroup>
+
+  <ItemGroup> 
+    <Content Include="Reports\**"> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
+    </Content>
+    
+    <Content Include="Fonts\**"> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\files\fileUploader.local\Tmobis.Files.Uploader.Local.csproj" />
+    <ProjectReference Include="..\..\..\files\provider.remote\Tmobis.Files.Provider.Remote.csproj" />
+    <ProjectReference Include="..\..\..\fws\web\tmobis.web\tmobis.web.csproj" />
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\fws\flexberry\tmobis.flexberry.ds.combined\Tmobis.Flexberry.DS.Combined.csproj" />
+    <ProjectReference Include="..\..\..\fws\flexberry\tmobis.flexberry.ds.mssql\Tmobis.Flexberry.DS.MSSQL.csproj" />
+    <ProjectReference Include="..\..\..\fws\flexberry\tmobis.flexberry.ds.postgres\Tmobis.Flexberry.DS.Postgres.csproj" />
+    <ProjectReference Include="..\..\..\auth\apikey\auth.apikey.csproj" />
+    <ProjectReference Include="..\..\..\logging\Tmobis.Logging.Log4Net\Tmobis.Logging.Log4Net.csproj" />
+    <ProjectReference Include="..\..\..\medium\rabbitmq\module\Tmobis.Medium.RabbitMQ.csproj" />
+    <ProjectReference Include="..\..\..\medium\webapi\module\Tmobis.Medium.WebApi.Listeners.csproj" />
+    <ProjectReference Include="..\..\base\tmobis.reports.adapter\Tmobis.Reports.Adapter.csproj" />
+    <ProjectReference Include="..\..\base\tmobis.reports\backend\module.flexberry\tmobis.reports.flexberry.csproj" />
+    <ProjectReference Include="..\..\base\tmobis.reports\backend\module\tmobis.reports.csproj" />
+    <ProjectReference Include="..\tmobis.reports.stimulsoft.client.adapter\tmobis.reports.stimulsoft.client.adapter.csproj" />
+  </ItemGroup>
+
+</Project>

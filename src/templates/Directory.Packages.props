@@ -1,0 +1,63 @@
+<Project>
+  <PropertyGroup>
+    <PlatformSlnPath>$(MSBuildThisFileDirectory)..\..\Tmobis.Platform.slnx</PlatformSlnPath>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+  </PropertyGroup>
+  <Import Condition="Exists('$(PlatformSlnPath)')" Project="$([MSBuild]::GetPathOfFileAbove(Directory.Packages.props, $(MSBuildThisFileDirectory)..))" />
+  <PropertyGroup Condition="!Exists('$(PlatformSlnPath)')">
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+  <ItemGroup Condition="!Exists('$(PlatformSlnPath)')">
+    <PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
+    <PackageVersion Include="NewPlatform.Flexberry.ORM" Version="8.0.0-beta06" />
+    <PackageVersion Include="NewPlatform.Flexberry.Security" Version="4.0.0-beta03" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.2" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.2" />
+    <PackageVersion Include="Npgsql" Version="10.0.1" />
+    <PackageVersion Include="Tmobis.Business.Common.Address.ObjectFunction" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Business.Common.Address.WorkObject" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Business.Common.Contacts.OrganizationType" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Business.Common.Personnel.Position" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Business.Common.Resources.Awp" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Business.Common.Resources.VerificationRequierement" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Business.Common.Sessions" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Business.Common.Sessions.Flexberry" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Business.Process.Signs.Stilus" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Business.Core.Flexberry" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Frameworks.Flexberry" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Jobs.Scheduled" Version="4.1.8" />
+	  <PackageVersion Include="Tmobis.Jobs.Quartz" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Medium.WebApi" Version="4.1.8" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.2" />
+    <PackageVersion Include="NewPlatform.Flexberry.Audit" Version="5.0.0-beta01" />
+    <PackageVersion Include="NewPlatform.Flexberry.LockService" Version="4.0.0-beta01" />
+    <PackageVersion Include="NewPlatform.Flexberry.LogService.Objects" Version="5.0.0-beta01" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.2" />
+    <PackageVersion Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
+    <PackageVersion Include="NewPlatform.Flexberry.UserSettingsService" Version="5.0.0-beta01" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.0" />
+    <PackageVersion Include="System.Text.Encoding.CodePages" Version="10.0.2" />
+    <PackageVersion Include="NewPlatform.Flexberry.ORM.ODataService" Version="8.0.0-beta03" />
+    <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.9" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.2" />
+    <PackageVersion Include="NewPlatform.Flexberry.ORM.PostgresDataService" Version="8.0.0-beta06" />
+    <PackageVersion Include="Tmobis.Frameworks.Flexberry.DataServices.Postgres" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Frameworks.Web.Auth.Password" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Frameworks.Web.Auth.JwtAuth" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Core" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Flexberry.Autoincrement" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Frameworks.Web" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Frameworks.Flexberry.Web.OData" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Frameworks.Flexberry.Web" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Business.Common.Contacts.Organization" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Business.Common.Contacts.OrganizationType.Base.Flexberry" Version="4.1.8" />
+    <PackageVersion Include="Tmobis.Business.Common.Personnel.Position.Base.Flexberry" Version="4.1.8" />
+  </ItemGroup>
+</Project>

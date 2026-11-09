@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-offline/services/offline/offline-user';

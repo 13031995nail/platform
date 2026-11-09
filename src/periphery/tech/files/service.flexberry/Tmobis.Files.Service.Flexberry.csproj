@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <Configurations>Debug;Release</Configurations>
+    <RootNamespace>Tmobis.Files.Service.Flexberry</RootNamespace>
+    <PackageId>Tmobis.Files.Service.Flexberry</PackageId>
+    <Description>Готовый файловый сервис на Flexberry.</Description>
+    <AssemblyName>Tmobis.Files.Service.Flexberry</AssemblyName>
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\fws\flexberry\tmobis.flexberry.ds.mssql\Tmobis.Flexberry.DS.MSSQL.csproj" />
+    <ProjectReference Include="..\..\fws\flexberry\tmobis.flexberry\backend\module\Tmobis.Flexberry.csproj" />
+    <ProjectReference Include="..\..\auth\apikey\auth.apikey.csproj" />
+    <ProjectReference Include="..\..\fws\web\tmobis.web\tmobis.web.csproj" />
+    <ProjectReference Include="..\primaryAdapter.flexberry\Tmobis.Files.PrimaryAdapter.Flexberry.csproj" />
+  </ItemGroup>
+
+</Project>

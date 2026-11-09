@@ -1,0 +1,29 @@
+<table class="ui celled stackable table">
+  <thead><tr><th>Требование</th><th>Документ / действие</th><th>Заполнение</th><th>Замечание</th><th>Срок исправления</th><th>Состояние замечания</th></tr></thead>
+  <tbody>
+    {{#each requirements as |requirement|}}
+      <tr>
+        <td>{{requirement.number}} {{requirement.name}}</td>
+        <td>
+          {{requirement.documentName}}
+          {{#if requirement.hasMissingDocument}}<div>{{tmobis-badge label="Необходимо приложить документ"}}</div>{{/if}}
+          {{#if requirement.documentFile}}
+            {{tmobis-photos value=requirement.documentFile readonly=true showAddButton=false}}
+            {{#each requirement.attachments as |attachment|}}
+              <div>{{attachment.name}} — {{if attachment.creator attachment.creator "Автор не указан"}}{{#if attachment.createdAt}}, {{moment-format attachment.createdAt "DD.MM.YYYY HH:mm"}}{{/if}}</div>
+            {{/each}}
+          {{/if}}
+          {{#if evaluationSheetId}}
+            {{#link-to "evaluation-sheet" evaluationSheetId}}Открыть требование и материалы{{/link-to}}
+          {{/if}}
+        </td>
+        <td>{{tmobis-badge label=(if requirement.isCounted (if requirement.isFilled "Заполнено" "Не заполнено") "Не учитывается")}}</td>
+        <td>{{requirement.remark}}</td>
+        <td>{{#if requirement.deadline}}{{moment-format requirement.deadline "DD.MM.YYYY"}}{{/if}}</td>
+        <td>{{#if requirement.remark}}{{tmobis-badge label=(if requirement.isCompleted "Устранено" "Требует устранения")}}{{/if}}</td>
+      </tr>
+    {{else}}
+      <tr><td colspan="6">Нет требований по выбранным условиям.</td></tr>
+    {{/each}}
+  </tbody>
+</table>

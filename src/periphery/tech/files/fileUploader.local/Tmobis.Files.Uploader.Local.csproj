@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Files.Uploader.Local</RootNamespace>
+    <PackageId>Tmobis.Files.Uploader.Local</PackageId>
+    <Description>Модуль локальной реализации загрузки файлов.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+  </ItemGroup>
+
+</Project>

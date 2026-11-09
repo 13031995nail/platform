@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Files.Adapter.S3</RootNamespace>
+    <PackageId>Tmobis.Files.Adapter.S3</PackageId>
+    <IsPackable>true</IsPackable>
+    <Description>Модуль S3-адаптера хранения и получения файлов.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="sample/**/*.cs" />
+    <EmbeddedResource Remove="sample/**/*" />
+    <None Remove="sample/**/*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+  </ItemGroup>
+</Project>

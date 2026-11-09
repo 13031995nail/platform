@@ -1,0 +1,7 @@
+<div class="field">
+    <label class="input-label">{{t 'forms.tool-type.actuality-caption'}}</label>
+    {{#if relatedModel.errors.actuality}}
+        <span style="color:red">{{relatedModel.errors.actuality}}</span>
+    {{/if}}
+    {{flexberry-checkbox readonly=readonly value=relatedModel.actuality class='toggle'}}
+</div>

@@ -1,0 +1,42 @@
+{
+  "name": "tmobis-meter-value-detection-example",
+  "displayName": "MeterValueDetectionExample",
+  "version": "4.0.8",
+  "private": true,
+  "description": "Пример (фронт+мобилка) модуля распознавания показаний приборов учёта",
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "ООО \"Траектория времени\"",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build:web": "cd ../frontend && cross-env CORDOVA=true ember build --environment=production --output-path=../example/www",
+    "prepare:android": "cordova platform add android",
+    "build:android": "yarn build:web && cordova build android",
+    "run:android": "yarn build:web && cordova run android"
+  },
+  "devDependencies": {
+    "@timepath/tmobis-cordova-camera-preview": "file:../camera-preview",
+    "@timepath/tmobis-cordova-meter-value-detection": "file:../mobile",
+    "cordova": "11.1.0",
+    "cordova-android": "^11.0.0",
+    "cross-env": "^7.0.3",
+    "tmobis-cordova-camera-preview": "../camera-preview",
+    "tmobis-cordova-meter-value-detection": "../mobile"
+  },
+  "cordova": {
+    "platforms": [
+      "android"
+    ],
+    "plugins": {
+      "tmobis-cordova-camera-preview": {},
+      "tmobis-cordova-meter-value-detection": {}
+    }
+  },
+  "volta": {
+    "node": "16.20.0",
+    "yarn": "1.22.19",
+    "cordova": "11.1.0"
+  },
+  "packageManager": "yarn@3.5.1"
+}

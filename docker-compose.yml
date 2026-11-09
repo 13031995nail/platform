@@ -1,0 +1,42 @@
+version: "3.5"
+
+services:
+  backend:
+    image: repository.flexberry.org/timepath/tmobis/platform/templates/back-ef:latest
+    restart: always
+    environment:
+      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_VIRTUALIZATION: "Docker"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "true"
+      VIRTUAL_HOST: ef.timepath.ru
+      VIRTUAL_PORT: 80
+    expose:
+      - 80
+    ports:
+      - "9114:80"
+    networks:
+      - reverseProxy
+      - default
+
+  frontend:
+    image: repository.flexberry.org/timepath/tmobis/platform/templates/expo-app:latest
+    restart: always
+    ports:
+      - "9113:8080"
+    expose:
+      - 8080
+    environment:
+      VIRTUAL_HOST: react.timepath.ru
+      VIRTUAL_PORT: 8080
+      REACT_BACKEND_URL: https://ef.timepath.ru
+    networks:
+      - reverseProxy
+      - default
+    volumes:
+      - ./nginxConf/default.conf:/etc/nginx/conf.d/default.conf
+
+networks:
+  reverseProxy:
+    name: reverse-proxy
+    external: true

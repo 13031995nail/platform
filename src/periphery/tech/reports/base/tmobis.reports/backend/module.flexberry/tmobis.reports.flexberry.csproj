@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Reports.Flexberry</RootNamespace>
+    <PackageId>Tmobis.Reports.Flexberry</PackageId>
+    <Description>Flexberry модуль сущностей и контрактов подсистемы печатных форм и отчетов.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\fws\flexberry\tmobis.flexberry\backend\module\Tmobis.Flexberry.csproj" />
+    <ProjectReference Include="..\module\tmobis.reports.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="sql/**/*.sql">
+      <Pack>true</Pack>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <!--Грязноватый хак, чтобы сэкономить место и не дублировать файлы контента
+          ContentTargetFolders не помогает-->
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' == 'true' ">contentFiles\any\net10.0\sql\</PackagePath>
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' != 'true' ">contentFiles\any\net10.0\sql</PackagePath>
+    </Content>
+  </ItemGroup>
+
+</Project>

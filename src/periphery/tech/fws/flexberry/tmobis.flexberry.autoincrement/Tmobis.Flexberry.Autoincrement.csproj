@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Flexberry.Autoincrement</RootNamespace>
+    <PackageId>Tmobis.Flexberry.Autoincrement</PackageId>
+    <Description>Модуль автоинкремента и генерации последовательных значений для Flexberry-сущностей.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="sql/**/*.sql">
+      <Pack>true</Pack>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <!--Грязноватый хак, чтобы сэкономить место и не дублировать файлы контента
+          ContentTargetFolders не помогает-->
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' == 'true' ">contentFiles\any\net8.0\sql\</PackagePath>
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' != 'true' ">contentFiles\any\net8.0\sql</PackagePath>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\business\core\backend\module.flexberry\tmobis.business.core.flexberry.csproj" />
+    <ProjectReference Include="..\tmobis.flexberry\backend\module\Tmobis.Flexberry.csproj" />
+  </ItemGroup>
+          
+</Project>

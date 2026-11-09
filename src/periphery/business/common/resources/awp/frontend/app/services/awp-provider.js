@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-common-resources-awp/services/awp-provider';

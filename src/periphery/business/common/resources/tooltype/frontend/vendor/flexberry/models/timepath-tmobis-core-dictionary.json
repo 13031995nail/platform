@@ -1,0 +1,43 @@
+﻿{
+  "name": "TimepathTmobisCoreDictionary",
+  "modelName": "dictionary",
+  "className": "Dictionary",
+  "nameSpace": "Tmobis.Core.Objects",
+  "parentModelName": "actual-object",
+  "parentClassName": "ActualObject",
+  "attrs": [
+    {
+      "name": "code",
+      "type": "string",
+      "flexberryType": "tString10",
+      "notNull": false,
+      "defaultValue": "",
+      "stored": true,
+      "ordered": false
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "flexberryType": "tString200",
+      "notNull": false,
+      "defaultValue": "",
+      "stored": true,
+      "ordered": false
+    },
+    {
+      "name": "actuality",
+      "type": "boolean",
+      "flexberryType": "bool",
+      "notNull": false,
+      "defaultValue": "true",
+      "stored": false,
+      "ordered": false
+    }
+  ],
+  "belongsTo": [],
+  "hasMany": [],
+  "projections": [],
+  "stored": false,
+  "offline": true,
+  "external": false
+}

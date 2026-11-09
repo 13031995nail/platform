@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Logging.Serilog.Syslog</RootNamespace>
+    <PackageId>Tmobis.Logging.Serilog.Syslog</PackageId>
+    <Description>Модуль Syslog для Serilog.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.Sinks.SyslogMessages" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\Tmobis.Logging.Serilog\Tmobis.Logging.Serilog.csproj" />
+  </ItemGroup>
+
+</Project>

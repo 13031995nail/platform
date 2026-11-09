@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Medium.Retried.RabbitMQ</RootNamespace>
+    <PackageId>Tmobis.Medium.Retried.RabbitMQ</PackageId>
+    <Description>Модуль DLQ и повторной обработки RabbitMQ-сообщений.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\rabbitmq\module\Tmobis.Medium.RabbitMQ.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+  </ItemGroup>
+
+</Project>

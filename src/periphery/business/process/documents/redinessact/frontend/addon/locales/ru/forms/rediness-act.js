@@ -1,0 +1,15 @@
+export default {
+  caption: 'Акт оценки обеспечения готовности к отопительному периоду',
+  'actNumber-caption': 'Номер документа',
+  'regDate-caption': 'Дата оформления',
+  'status-caption': 'Статус',
+  'awp-caption': 'ОЗП',
+  'awpAssessingProgram-caption': 'Программа проведения оценки обеспечения готовности к ОП',
+  'organization-caption': 'Лицо, подлежащее оценке',
+  'organizationAddress-caption': 'Место',
+  'assignee-caption': 'Представитель',
+  'partnerReadiness-caption': 'Уровень готовности лица',
+  'objects-caption': 'Объекты',
+  'sign-caption': 'Подписать',
+  'signs-caption': 'Участники',
+};

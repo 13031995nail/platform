@@ -1,0 +1,12 @@
+{{#if switchOnline.syncUpProgressDialogIsVisible}}
+  {{#tmobis-modal-dialog
+    title=(t 'features.offline.loadOffline.loadingObjectsTitle')
+    sizeClass="large"
+    settings=(hash 
+      closable=false)
+  }}
+    <div class="item">
+      Всего: {{dexie.queueSyncUpTotalWorksCount}}
+    </div>
+  {{/tmobis-modal-dialog}}
+{{/if}}

@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <Configurations>Debug;Release</Configurations>
+    <RootNamespace>Tmobis.Notification.Service</RootNamespace>
+    <AssemblyName>Tmobis.Notification.Service</AssemblyName>
+    <PackageId>Tmobis.Notification.Service</PackageId>
+    <Description>Готовый сервис маршрутизации и доставки уведомлений по каналам.</Description>
+    <IsPackable>true</IsPackable>
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+    <UserSecretsId>tmobis-notification-service-messengers-dev</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>   
+    <ProjectReference Include="..\..\..\fws\web\tmobis.web.backend\tmobis.web.backend.csproj" />
+    <ProjectReference Include="..\..\..\fws\web\tmobis.web\tmobis.web.csproj" />
+    <ProjectReference Include="..\..\..\jobs\quartz\Tmobis.Jobs.Quartz.csproj" />
+    <ProjectReference Include="..\..\..\jobs\scheduled\Tmobis.Jobs.Scheduled.csproj" />
+    <ProjectReference Include="..\..\..\medium\rabbitmq\module\Tmobis.Medium.RabbitMQ.csproj" />
+    <ProjectReference Include="..\..\..\medium\webapi\module\Tmobis.Medium.WebApi.Listeners.csproj" />
+    <ProjectReference Include="..\mattermost\Tmobis.Notification.Mattermost.csproj" />
+    <ProjectReference Include="..\max\Tmobis.Notification.Max.csproj" />
+    <ProjectReference Include="..\sender\Tmobis.Notification.Sender.csproj" />
+    <ProjectReference Include="..\telegram\Tmobis.Notification.Telegram.csproj" />
+    <ProjectReference Include="..\vk\Tmobis.Notification.Vk.csproj" />
+    <ProjectReference Include="..\websocket\Tmobis.Notification.WebSocket.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Medium.WebApi.Producer</RootNamespace>
+    <PackageId>Tmobis.Medium.WebApi.Producer</PackageId>
+    <Description>Модуль вторичного адаптера Web API для слоя обмена сообщениями.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+  </ItemGroup>
+
+</Project>

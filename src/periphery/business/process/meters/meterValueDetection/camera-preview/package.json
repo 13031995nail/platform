@@ -1,0 +1,37 @@
+{
+  "name": "@timepath/tmobis-cordova-camera-preview",
+  "version": "4.5.2",
+  "description": "Cordova-модуль камеры с нативной рамкой-наводкой для распознавания показаний.",
+  "cordova": {
+    "id": "tmobis-cordova-camera-preview",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "publishConfig": {
+    "@timepath:registry": "https://repository.flexberry.org/repository/timepath-tmobis-npm/"
+  },
+  "keywords": [
+    "cordova",
+    "ecosystem:cordova",
+    "cordova-android",
+    "android",
+    "camera",
+    "camera-preview",
+    "meter",
+    "overlay"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cordova-plugin-camera-preview/cordova-plugin-camera-preview"
+  },
+  "author": {
+    "name": "Weston Ganger",
+    "email": "westonganger@gmail.com",
+    "url": "solidfoundationwebdev.com"
+  },
+  "license": "Apache 2.0",
+  "homepage": "https://github.com/cordova-plugin-camera-preview/cordova-plugin-camera-preview",
+  "typings": "typescript/CameraPreview.d.ts"
+}

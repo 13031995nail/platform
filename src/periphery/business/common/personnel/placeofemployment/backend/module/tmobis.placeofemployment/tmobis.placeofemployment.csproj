@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Common.Personnel.PlaceOfEmployment</RootNamespace>
+    <PackageId>Tmobis.Business.Common.Personnel.PlaceOfEmployment</PackageId>
+    <Description>Бизнес-модуль сущности мест работы сотрудников. Flexberry-only на данный момент.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\contacts\organization\backend\module\tmobis.organization\tmobis.business.common.contacts.organization.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\core\backend\module.flexberry\tmobis.business.core.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\..\position\backend\module.flexberry\tmobis.position.base.flexberry.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="sql/**/*.sql">
+      <Pack>true</Pack>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <!--Грязноватый хак, чтобы сэкономить место и не дублировать файлы контента
+          ContentTargetFolders не помогает-->
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' == 'true' ">contentFiles\any\net8.0\sql\</PackagePath>
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' != 'true' ">contentFiles\any\net8.0\sql</PackagePath>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="sql\main\2026\" />
+  </ItemGroup>
+</Project>

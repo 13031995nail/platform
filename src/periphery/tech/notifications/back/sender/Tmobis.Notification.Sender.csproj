@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Notification.Sender</RootNamespace>
+    <PackageId>Tmobis.Notification.Sender</PackageId>
+    <Description>Модуль отправки уведомлений.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+    <ProjectReference Include="..\model\Tmobis.Notification.csproj" />
+  </ItemGroup>
+
+</Project>

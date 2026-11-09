@@ -1,0 +1,64 @@
+<form class="ui {{appState.state}} flexberry-vertical-form form" role="form">
+  {{form-validation-block
+  errorMessages=errorMessages
+  errors=model.errors
+  }}
+  <div class="ui stackable grid">
+    <div class="two column row">
+      <div class="column">
+        <div class="white-panel">
+          <div class="field">
+            {{flexberry-field
+            placeholder=(t 'forms.dashboard.enter-tmobisDashboardId-caption')
+            readonly=readonly
+            required=true
+            value=model.tmobisDashboardId
+            label=(t 'forms.dashboard.tmobisDashboardId-caption')
+            maxlength=200
+            error=model.errors.tmobisDashboardId
+            }}
+          </div>
+          <div class="field">
+            {{flexberry-field
+            placeholder=(t 'forms.dashboard.enter-metabaseDashboardId-caption')
+            readonly=readonly
+            required=true
+            value=model.metabaseDashboardId
+            label=(t 'forms.dashboard.metabaseDashboardId-caption')
+            maxlength=200
+            error=model.errors.metabaseDashboardId
+            }}
+          </div>
+          <div class="field">
+            {{flexberry-field
+            placeholder=(t 'forms.dashboard.enter-note-caption')
+            readonly=readonly
+            required=true
+            value=model.note
+            label=(t 'forms.dashboard.note-caption')
+            maxlength=200
+            error=model.errors.note
+            }}
+          </div>
+          <div class="field">
+            {{flexberry-field
+            placeholder=(t 'forms.dashboard.name-caption')
+            readonly=readonly
+            required=true
+            value=model.name
+            label=(t 'forms.dashboard.name-caption')
+            maxlength=200
+            error=model.errors.name
+            }}
+          </div>
+          {{flexberry-checkbox
+            readonly=readonly
+            value=model.actuality
+            type="toggle"
+            label=(t 'forms.dashboard.actuality-caption')
+          }}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

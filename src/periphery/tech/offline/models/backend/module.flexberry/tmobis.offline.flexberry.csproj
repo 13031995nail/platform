@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Offline.Flexberry</RootNamespace>
+    <PackageId>Tmobis.Offline.Flexberry</PackageId>
+    <Description>Модуль офлайн-режима на основе Flexberry.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\fws\flexberry\tmobis.flexberry\backend\module\Tmobis.Flexberry.csproj" />
+    <ProjectReference Include="..\module\tmobis.offline.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Frameworks.Flexberry.DataServices.MSSQL</RootNamespace>
+    <PackageId>Tmobis.Frameworks.Flexberry.DataServices.MSSQL</PackageId>
+    <Description>Модуль Flexberry DataService для Microsoft SQL Server.</Description>
+    <IsPackable>true</IsPackable>
+    <PackageDescription>Пакет MSSQL DataService. 
+    Для работы требует отключения culture-invariant</PackageDescription>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NewPlatform.Flexberry.ORM.MSSQLDataService" />
+    <PackageReference Include="Microsoft.Data.SqlClient" />
+    <PackageReference Include="System.Data.SqlClient" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\data\db\mssql\Tmobis.Data.DB.MSSQL.csproj" />
+    <ProjectReference Include="..\tmobis.flexberry\backend\module\Tmobis.Flexberry.csproj" />
+  </ItemGroup>
+
+</Project>

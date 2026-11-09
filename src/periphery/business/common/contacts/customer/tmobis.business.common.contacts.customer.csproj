@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Common.Contacts.Customer</RootNamespace>
+    <PackageId>Tmobis.Business.Common.Contacts.Customer</PackageId>
+    <Description>Бизнес-модуль сущности потребителей.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\customer.base\tmobis.business.common.contacts.customer.base.csproj" />
+    <ProjectReference Include="..\organization.base\tmobis.business.common.contacts.organization.base.csproj" />
+  </ItemGroup>
+
+</Project>

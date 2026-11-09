@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Integrations.Email.Reports</RootNamespace>
+    <PackageId>Tmobis.Integrations.Email.Reports</PackageId>
+    <Description>Модель контракта email-сообщений с отчётами.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\reports\base\tmobis.reports\backend\module\tmobis.reports.csproj" />
+    <ProjectReference Include="..\..\model\backend\module\Tmobis.Integrations.Email.csproj" />
+  </ItemGroup>
+</Project>

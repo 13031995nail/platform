@@ -1,0 +1,20 @@
+{{#flexberry-toggler
+  title=(t "forms.place-of-employment.places-caption")
+  expanded=true
+  componentName="placeOfEmploymentsToggler"
+}}
+  {{flexberry-groupedit
+    componentName="place-of-employments"
+    modelName="place-of-employment"
+    modelProjection="PlaceOfEmploymentD"
+    content=relatedModel.placeOfEmployment
+    searchForContentChange=true
+    readonly=readonly
+    showCheckBoxInRow=true
+    showDeleteButtonInRow=false
+    showDeleteMenuItemInRow=true
+    createNewButton=true
+    rowClickable=true
+    error=error
+  }}
+{{/flexberry-toggler}}

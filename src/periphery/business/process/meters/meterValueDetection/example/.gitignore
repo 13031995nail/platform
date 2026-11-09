@@ -1,0 +1,7 @@
+# Сборка веб-части (ember dummy-app)
+/www
+
+# Cordova
+/platforms
+/plugins
+/node_modules

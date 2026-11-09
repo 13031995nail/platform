@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-process-acts-awpassessingprogram/serializers/awp-assessing-program-evaluation-schedule';

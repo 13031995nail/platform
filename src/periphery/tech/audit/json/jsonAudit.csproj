@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Tmobis.Audit.Json</AssemblyName>
+    <RootNamespace>Tmobis.Audit.Json</RootNamespace>
+    <PackageId>Tmobis.Audit.Json</PackageId>
+    <IsPackable>true</IsPackable>
+    <Description>Модуль аудита в JSON-представлении.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+    <ProjectReference Include="..\module\audit.csproj" />
+  </ItemGroup>
+
+</Project>

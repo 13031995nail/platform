@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>Tmobis.Data.DB.Postgres</RootNamespace>
+        <PackageId>Tmobis.Data.DB.Postgres</PackageId>
+        <Description>Модуль низкоуровневого доступа к PostgreSQL.</Description>
+        <IsPackable>true</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Npgsql" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    </ItemGroup>
+
+</Project>

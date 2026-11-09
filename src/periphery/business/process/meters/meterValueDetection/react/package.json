@@ -1,0 +1,40 @@
+{
+  "name": "@tmobis/business-process-meter-value-detection",
+  "version": "4.5.2",
+  "description": "React бизнес-модуль распознавания показаний приборов учёта.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "catalog:",
+    "expo-camera": "catalog:",
+    "expo-font": "catalog:",
+    "expo-modules-core": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "expo": "catalog:",
+    "react": "catalog:",
+    "react-native": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "expo": "*",
+    "react": "*",
+    "react-native": "*"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "exports": {
+    ".": "./index.ts"
+  },
+  "files": [
+    "android",
+    "src",
+    "expo-module.config.json",
+    "index.ts"
+  ]
+}

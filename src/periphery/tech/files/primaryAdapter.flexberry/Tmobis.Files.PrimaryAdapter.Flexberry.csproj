@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Files.PrimaryAdapter.Flexberry</RootNamespace>
+    <PackageId>Tmobis.Files.PrimaryAdapter.Flexberry</PackageId>
+    <IsPackable>true</IsPackable>
+    <Description>Flexberry модуль первичного адаптера HTTP/API файлового сервиса.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NewPlatform.Flexberry.ORM.ODataService" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\fws\web\tmobis.web\tmobis.web.csproj" />
+  </ItemGroup>
+
+</Project>

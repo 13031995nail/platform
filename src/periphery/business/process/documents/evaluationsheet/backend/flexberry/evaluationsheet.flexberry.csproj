@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Process.Documents</RootNamespace>
+    <PackageId>Tmobis.Business.Process.Documents.EvaluationSheet.Flexberry</PackageId>
+    <Description>Flexberry бизнес-модуль сущности оценочных листов.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../../../common/resources/verificationrequierement/backend/module.flexberry/tmobis.verificationrequierement.base.flexberry.csproj">
+      <Aliases>verificationflexberry</Aliases>
+    </ProjectReference>
+    <ProjectReference Include="../../../baseact/backend/flexberry/baseact.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\tech\fws\flexberry\tmobis.flexberry\backend\module\Tmobis.Flexberry.csproj" />
+    <ProjectReference Include="..\..\..\..\..\common\address\workobject.base\backend\module.flexberry\tmobis.workobject.base.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\..\..\common\personnel\admissioncommittee\backend\module\tmobis.admissioncommittee\tmobis.admissioncommittee.csproj" />
+    <ProjectReference Include="..\..\..\..\..\common\personnel\placeofemployment\backend\module\tmobis.placeofemployment\tmobis.placeofemployment.csproj" />
+    <ProjectReference Include="..\..\..\actsign\backend\flexberry\actsign.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\redinessact\backend\base.flexberry\redinessact.base.flexberry\redinessact.base.flexberry.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="sql/**/*.sql">
+      <Pack>true</Pack>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <!--Грязноватый хак, чтобы сэкономить место и не дублировать файлы контента
+          ContentTargetFolders не помогает-->
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' == 'true' ">contentFiles\any\net8.0\sql\</PackagePath>
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' != 'true' ">contentFiles\any\net8.0\sql</PackagePath>
+    </Content>
+	<Content Include="Reports/**/*.mrt">
+      <Pack>true</Pack>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <!--Грязноватый хак, чтобы сэкономить место и не дублировать файлы контента
+          ContentTargetFolders не помогает-->
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' == 'true' ">contentFiles\any\net10.0\Reports\</PackagePath>
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' != 'true' ">contentFiles\any\net10.0\Reports</PackagePath>
+    </Content>
+  </ItemGroup>
+</Project>

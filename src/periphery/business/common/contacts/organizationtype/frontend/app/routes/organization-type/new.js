@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-common-contacts-organizationtype/routes/organization-type/new';

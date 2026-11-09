@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <Configurations>Debug;Release</Configurations>
+    <RootNamespace>Tmobis.Files.Service</RootNamespace>
+    <PackageId>Tmobis.Files.Service</PackageId>
+    <Description>Готовый файловый сервис на Entity Framework и S3.</Description>
+    <AssemblyName>Tmobis.Files.Service</AssemblyName>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+    <ProjectReference Include="..\..\auth\apikey\auth.apikey.csproj" />
+    <ProjectReference Include="..\..\fws\web\tmobis.web\tmobis.web.csproj" />
+    <ProjectReference Include="..\..\auth\apikey\auth.apikey.csproj" />
+    <ProjectReference Include="..\..\data\ef\base\Tmobis.Data.EF.csproj" />
+    <ProjectReference Include="..\..\data\ef\postgres\Tmobis.Data.EF.Postgres.csproj" />
+    <ProjectReference Include="..\..\audit\json\jsonAudit.csproj" />
+    <ProjectReference Include="..\primaryAdapter\Tmobis.Files.PrimaryAdapter.csproj" />
+    <ProjectReference Include="..\s3\s3.csproj" />
+  </ItemGroup>
+</Project>

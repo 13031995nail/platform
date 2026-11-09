@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Process.Meters.MeterValues.Detection.Consumers</RootNamespace>
+    <PackageId>Tmobis.Business.Process.Meters.MeterValues.Detection.Consumers</PackageId>
+    <Description>Бизнес-модуль распознавания показаний счётчиков.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\tech\integrations\assistants\base\module\Tmobis.Integrations.Assistants.Base.csproj" />
+    <ProjectReference Include="..\model\meterValueDetection.csproj" />
+  </ItemGroup>
+</Project>

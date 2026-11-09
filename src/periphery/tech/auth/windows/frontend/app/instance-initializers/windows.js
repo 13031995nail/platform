@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-windows-auth/instance-initializers/windows';

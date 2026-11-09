@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Common.Personnel.Team</RootNamespace>
+    <PackageId>Tmobis.Business.Common.Personnel.Team</PackageId>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\core\backend\module.flexberry\tmobis.business.core.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\core\backend\module\tmobis.business.core.csproj" />
+    <ProjectReference Include="..\team.base\tmobis.business.common.personnel.team.base.csproj" />
+    <ProjectReference Include="..\qualification\backend\module\tmobis.business.common.personnel.qualifications.csproj" />
+  </ItemGroup>
+
+</Project>

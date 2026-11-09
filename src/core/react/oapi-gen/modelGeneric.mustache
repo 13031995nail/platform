@@ -1,0 +1,83 @@
+import { ModelMeta } from '@tmobis/core/models/model-meta';
+import { IEntity } from '@tmobis/core/models/entity';
+
+{{#description}}
+/**
+ * {{{description}}}
+ */
+{{/description}}
+export interface {{classname}} extends IEntity{{#parent}}, {{{.}}}{{/parent}} {
+{{#additionalPropertiesType}}
+    [key: string]: {{{additionalPropertiesType}}}{{#additionalPropertiesIsAnyType}}{{#hasVars}} | any{{/hasVars}}{{/additionalPropertiesIsAnyType}};
+
+{{/additionalPropertiesType}}
+{{#vars}}
+    {{#description}}
+    /**
+     * {{{description}}}
+    {{#deprecated}}
+     * @deprecated
+    {{/deprecated}}
+     */
+    {{/description}}
+    {{^description}}
+    {{#deprecated}}
+    /**
+     * @deprecated
+     */
+    {{/deprecated}}
+    {{/description}}
+    '{{baseName}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}};
+{{/vars}}
+}{{#hasEnums}}
+
+{{#vars}}
+{{#isEnum}}
+{{#stringEnums}}
+export enum {{enumName}} {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{#enumDescription}}
+    /**
+    * {{.}}
+    */
+    {{/enumDescription}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+}
+{{/stringEnums}}
+{{^stringEnums}}
+export const {{enumName}} = {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{#enumDescription}}
+    /**
+    * {{.}}
+    */
+    {{/enumDescription}}
+    {{{name}}}: {{{value}}},
+    {{/enumVars}}
+{{/allowableValues}}
+} as const;
+
+export type {{enumName}} = typeof {{enumName}}[keyof typeof {{enumName}}];
+{{/stringEnums}}
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+
+export const {{classname}}Defaults: {{classname}} = {
+{{#vars}}
+    {{name}}: {{#isArray}}[]{{/isArray}}{{#isModel}}undefined{{/isModel}}{{#isBoolean}}false{{/isBoolean}}{{#isString}}''{{/isString}}{{#isInteger}}0{{/isInteger}}{{^isBoolean}}{{^isString}}{{^isInteger}}{{^isNumber}}{{^isArray}}{{^isModel}}''{{/isModel}}{{/isArray}}{{/isNumber}}{{/isInteger}}{{/isString}}{{/isBoolean}},
+{{/vars}}
+}
+
+export const {{classname}}ClassName : string = '{{classname}}';
+
+const meta: ModelMeta<{{classname}}> = {
+  defaults: {{classname}}Defaults,
+  className: {{classname}}ClassName
+};
+
+export default meta;

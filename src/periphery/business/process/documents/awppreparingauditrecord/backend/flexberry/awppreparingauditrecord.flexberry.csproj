@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Process.Documents</RootNamespace>
+    <PackageId>Tmobis.Business.Process.Documents.AwpPreparingAuditRecord.Flexberry</PackageId>
+    <Description>Flexberry бизнес-модуль сущности журнала контроля подготовки ОЗП.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../../../../tech/reports/base/tmobis.reports/backend/module/tmobis.reports.csproj" />
+    <ProjectReference Include="..\..\..\..\..\common\resources\awp\backend\module.flexberry\tmobis.awp.base.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\awpreadinesspassport\backend\flexberry\awpreadinesspassport.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\evaluationsheet\backend\flexberry\evaluationsheet.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\redinessact\backend\flexberry\redinessact.flexberry.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="sql/**/*.sql">
+      <Pack>true</Pack>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <!--Грязноватый хак, чтобы сэкономить место и не дублировать файлы контента
+          ContentTargetFolders не помогает-->
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' == 'true' ">contentFiles\any\net8.0\sql\</PackagePath>
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' != 'true' ">contentFiles\any\net8.0\sql</PackagePath>
+    </Content>
+  </ItemGroup>
+
+</Project>

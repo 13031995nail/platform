@@ -1,0 +1,88 @@
+<div id={{wrapperId}} class="act-signing-block">
+  {{#unless (and isClearSigningButtonDisabled isSignInspectorButtonDisabled)}}
+    <div class="fields">
+      {{#unless isClearSigningButtonDisabled}}
+        <div class="fluid field">
+          {{flexberry-button
+            class="secondary fluid"
+            sizeClass="small"
+            caption="Отменить подпись"
+            disabled=isClearSigningButtonDisabled
+            click=(action "clearSigning")
+          }}
+        </div>
+      {{/unless}}
+      {{#unless isSignInspectorButtonDisabled}}
+        <div class="fluid field">
+          {{flexberry-button
+            class="fluid"
+            sizeClass="small"
+            caption="Готов к подписанию"
+            disabled=(or readonly isSignInspectorButtonDisabled)
+            click=(action "signInspector")
+          }}
+        </div>
+      {{/unless}}
+    </div>
+    <hr>
+  {{/unless}}
+  {{#flexberry-groupedit
+    modelName="act-sign"
+    modelProjection=signingProjection
+    componentName=componentName
+    content=content
+    rowClickable=true
+    action="objectListViewRowClick"
+    searchForContentChange=true
+    showDeleteButtonInRow=false
+    showDeleteMenuItemInRow=true
+    singleColumnCellComponent=singleColumnCellComponent
+    configurateRow=(action "configOlvRowCallback")
+    beforeDeleteRecord=(action "beforeDeleteRecord")
+    immediateDelete=false
+    tableStriped=false
+    showCheckBoxInRow=(not readonly)
+    createNewButton=false
+  }}
+    {{#unless addButtonDisabled}}
+      {{#ui-dropdown}}
+      {{flexberry-button
+        class="tertiary small"
+        iconClass="plus"
+        caption=(t "components.groupedit-toolbar.add-button-text")
+        readonly=(or readonly addButtonDisabled)
+      }}
+      {{#unless readonly}}
+        <div class="menu">
+          {{#each rolesToAdd as |r|}}
+           <a class="item" {{action "addSignClick" r.key}}>{{r.name}}</a>
+          {{/each}}
+        </div>
+      {{/unless}}
+    {{/ui-dropdown}}
+
+    {{/unless}}
+  {{/flexberry-groupedit}}
+  {{partial "act-signing-modal"}}
+</div>
+{{#if stilusSigningVisible}}
+  <div>
+    {{#tmobis-modal-dialog
+      id="stilusSigningModal"
+      title="Подпись"
+      visible=stilusSigningVisible
+      cssClass="tmobis-modal-dialog"
+      needScrolling=true
+      showCloseButton=runningOnDevice
+      onVisible=(action "afterShowStilusSigningModal")
+      onHidden=(action "afterHideStilusSigningModal")
+    }}
+    <div class="stilus-signing-control">
+       {{act-signing-stilus
+        visible=signingModalShowed
+        signClick=(action "stilusSignClick")
+      }}
+    </div>
+    {{/tmobis-modal-dialog}}
+  </div>
+{{/if}}

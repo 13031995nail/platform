@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Common.Resources.WorkType</RootNamespace>
+    <PackageId>Tmobis.Business.Common.Resources.WorkType</PackageId>
+    <Description>Бизнес-модуль сущности видов работ. Flexberry-only на данный момент.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../../../../tech/fws/flexberry/tmobis.flexberry/backend/module/Tmobis.Flexberry.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+  </ItemGroup>
+
+</Project>

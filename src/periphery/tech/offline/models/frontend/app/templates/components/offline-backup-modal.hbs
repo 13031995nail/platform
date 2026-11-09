@@ -1,0 +1,33 @@
+{{#if (or
+  offlineBackupManager.loadingPermissionVisible
+  offlineBackupManager.loadingDictionariesVisible
+  offlineBackupManager.loadingBackupsVisible)}}
+  
+  {{#tmobis-modal-dialog
+    title=(t 'features.offline.loadOffline.loadingBackupsTitle')
+    sizeClass="large"
+    settings=(hash)
+  }}
+    {{#if offlineBackupManager.loadingBackupsVisible}}
+      <br>
+      {{#ui-progress percent = offlineBackupManager.loadingBackupsTotalProgress class = "indicating armti-progress-bar"}}
+          <div class="bar"><div class="progress"></div></div>
+          <div class="label">Общий прогресс первоначальной загрузки объектов</div>
+      {{/ui-progress}}
+      {{/if}}
+      {{#if offlineBackupManager.loadingDictionariesVisible}}
+      <br>
+      {{#ui-progress percent = offlineBackupManager.loadingDictionariesTotalProgress class = "indicating armti-progress-bar"}}
+          <div class="bar"><div class="progress"></div></div>
+          <div class="label">Общий прогресс синхронизации объектов</div>
+      {{/ui-progress}}
+      {{/if}}
+      {{#if offlineBackupManager.loadingPermissionVisible}}
+      <br>
+      {{#ui-progress percent = offlineBackupManager.loadingPermissionProgress class = "indicating armti-progress-bar"}}
+          <div class="bar"><div class="progress"></div></div>
+          <div class="label">Загрузка полномочий</div>
+      {{/ui-progress}}
+    {{/if}}
+  {{/tmobis-modal-dialog}}
+{{/if}}

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Process.Documents.Flexberry</RootNamespace>
+    <PackageId>Tmobis.Business.Process.Documents.BaseAct.Flexberry</PackageId>
+    <Description>Flexberry бизнес-модуль сущности актов.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../base.flexberry/baseact.base.flexberry.csproj" />
+    <ProjectReference Include="../module/baseact.csproj" />
+    <ProjectReference Include="..\..\..\..\..\common\contacts\organization\backend\module\tmobis.organization\tmobis.business.common.contacts.organization.csproj" />
+    <ProjectReference Include="..\..\..\..\..\common\resources\awp\backend\module.flexberry\tmobis.awp.base.flexberry.csproj" />
+  </ItemGroup>
+</Project>

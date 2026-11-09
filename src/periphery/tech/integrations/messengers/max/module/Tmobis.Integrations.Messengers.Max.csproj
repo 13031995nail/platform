@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Integrations.Messengers.Max</RootNamespace>
+    <PackageId>Tmobis.Integrations.Messengers.Max</PackageId>
+    <Description>Модуль интеграции с мессенджером MAX.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\common\module\Tmobis.Integrations.Messengers.csproj" />
+    <ProjectReference Include="..\..\..\..\medium\webapi\module\Tmobis.Medium.WebApi.Listeners.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,115 @@
+<form class="ui {{appState.state}} flexberry-vertical-form form" role="form">
+  {{#if (v-get validationObject "messages")}}
+    <div class="field">
+      {{flexberry-validationsummary errors=(v-get validationObject "messages")}}
+    </div>
+    <hr>
+  {{/if}}
+  <div class="ui stackable grid">
+    <div class="row">
+      <div class="column">
+        <div class="new-white-panel">
+          {{flexberry-field
+            label=(t "forms.verification-requierement.indicatorName-caption")
+            value=model.indicatorName
+            required=true
+            disabled=readonly
+            error=(v-get validationModel "indicatorName" "message")
+            maxlength=250
+          }}
+          {{flexberry-field
+            label=(t "forms.verification-requierement.shortIndicatorName-caption")
+            value=model.shortIndicatorName
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "shortIndicatorName" "message")
+            maxlength=15
+          }}
+          {{flexberry-field
+            label=(t "forms.verification-requierement.name-caption")
+            value=model.name
+            required=true
+            disabled=readonly
+            error=(v-get validationModel "name" "message")
+            maxlength=200
+          }}
+          {{flexberry-field
+            label=(t "forms.verification-requierement.shortReqName-caption")
+            value=model.shortReqName
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "shortReqName" "message")
+            maxlength=250
+          }}
+          {{flexberry-field
+            label=(t "forms.verification-requierement.code-caption")
+            value=model.code
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "code" "message")
+            inputmode="numeric"
+          }}
+          {{flexberry-field
+            label=(t "forms.verification-requierement.reqNumber-caption")
+            value=model.reqNumber
+            required=true
+            disabled=readonly
+            error=(v-get validationModel "reqNumber" "message")
+            maxlength=10
+          }}
+          {{tmobis-regex-input
+            inputmode="numeric"
+            defaultRegexType="decimal20,2"
+            label=(t "forms.verification-requierement.weight-caption")
+            value=model.weight
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "weight" "message")
+          }}
+          {{flexberry-field
+            label=(t "forms.verification-requierement.supportingDocName-caption")
+            value=model.supportingDocName
+            required=false
+            disabled=readonly
+            error=(v-get validationModel "supportingDocName" "message")
+            maxlength=200
+          }}
+          {{flexberry-lookup
+            componentName="organizationTypeVerificationRequierements"
+            label=(t "forms.verification-requierement.organizationType-caption")
+            value=model.organizationType
+            displayAttributeName="name"
+            relationName="organizationType"
+            projection="OrganizationTypeL"
+            lookupLimitPredicate=actualityCustomLimitPredicate
+            required=true
+            disabled=readonly
+            error=(v-get validationModel "organizationType" "message")
+          }}
+          <hr>
+          <div class="field">
+            {{flexberry-checkbox
+              label=(t "forms.verification-requierement.isCalculated-caption")
+              value=model.isCalculated
+              required=false
+              disabled=readonly
+              error=(if model.errors.isCalculated model.errors.isCalculated)
+              class="toggle"
+            }}
+          </div>
+          <hr>
+          <div class="field">
+            {{flexberry-checkbox
+              label=(t "forms.verification-requierement.actuality-caption")
+              value=model.actuality
+              required=false
+              disabled=readonly
+              error=(if model.errors.actuality model.errors.actuality)
+              class="toggle"
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

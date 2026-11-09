@@ -1,0 +1,25 @@
+﻿{
+  "name": "TimepathTmobisCoreActualObject",
+  "modelName": "actual-object",
+  "className": "ActualObject",
+  "nameSpace": "Tmobis.Core.Objects",
+  "parentModelName": null,
+  "parentClassName": null,
+  "attrs": [
+    {
+      "name": "actuality",
+      "type": "boolean",
+      "flexberryType": "bool",
+      "notNull": false,
+      "defaultValue": "true",
+      "stored": true,
+      "ordered": false
+    }
+  ],
+  "belongsTo": [],
+  "hasMany": [],
+  "projections": [],
+  "stored": false,
+  "offline": true,
+  "external": false
+}

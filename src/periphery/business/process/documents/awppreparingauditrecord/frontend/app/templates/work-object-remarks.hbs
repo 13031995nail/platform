@@ -1,0 +1,20 @@
+<h1>Замечания по объектам</h1>
+{{#if model.loadError}}
+  <div class="ui negative message" role="alert">{{model.loadError}}</div>
+{{else}}
+  <div class="ui form flexberry-vertical-form">
+    <div class="new-white-panel">
+      <div class="field">
+        {{flexberry-checkbox label="Только неустранённые" value=onlyOpen}}
+      </div>
+    </div>
+    {{#each groups as |group|}}
+      <section class="new-white-panel">
+        <h2>{{#link-to "work-object" group.workObjectId (query-params awpId=awpId)}}{{group.caption}}{{/link-to}}</h2>
+        {{work-object-requirements requirements=group.requirements evaluationSheetId=group.evaluationSheetId}}
+      </section>
+    {{else}}
+      <p>Нет замечаний по выбранным условиям.</p>
+    {{/each}}
+  </div>
+{{/if}}

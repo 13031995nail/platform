@@ -1,0 +1,22 @@
+{{#unless (eq relatedModel.verificationRequirement.code "0")}}
+	{{#if (and relatedModel.isOptional (not relatedModel.isCalculated))}}
+		<div class="field">
+			{{flexberry-checkbox
+				name=name
+				value=valueOptional
+				readonly=(or readonlyOptional readonly)
+			}}
+		</div>
+	{{else}}
+		{{#if (or readonlyNotOptional readonly)}}
+			{{tmobis-simple-label value=value}}
+		{{else}}
+			{{tmobis-regex-input
+				defaultRegexType=defaultRegexType
+				inputmode=inputmode
+				onFocusOutCustom=(action "onFocusOutCustom")
+				value=enteredValue
+			}}
+		{{/if}}
+	{{/if}}
+{{/unless}}

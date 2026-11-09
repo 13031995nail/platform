@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Common.Personnel.AdmissionCommittee</RootNamespace>
+    <PackageId>Tmobis.Business.Common.Personnel.AdmissionCommittee</PackageId>
+    <Description>Бизнес-модуль сущности приёмных комиссий. Flexberry-only на данный момент.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../../../../core/backend/module/tmobis.business.core.csproj" />
+    <ProjectReference Include="../../../../position/backend/module.flexberry/tmobis.position.base.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\contacts\organization\backend\module\tmobis.organization\tmobis.business.common.contacts.organization.csproj" />
+    <ProjectReference Include="..\..\..\..\..\resources\awp\backend\module.flexberry\tmobis.awp.base.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\..\placeofemployment\backend\module\tmobis.placeofemployment\tmobis.placeofemployment.csproj" />
+    <!-- <ProjectReference Include="..\..\..\..\team\tmobis.business.common.personnel.team.csproj" /> -->
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="sql/**/*.sql">
+      <Pack>true</Pack>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <!--Грязноватый хак, чтобы сэкономить место и не дублировать файлы контента
+          ContentTargetFolders не помогает-->
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' == 'true' ">contentFiles\any\net8.0\sql\</PackagePath>
+      <PackagePath Condition=" '$(OS.StartsWith(`Windows`))' != 'true' ">contentFiles\any\net8.0\sql</PackagePath>
+    </Content>
+  </ItemGroup>
+</Project>

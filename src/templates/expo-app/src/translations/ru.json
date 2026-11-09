@@ -1,0 +1,9 @@
+{
+  "deep": {
+    "extraDeep": {
+      "superDeep": {
+        "test": "E1dit src/app/index.tsx to edit this screen."
+      }
+    }
+  }
+}

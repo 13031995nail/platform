@@ -1,0 +1,2 @@
+[servers]
+timepathLinuxStands ansible_ssh_host=stands.timepath.ru ansible_ssh_user=root hostname=timepathLinuxStands

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Tmobis.Auth</AssemblyName>
+    <RootNamespace>Tmobis.Auth</RootNamespace>
+    <PackageId>Tmobis.Auth</PackageId>
+    <Description>Модуль базовых абстракций аутентификации и авторизации Платформы Т-Мобис.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+    <ProjectReference Include="..\..\fws\web\tmobis.web\tmobis.web.csproj" />
+  </ItemGroup>
+
+</Project>

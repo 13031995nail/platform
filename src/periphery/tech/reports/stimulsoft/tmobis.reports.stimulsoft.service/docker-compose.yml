@@ -1,0 +1,12 @@
+version: "3.5"
+
+# Для локального запуска приложения требуется подкорректировать Dockerfile
+services:
+  backend:
+    build: .
+    restart: always
+    environment:
+      ASPNETCORE_URLS: "http://+:80"
+      ASPNETCORE_VIRTUALIZATION: "Docker"
+    ports:
+      - "5001:80"

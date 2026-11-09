@@ -1,0 +1,23 @@
+﻿{
+  "name": "TimepathTmobisCoreUser",
+  "modelName": "user",
+  "className": "User",
+  "nameSpace": "Tmobis.Core.Objects",
+  "parentModelName": null,
+  "parentClassName": null,
+  "attrs": [],
+  "belongsTo": [
+    {
+      "polymorphic": false,
+      "presence": true,
+      "name": "town",
+      "relatedTo": "town",
+      "inverse": null
+    }
+  ],
+  "hasMany": [],
+  "projections": [],
+  "stored": true,
+  "offline": true,
+  "external": false
+}

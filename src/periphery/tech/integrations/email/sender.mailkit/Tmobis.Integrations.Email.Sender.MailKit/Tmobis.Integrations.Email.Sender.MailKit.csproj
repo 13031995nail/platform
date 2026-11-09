@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Integrations.Email.Sender.MailKit</RootNamespace>
+    <PackageId>Tmobis.Integrations.Email.Sender.MailKit</PackageId>
+    <Description>Модуль MailKit-реализации отправителя email.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\model\backend\module\Tmobis.Integrations.Email.csproj" />
+  </ItemGroup>
+
+</Project>

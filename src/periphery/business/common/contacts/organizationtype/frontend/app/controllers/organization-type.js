@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-common-contacts-organizationtype/controllers/organization-type';

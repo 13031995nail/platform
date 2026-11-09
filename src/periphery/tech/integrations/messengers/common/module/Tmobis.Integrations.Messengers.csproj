@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Integrations.Messengers</RootNamespace>
+    <PackageId>Tmobis.Integrations.Messengers</PackageId>
+    <Description>Модуль моделей, контрактов и сообщений интеграций с мессенджерами.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../../../../core/backend/module/tmobis.core.csproj" />
+    <ProjectReference Include="../../../../../business/core/backend/module/tmobis.business.core.csproj" />
+  </ItemGroup>
+</Project>

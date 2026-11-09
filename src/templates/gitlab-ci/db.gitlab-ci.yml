@@ -1,0 +1,11 @@
+include:
+  - project: timepath/infrastructure/gitlab
+    file: "/cicd/build-liquibase.yml"
+
+# build-db:
+#   extends: ".build-db"
+#   stage: build
+#   variables:
+#     SQL_DIR: '$SQL_DIR_GLOB'
+#   rules:
+#   - if: $CI_COMMIT_REF_PROTECTED == "true" || $CI_PIPELINE_SOURCE == "merge_request_event"

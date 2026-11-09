@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Medium.RabbitMQ</RootNamespace>
+    <PackageId>Tmobis.Medium.RabbitMQ</PackageId>
+    <Description>Модуль адаптера RabbitMQ для слоя обмена сообщениями.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  
+   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+    <PackageReference Include="RabbitMQ.Client" />
+  </ItemGroup>  
+
+</Project>

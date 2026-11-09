@@ -1,0 +1,165 @@
+<div class="ui {{appState.state}} form">
+  {{#flexberry-objectlistview
+    action=(action "clickByRow")
+    showCheckBoxInRow=true
+    showDeleteButtonInRow=false
+    showDeleteMenuItemInRow=false
+    modelName=modelName
+    modelProjection=modelProjection
+    editFormRoute=editFormRoute
+    content=model.records
+    createNewButton=false
+    refreshButton=true
+    colsConfigButton=true
+    deleteButton=true
+    sorting=computedSorting
+    orderable=true
+    sortByColumn=(action "sortByColumn")
+    addColumnToSorting=(action "addColumnToSorting")
+    pages=pages
+    perPageValue=perPageValue
+    perPageValues=perPageValues
+    recordsTotalCount=recordsTotalCount
+    hasPreviousPage=hasPreviousPage
+    hasNextPage=hasNextPage
+    previousPage=(action "previousPage")
+    gotoPage=(action "gotoPage")
+    nextPage=(action "nextPage")
+    componentName=objectlistviewComponentName
+    filterButton=true
+    filterByAnyMatch=(action "filterByAnyMatch")
+    filterText=filter
+    filterByAllWords=true
+    tableStriped=false
+    class="flexberry-objectlistview"
+    configurateRow = (action 'configurateObjectlistviewRow')
+    applyFilters=(action "applyFilters")
+    resetFilters=(action "resetFilters")
+    menuAdditionalItems=menuAdditionalItems
+  }}
+    {{#upon-list-filter componentName="awpPreparingAuditRecordsFilter" model=model listFilterOptions=listFilterOptions}}
+      <div class="fitted item">
+        {{flexberry-lookup
+          placeholder="ОЗП"
+          componentName="awp-filter"
+          displayAttributeName="name"
+          value=model.awp
+          relationName="awp"
+          projection="AwpL"
+          disabled=false
+          dropdown=true
+          isSelectionDropdown=false
+          autocomplete=false
+          lookupLimitPredicate=actualityCustomLimitPredicate
+          onChange=(action "setUpFilters")
+        }}
+      </div>
+      <div class="fitted item">
+        {{flexberry-lookup
+          placeholder="Муниципальное образование"
+          componentName="organization-filter"
+          displayAttributeName="name"
+          value=model.organization
+          relationName="organization"
+          projection="OrganizationL"
+          disabled=false
+          dropdown=true
+          isSelectionDropdown=false
+          autocomplete=false
+          lookupLimitPredicate=orgMOCustomLimitPredicate
+          onChange=(action "setUpFilters")
+        }}
+      </div>
+      <div class="fitted item">
+        {{flexberry-lookup
+          placeholder="Назначение объекта"
+          componentName="object-function-filter"
+          displayAttributeName="name"
+          value=model.objectFunction
+          relationName="objectFunction"
+          projection="ObjectFunctionL"
+          disabled=false
+          dropdown=true
+          isSelectionDropdown=false
+          autocomplete=false
+          lookupLimitPredicate=actualityCustomLimitPredicate
+          onChange=(action "setUpFilters")
+        }}
+      </div>
+      <div class="fitted item">
+         {{flexberry-lookup
+           placeholder="Тип организации"
+           componentName="organization-type-filter"
+           displayAttributeName="shortName"
+           value=model.organizationType
+           relationName="organizationType"
+           projection="OrganizationTypeL"
+           disabled=false
+           dropdown=true
+           isSelectionDropdown=false
+           autocomplete=false
+           lookupLimitPredicate=actualityCustomLimitPredicate
+           onChange=(action "setUpFilters")
+         }}
+       </div>
+    {{/upon-list-filter}}
+  {{/flexberry-objectlistview}}
+</div>
+
+{{!--Диалоговое окно выбора объектов для создания записей журнала.--}}
+{{#if addObjectsDialogIsVisible}}
+  <div>
+    {{#tmobis-modal-dialog
+      id="addObjectsModal"
+      title="Выберите объект теплопотребления"
+      visible=addObjectsDialogIsVisible
+      cssClass="tmobis-modal-dialog"
+      needScrolling=true
+      onHidden=(action "cancelCreateRecordsForSpecifiedObjects")
+    }}
+      <div class="content">
+        <div class="ui form">
+				  {{flexberry-lookup
+					  componentName="awpPreparingAuditRecordObjects"
+					  displayAttributeName="name"
+					  value=model.workObjectToCreateRecord
+					  relationName="workObjectToCreateRecord"
+					  projection="WorkObjectLookUp"
+					  readonly=false
+					  lookupLimitPredicate=objectCustomLimitPredicate
+				  }}
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui secondary menu">
+          <div class="right menu">
+            <div class="fitted item">
+						  {{#if model.workObjectToCreateRecord}}
+							  {{flexberry-button
+								  caption="Сформировать запись журнала"
+								  tooltip="Сформировать запись журнала"
+								  click=(action "createRecordsForSpecifiedObjects")
+							  }}
+						  {{else}}
+							  {{flexberry-button
+								  caption="Сформировать запись журнала"
+								  tooltip="Сформировать запись журнала"
+								  click=(action "createRecordsForSpecifiedObjects")
+								  disabled=true
+							  }}
+						  {{/if}}
+            </div>
+            <div class="fitted item m-0">
+						  {{flexberry-button
+							  caption="Отменить"
+							  tooltip="Отменить"
+							  click=(action "cancelCreateRecordsForSpecifiedObjects")
+							  class="secondary"
+						  }}
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/tmobis-modal-dialog}}
+  </div>
+{{/if}}

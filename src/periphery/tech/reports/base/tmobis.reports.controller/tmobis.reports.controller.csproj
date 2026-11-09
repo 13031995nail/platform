@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Reports.Controller</RootNamespace>
+    <PackageId>Tmobis.Reports.Controller</PackageId>
+    <Description>Модуль первичного адаптера подсистемы отчетов и печатных форм.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\tmobis.reports.adapter\Tmobis.Reports.Adapter.csproj" />
+    <ProjectReference Include="..\tmobis.reports\backend\module\tmobis.reports.csproj" />
+  </ItemGroup>
+
+</Project>

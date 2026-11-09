@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Offline.UseCases.Flexberry</RootNamespace>
+    <PackageId>Tmobis.Offline.UseCases.Flexberry</PackageId>
+    <Description>Flexberry модуль бизнес-обработки запросов офлайн sync/backup.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\business\core\backend\module.flexberry\tmobis.business.core.flexberry.csproj" />
+    <ProjectReference Include="..\..\..\..\fws\flexberry\tmobis.flexberry\backend\module\Tmobis.Flexberry.csproj" />
+    <ProjectReference Include="..\..\..\..\utils\lzw\tmobis.utils.lzw.csproj" />
+    <ProjectReference Include="..\..\..\models\backend\module.flexberry\tmobis.offline.flexberry.csproj" />
+  </ItemGroup>
+
+</Project>

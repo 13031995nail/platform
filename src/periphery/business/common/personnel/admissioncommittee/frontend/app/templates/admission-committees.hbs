@@ -1,0 +1,58 @@
+<div class="ui {{appState.state}} form">
+  {{#flexberry-objectlistview
+    action=(action "clickByRow")
+    showCheckBoxInRow=true
+    showDeleteButtonInRow=true
+    showDeleteMenuItemInRow=true
+    modelName="admission-committee"
+    modelProjection=modelProjection
+    editFormRoute="admission-committee"
+    content=model.records
+    createNewButton=listFormOperationsComputed.create
+    refreshButton=listFormOperationsComputed.refresh
+    colsConfigButton=listFormOperationsComputed.configureColumns
+    deleteButton=listFormOperationsComputed.delete
+    filterButton=listFormOperationsComputed.filter
+    exportExcelButton=listFormOperationsComputed.exportExcel
+    sorting=computedSorting
+    orderable=true
+    sortByColumn=(action "sortByColumn")
+    addColumnToSorting=(action "addColumnToSorting")
+    pages=pages
+    perPageValue=perPageValue
+    perPageValues=perPageValues
+    recordsTotalCount=recordsTotalCount
+    hasPreviousPage=hasPreviousPage
+    hasNextPage=hasNextPage
+    previousPage=(action "previousPage")
+    gotoPage=(action "gotoPage")
+    nextPage=(action "nextPage")
+    componentName=objectlistviewComponentName
+    filterByAnyMatch=(action "filterByAnyMatch")
+    filterText=filter
+    filterByAllWords=true
+    tableStriped=false
+    configurateRow=(action "configurateObjectlistviewRow")
+    applyFilters=(action "applyFilters")
+    resetFilters=(action "resetFilters")
+  }}
+    {{#upon-list-filter componentName="admissionCommitteesFilter" model=model listFilterOptions=listFilterOptions}}
+      <div class="fitted item">
+        {{flexberry-lookup
+          placeholder="ОЗП"
+          componentName="awp-filter"
+          displayAttributeName="name"
+          value=model.awp
+          relationName="awp"
+          projection="AwpL"
+          disabled=false
+          dropdown=true
+          isSelectionDropdown=false
+          autocomplete=false
+          lookupLimitPredicate=actualityCustomLimitPredicate
+          onChange=(action "setUpFilters")
+        }}
+      </div>
+    {{/upon-list-filter}}
+  {{/flexberry-objectlistview}}
+</div>

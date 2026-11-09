@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>Tmobis.Frameworks.Flexberry.DataServices.Postgres</RootNamespace>
+        <PackageId>Tmobis.Frameworks.Flexberry.DataServices.Postgres</PackageId>
+        <Description>Модуль Flexberry DataService для PostgreSQL.</Description>
+        <IsPackable>true</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NewPlatform.Flexberry.ORM.PostgresDataService" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+      <ProjectReference Include="..\..\..\data\db\postgres\Tmobis.Data.DB.Postgres.csproj" />
+      <ProjectReference Include="..\tmobis.flexberry\backend\module\Tmobis.Flexberry.csproj" />
+    </ItemGroup>
+
+</Project>

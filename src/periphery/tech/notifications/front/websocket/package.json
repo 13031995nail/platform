@@ -1,0 +1,37 @@
+{
+  "name": "@tmobis/notification-websocket",
+  "version": "4.5.2",
+  "author": "ООО \"Траектория времени\"",
+  "description": "React модуль доставки оповещений через WebSocket/SignalR.",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@tmobis/core": "workspace:*",
+    "@tmobis/signalr": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "react": "catalog:",
+    "react-native": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "^19.2.0",
+    "react-native": "*"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "volta": {
+    "node": "24.13.0",
+    "yarn": "4.12.0"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": [
+      "./src/*",
+      "./src/*.ts"
+    ]
+  }
+}

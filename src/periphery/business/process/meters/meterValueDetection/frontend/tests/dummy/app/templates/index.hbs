@@ -1,0 +1,16 @@
+<div class="demo-page">
+  <h1>Распознавание показаний приборов учёта</h1>
+
+  {{meter-value-detection-camera onResult=(action "onMeterRecognized")}}
+
+  {{#if savedValue}}
+    <div class="demo-result">
+      <h3>Результат, переданный в форму</h3>
+      <div>Значение: <b>{{savedValue}}</b></div>
+      {{#if savedConfidence}}<div>Уверенность: {{savedConfidence}}%</div>{{/if}}
+      {{#if savedImage}}
+        <img class="demo-result-img" src="{{savedImage}}" alt="Снимок">
+      {{/if}}
+    </div>
+  {{/if}}
+</div>

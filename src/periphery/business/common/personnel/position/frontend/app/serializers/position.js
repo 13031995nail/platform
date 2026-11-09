@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-common-personnel-position/serializers/position';

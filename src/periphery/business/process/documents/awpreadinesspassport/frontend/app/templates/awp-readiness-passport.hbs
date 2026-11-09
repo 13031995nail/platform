@@ -1,0 +1,139 @@
+<form class="ui {{appState.state}} flexberry-vertical-form form" role="form">
+  {{#if (v-get validationObject "messages")}}
+    <div class="field">
+      {{flexberry-validationsummary errors=(v-get validationObject "messages")}}
+    </div>
+    <hr>
+  {{/if}}
+  <div class="ui stackable grid">
+    <div class="two column row">
+      <div class="column">
+        <div class="new-white-panel">
+          <div class="field m-0">
+            {{tmobis-caption key="Номер акта" value=model.actNumber}}
+          </div>
+          {{#if model.regDate}}
+            <div class="field m-0">
+              {{tmobis-caption key="Дата оформления" value=(moment-format model.regDate "DD.MM.YYYY HH:mm")}}
+            </div>
+          {{/if}}
+          {{#if model.actStatus}}
+            <div class="field m-0">
+              {{#tmobis-caption key="Статус"}}
+                {{tmobis-badge label=model.actStatus.name}}
+              {{/tmobis-caption}}
+            </div>
+          {{/if}}
+          {{#if (or model.regDate model.actStatus model.actNumber)}}
+            <hr>
+          {{/if}}
+          {{flexberry-lookup
+            componentName="awpAwpReadinessPassport"
+            label=(t "forms.awp-readiness-passport.awp-caption")
+            value=model.awp
+            displayAttributeName="name"
+            relationName="awp"
+            projection="AwpL"
+            lookupLimitPredicate=actualityCustomLimitPredicate
+            disabled=isNotNewReadonly
+            error=(v-get validationModel "awp" "message")
+          }}
+          {{flexberry-lookup
+            componentName="readinessActAwpReadinessPassport"
+            label=(t "forms.awp-readiness-passport.readinessAct-caption")
+            value=model.readinessAct
+            displayAttributeName="actNumber"
+            relationName="readinessAct"
+            projection="RedinessActE"
+            lookupLimitPredicate=actualityCustomLimitPredicate
+            required=true
+            disabled=true
+            error=(v-get validationModel "readinessAct" "message")
+          }}
+        </div>
+      </div>
+      <div class="column">
+        <div class="new-white-panel">
+          {{flexberry-lookup
+            componentName="organizationAwpReadinessPassport"
+            label=(t "forms.awp-readiness-passport.organization-caption")
+            value=model.organization
+            displayAttributeName="name"
+            relationName="organization"
+            projection="OrganizationL"
+            lookupLimitPredicate=actualityCustomLimitPredicate
+            required=true
+            disabled=isNotNewReadonly
+            error=(v-get validationModel "organization" "message")
+          }}
+          {{flexberry-field
+            label=(t "forms.awp-readiness-passport.organizationAddress-caption")
+            value=model.organizationAddress
+            required=false
+            disabled=true
+          }}
+          {{flexberry-field
+            dropdown=true
+            label=(t "forms.awp-readiness-passport.partnerReadiness-caption")
+            value=model.partnerReadiness
+            required=false
+            disabled=readonly
+            items=(flexberry-enum "partner-readiness-level")
+          }}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <div class="new-white-panel">
+          {{#flexberry-toggler
+            componentName="awpReadinessPassportObjectsToggler"
+            title=(t "forms.awp-readiness-passport.objects-caption")
+            expanded=true
+          }}
+            {{flexberry-groupedit
+              componentName="awp-readiness-passport-objects"
+              modelName="awp-readiness-passport-object"
+              modelProjection=modelProjection.attributes.objects
+              content=model.objects
+              searchForContentChange=true
+              readonly=readonly
+              showCheckBoxInRow=true
+              showDeleteButtonInRow=false
+              showDeleteMenuItemInRow=true
+              createNewButton=true
+              rowClickable=true
+            }}
+          {{/flexberry-toggler}}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <div class="new-white-panel">
+          {{#flexberry-toggler
+            title=(t "forms.awp-readiness-passport.signs-caption")
+            expanded=true
+            componentName="awpReadinessPassportSigns"
+          }}
+            <label class="input-label">Обязательным и единственным подписантом документа является орган, образовавший комиссию в муниципальном округе. Его роль "Контролирующий ораган". </label>
+            <hr>
+            {{act-signing
+              componentName="signersGroupEdit"
+              groupEditClass="flexberry-groupedit"
+              content=model.actSigns
+              readonly=readonly
+              hideAllButtons=(not updateEnabled)
+              contentPropertyName="actSigns"
+              stylusSigningIsAvailable=true
+              rolesToAdd=rolesToAdd
+              signModelName="awp-readiness-passport-sign"
+              baseSignRole=baseSignRole
+              refreshSigns=(action "refreshSigns")
+            }}
+          {{/flexberry-toggler}}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

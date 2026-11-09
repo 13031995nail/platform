@@ -1,0 +1,87 @@
+{
+  "ProjectId": "2fddac74-6950-436e-94e6-3f07a8baaad8",
+  "CrpLocalPath": null,
+  "JsonMetadataPath": null,
+  "OnlineCrpUrl": "https://designer.timepath.ru",
+  "OneShotToken": null,
+  "GenPath": "src",
+  "BeforeGenScriptPath": null,
+  "AfterGenScriptPath": null,
+  "GenerationItems": {
+    "Validate": false,
+    "Frontend": {
+      "EmberJs": {
+        "EmberApp": true,
+        "EmberAddon": false,
+        "Build": false,
+        "GitClone": false,
+        "GitPush": false,
+        "GhPagesPush": false,
+        "EmberMetadata": false
+      },
+      "ApacheCordova": {
+        "CordovaProject": false,
+        "BuildApp": false
+      }
+    },
+    "Backend": {
+      "AspNet": false,
+      "AspNetCore": true,
+      "Java": false
+    },
+    "Docker": {
+      "Dockerfile": false,
+      "DockerfileAutobuild": false,
+      "DockerBuildShellScript": false,
+      "DockerSwarm": false
+    },
+    "CiCd": {
+      "AzureDevOps": false,
+      "GitHubActions": false,
+      "GitLab": false
+    },
+    "Storage": {
+      "Mssql": {
+        "DiffSql": false,
+        "FullSql": false,
+        "LiquibaseSql": false,
+        "Security": false,
+        "AdminUser": false,
+        "ConnectionString": null
+      },
+      "PostgreSql": {
+        "DiffSql": false,
+        "FullSql": false,
+        "LiquibaseSql": true,
+        "Security": false,
+        "AdminUser": false,
+        "ConnectionString": "Host=stands.timepath.ru;User ID=postgres;Password=vodaRossii2024;Port=5432;database=platform;"
+      },
+      "ClickHouse": {
+        "DiffSql": false,
+        "FullSql": false,
+        "ConnectionString": null
+      },
+      "Oracle": {
+        "DiffSql": false,
+        "FullSql": false,
+        "ConnectionString": null
+      },
+      "Access": {
+        "DiffSql": false,
+        "FullSql": false,
+        "ConnectionString": null
+      }
+    },
+    "Docs": {
+      "Csv": false,
+      "Wmf": false
+    },
+    "Metadata": {
+      "Crp": false,
+      "Json": false,
+      "Jdl": false,
+      "PlantUML": false
+    }
+  }
+}

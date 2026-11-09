@@ -1,0 +1,17 @@
+export default {
+  caption: 'Паспорт обеспечения готовности к отопительному периоду',
+  'regDate-caption': 'Дата оформления',
+  'approvedDate-caption': 'Дата утверждения',
+  'status-caption': 'Статус',
+  'awp-caption': 'ОЗП',
+  'organization-caption': 'Лицо, подлежащее оценке',
+  'assignee-caption': 'Председатель комиссии',
+  'resolutionNumber-caption': 'Номер постановления о создании комиссии',
+  'resolutionDate-caption': 'Дата постановления о создании комиссии',
+  'objects-caption': 'Перечень объектов',
+  'actNumber-caption': 'Номер документа',
+  'readinessAct-caption': 'Акт обеспечения готовности к отопительному периоду',
+  'partnerReadiness-caption': 'Уровень готовности лица',
+  'organizationAddress-caption': 'Место',
+  'signs-caption': 'Участники',
+};

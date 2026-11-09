@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Tmobis.Audit</AssemblyName>
+    <RootNamespace>Tmobis.Audit</RootNamespace>
+    <PackageId>Tmobis.Audit</PackageId>
+    <IsPackable>true</IsPackable>
+    <Description>Модуль базовых абстракций и сообщений подсистемы аудита.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+  </ItemGroup>
+
+</Project>

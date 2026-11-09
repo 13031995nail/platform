@@ -1,0 +1,18 @@
+export default {
+  caption: 'Контрагент',
+  'actuality-caption': 'Актуальность',
+  'name-caption': 'Наименование',
+  'address-caption': 'Адрес',
+  'legal-address-caption': 'Юридический адрес',
+  'hierarchy-caption': 'Муниципальное образование',
+  'organization-type-caption': 'Тип контрагента',
+  'phone-caption': 'Номер телефона',
+  'email-caption': 'Почта',
+  'acronym-caption': 'Акроним',
+  'enter-name-caption': 'введите наименование',
+  'enter-address-caption': 'введите адрес',
+  'enter-legal-address-caption': 'введите юридический адрес',
+  'enter-phone-caption': 'введите номер телефона',
+  'enter-email-caption': 'введите почту',
+  'enter-acronym-caption': 'введите акроним',
+};

@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-common-sessions/serializers/user-session';

@@ -1,0 +1,39 @@
+{
+  "name": "@timepath/tmobis-cordova-meter-value-detection",
+  "version": "4.5.2",
+  "description": "Cordova-модуль локального распознавания показаний приборов учёта на устройстве.",
+  "cordova": {
+    "id": "tmobis-cordova-meter-value-detection",
+    "platforms": [
+      "android"
+    ]
+  },
+  "publishConfig": {
+    "@timepath:registry": "https://repository.flexberry.org/repository/timepath-tmobis-npm/"
+  },
+  "repository": "https://gitlab.timepath.ru/timepath/platform/tmobis/tmobis.core",
+  "keywords": [
+    "cordova",
+    "android",
+    "ecosystem:cordova",
+    "cordova-android",
+    "tflite",
+    "yolov5",
+    "meter",
+    "ocr"
+  ],
+  "author": "ООО \"Траектория времени\"",
+  "license": "Apache-2.0",
+  "engines": {
+    "cordova": ">= 11.0.0",
+    "android-sdk": ">= 22"
+  },
+  "devDependencies": {
+    "@cordova/eslint-config": "^4.0.0"
+  },
+  "packageManager": "yarn@3.5.1",
+  "volta": {
+    "node": "16.20.0",
+    "yarn": "1.22.19"
+  }
+}

@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Business.Process.Orders.Order</RootNamespace>
+    <PackageId>Tmobis.Business.Process.Orders.Order</PackageId>
+    <Description>Бизнес-модуль сущности заказов.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\common\contacts\customer.base\tmobis.business.common.contacts.customer.base.csproj" />
+    <ProjectReference Include="..\..\..\..\..\common\contacts\organization.base\tmobis.business.common.contacts.organization.base.csproj" />
+    <ProjectReference Include="..\..\..\..\..\common\contacts\supplier.base\tmobis.business.common.contacts.supplier.base.csproj" />
+    <ProjectReference Include="..\..\..\..\..\common\resources\tooltype\backend\module\tmobis.business.resources.tooltype.csproj" />
+    <ProjectReference Include="..\..\..\order.base\backend\module\tmobis.business.process.orders.order.base.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="../sql/**/*.sql">
+      <Pack>true</Pack>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <!--Грязноватый хак, чтобы сэкономить место и не дублировать файлы контента
+          ContentTargetFolders не помогает-->
+      <PackagePath>contentFiles\any\net8.0\sql\</PackagePath>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+</Project>

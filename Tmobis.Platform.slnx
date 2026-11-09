@@ -1,0 +1,241 @@
+<Solution>
+  <Folder Name="/business/">
+    <Project Path="src/periphery/business/testing/override1/business.override1.csproj" />
+    <Project Path="src/periphery/business/testing/override2/business.override2.csproj" />
+  </Folder>
+  <Folder Name="/business/address/">
+    <Project Path="src/periphery/business/common/address/objectfunction/backend/module/tmobis.objectfunction/tmobis.objectfunction.csproj" />
+    <Project Path="src/periphery/business/common/address/workobject.base/backend/module.flexberry/tmobis.workobject.base.flexberry.csproj" />
+    <Project Path="src/periphery/business/common/address/workobject.base/backend/module/tmobis.workobject.base.csproj" />
+  </Folder>
+  <Folder Name="/business/contacts/">
+    <Project Path="src/periphery/business/common/contacts/customer.base/tmobis.business.common.contacts.customer.base.csproj" />
+    <Project Path="src/periphery/business/common/contacts/customer/tmobis.business.common.contacts.customer.csproj" />
+    <Project Path="src/periphery/business/common/contacts/organization.base/tmobis.business.common.contacts.organization.base.csproj" />
+    <Project Path="src/periphery/business/common/contacts/organization/backend/module/tmobis.organization/tmobis.business.common.contacts.organization.csproj" />
+    <Project Path="src/periphery/business/common/contacts/organizationtype/backend/module.flexberry/tmobis.organizationtype.base.flexberry.csproj" />
+    <Project Path="src/periphery/business/common/contacts/supplier.base/tmobis.business.common.contacts.supplier.base.csproj" />
+    <Project Path="src/periphery/business/common/contacts/supplier/tmobis.business.common.contacts.supplier.csproj" />
+  </Folder>
+  <Folder Name="/business/core/">
+    <Project Path="src/periphery/business/core/backend/module.flexberry/tmobis.business.core.flexberry.csproj" />
+    <Project Path="src/periphery/business/core/backend/module/tmobis.business.core.csproj" />
+  </Folder>
+  <Folder Name="/business/documents/">
+    <Project Path="src/periphery/business/process/documents/actsign/backend/base/actsign.csproj" />
+    <Project Path="src/periphery/business/process/documents/actsign/backend/flexberry/actsign.flexberry.csproj" />
+    <Project Path="src/periphery/business/process/documents/awpassessingprogram/backend/flexberry/awpassessingprogram.flexberry.csproj" />
+    <Project Path="src/periphery/business/process/documents/awppreparingauditrecord/backend/flexberry/awppreparingauditrecord.flexberry.csproj" />
+    <Project Path="src/periphery/business/process/documents/awpreadinesspassport/backend/flexberry/awpreadinesspassport.flexberry.csproj" />
+    <Project Path="src/periphery/business/process/documents/baseact/backend/base.flexberry/baseact.base.flexberry.csproj" />
+    <Project Path="src/periphery/business/process/documents/baseact/backend/base/baseact.base.csproj" />
+    <Project Path="src/periphery/business/process/documents/baseact/backend/flexberry/baseact.flexberry.csproj" />
+    <Project Path="src/periphery/business/process/documents/baseact/backend/module/baseact.csproj" />
+    <Project Path="src/periphery/business/process/documents/evaluationsheet/backend/flexberry/evaluationsheet.flexberry.csproj" />
+    <Project Path="src/periphery/business/process/documents/redinessact/backend/base.flexberry/redinessact.base.flexberry/redinessact.base.flexberry.csproj" />
+    <Project Path="src/periphery/business/process/documents/redinessact/backend/flexberry/redinessact.flexberry.csproj" />
+  </Folder>
+  <Folder Name="/business/meters/">
+    <Project Path="src/periphery/business/process/meters/meterValueDetection/backend/consumers/meterValueDetection.consumers.csproj" />
+    <Project Path="src/periphery/business/process/meters/meterValueDetection/backend/model/meterValueDetection.csproj" />
+  </Folder>
+  <Folder Name="/business/orders/">
+    <Project Path="src/periphery/business/process/orders/order.base/backend/module/tmobis.business.process.orders.order.base.csproj" />
+    <Project Path="src/periphery/business/process/orders/order/backend/module/tmobis.business.process.orders.order.csproj" />
+  </Folder>
+  <Folder Name="/business/workshift/">
+    <Project Path="src/periphery/business/process/workshift/back/module/tmobis.business.process.workshift.csproj" />
+  </Folder>
+  <Folder Name="/business/personnel/">
+    <Project Path="src/periphery/business/common/personnel/admissioncommittee/backend/module/tmobis.admissioncommittee/tmobis.admissioncommittee.csproj" />
+    <Project Path="src/periphery/business/common/personnel/placeofemployment/backend/module/tmobis.placeofemployment/tmobis.placeofemployment.csproj" />
+    <Project Path="src/periphery/business/common/personnel/position/backend/module.flexberry/tmobis.position.base.flexberry.csproj" />
+    <Project Path="src/periphery/business/common/personnel/qualification/backend/module/tmobis.business.common.personnel.qualifications.csproj" />
+    <Project Path="src/periphery/business/common/personnel/team.base/tmobis.business.common.personnel.team.base.csproj" />
+    <Project Path="src/periphery/business/common/personnel/team/tmobis.business.common.personnel.team.csproj" />
+  </Folder>
+  <Folder Name="/business/resources/">
+    <Project Path="src/periphery/business/common/resources/awp/backend/module.flexberry/tmobis.awp.base.flexberry.csproj" />
+    <Project Path="src/periphery/business/common/resources/tooltype/backend/module/tmobis.business.resources.tooltype.csproj" />
+    <Project Path="src/periphery/business/common/resources/unit/backend/module/tmobis.business.resources.unit.csproj" />
+    <Project Path="src/periphery/business/common/resources/verificationrequierement/backend/module.flexberry/tmobis.verificationrequierement.base.flexberry.csproj" />
+    <Project Path="src/periphery/business/common/resources/verificationrequierement/backend/module/tmobis.verificationrequierement.base.csproj" />
+  </Folder>
+  <Folder Name="/business/signatures/">
+    <Project Path="src/periphery/business/process/signs/stilus/backend/module/tmobis.stilus/tmobis.stilus.csproj" />
+  </Folder>
+  <Folder Name="/business/users/">
+    <Project Path="src/periphery/business/common/sessions/backend/module.flexberry/tmobis.sessions.flexberry.csproj" />
+    <Project Path="src/periphery/business/common/sessions/backend/module/tmobis.sessions.csproj" />
+  </Folder>
+  <Folder Name="/business/works/">
+    <Project Path="src/periphery/business/common/resources/worktype/backend/module/tmobis.business.common.resources.worktype.csproj" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/core/" />
+  <Folder Name="/src/core/backend/" />
+  <Folder Name="/src/core/backend/module/" />
+  <Folder Name="/src/periphery/" />
+  <Folder Name="/src/periphery/tech/" />
+  <Folder Name="/src/periphery/tech/cache/" />
+  <Folder Name="/src/periphery/tech/cache/redis/">
+    <Project Path="src/periphery/tech/cache/redis/Tmobis.Cache.Redis.csproj" />
+  </Folder>
+  <Folder Name="/tech/" />
+  <Folder Name="/tech/audit/">
+    <Project Path="src/periphery/tech/audit/json/jsonAudit.csproj" />
+    <Project Path="src/periphery/tech/audit/module/audit.csproj" />
+  </Folder>
+  <Folder Name="/tech/core/">
+    <Project Path="src/core/backend/module/tmobis.core.csproj" />
+  </Folder>
+  <Folder Name="/tech/data/">
+    <Project Path="src/periphery/tech/data/db/mssql/Tmobis.Data.DB.MSSQL.csproj" />
+    <Project Path="src/periphery/tech/data/db/postgres/Tmobis.Data.DB.Postgres.csproj" />
+    <Project Path="src/periphery/tech/data/ef/base/Tmobis.Data.EF.csproj" />
+    <Project Path="src/periphery/tech/data/ef/mssql/Tmobis.Data.EF.MSSQL.csproj" />
+    <Project Path="src/periphery/tech/data/ef/postgres/Tmobis.Data.EF.Postgres.csproj" />
+  </Folder>
+  <Folder Name="/tech/files/">
+    <Project Path="src/periphery/tech/files/fileUploader.local/Tmobis.Files.Uploader.Local.csproj" />
+    <Project Path="src/periphery/tech/files/primaryAdapter.flexberry/Tmobis.Files.PrimaryAdapter.Flexberry.csproj" />
+    <Project Path="src/periphery/tech/files/primaryAdapter/Tmobis.Files.PrimaryAdapter.csproj" />
+    <Project Path="src/periphery/tech/files/provider.remote/Tmobis.Files.Provider.Remote.csproj" />
+    <Project Path="src/periphery/tech/files/s3/s3.csproj" />
+    <Project Path="src/periphery/tech/files/service.flexberry/Tmobis.Files.Service.Flexberry.csproj" />
+    <Project Path="src/periphery/tech/files/service/Tmobis.Files.Service.csproj" />
+  </Folder>
+  <Folder Name="/tech/frameworks/" />
+  <Folder Name="/tech/frameworks/flexberry/">
+    <Project Path="src/periphery/tech/fws/flexberry/tmobis.flexberry.autoincrement/Tmobis.Flexberry.Autoincrement.csproj" />
+    <Project Path="src/periphery/tech/fws/flexberry/tmobis.flexberry.converters.oldfile/Tmobis.Flexberry.Converters.OldFile.csproj" />
+    <Project Path="src/periphery/tech/fws/flexberry/tmobis.flexberry.ds.combined/Tmobis.Flexberry.DS.Combined.csproj" />
+    <Project Path="src/periphery/tech/fws/flexberry/tmobis.flexberry.ds.mssql/Tmobis.Flexberry.DS.MSSQL.csproj" />
+    <Project Path="src/periphery/tech/fws/flexberry/tmobis.flexberry.ds.postgres/Tmobis.Flexberry.DS.Postgres.csproj" />
+    <Project Path="src/periphery/tech/fws/flexberry/tmobis.flexberry.web.odata/tmobis.flexberry.web.odata.csproj" />
+    <Project Path="src/periphery/tech/fws/flexberry/tmobis.flexberry.web/Tmobis.Flexberry.Web.csproj" />
+    <Project Path="src/periphery/tech/fws/flexberry/tmobis.flexberry/backend/module/Tmobis.Flexberry.csproj" />
+  </Folder>
+  <Folder Name="/tech/auth/">
+    <Project Path="src/periphery/tech/auth/base/auth.base.csproj" />
+    <Project Path="src/periphery/tech/auth/keycloak/back/auth.keycloak.csproj" />
+    <Project Path="src/periphery/tech/auth/password/auth.password.csproj" />
+    <Project Path="src/periphery/tech/auth/windows/backend/auth.windows.csproj" />
+    <Project Path="src\periphery\tech\auth\apikey\auth.apikey.csproj" />
+    <Project Path="src\periphery\tech\auth\jwtauth\auth.jwtauth.csproj" />
+    <Project Path="src\periphery\tech\auth\usersessions\auth.usersessions.csproj" />
+  </Folder>
+  <Folder Name="/tech/frameworks/web/">
+    <Project Path="src/periphery/tech/fws/web/tmobis.web.backend/tmobis.web.backend.csproj" />
+    <Project Path="src/periphery/tech/fws/web/tmobis.web/tmobis.web.csproj" />
+    <Project Path="src/periphery/tech/web/primaryadapters/tmobis.primaryadapters.basewcfservice/tmobis.primaryadapters.basewcfservice.csproj" />
+    <Project Path="src/periphery/tech/web/primaryadapters/tmobis.primaryadapters.basewebservice/tmobis.primaryadapters.basewebservice.csproj" />
+  </Folder>
+  <Folder Name="/tech/frameworks/winservice/">
+    <Project Path="src/periphery/tech/fws/winservice/Tmobis.WinService.csproj" />
+  </Folder>
+  <Folder Name="/tech/import/">
+    <Project Path="src/periphery/tech/import/tmobis.import.excel/Tmobis.Import.Excel.csproj" />
+  </Folder>
+  <Folder Name="/tech/integrations/" />
+  <Folder Name="/tech/integrations/ai/">
+    <Project Path="src/periphery/tech/integrations/assistants/base/module/Tmobis.Integrations.Assistants.Base.csproj" />
+    <Project Path="src/periphery/tech/integrations/assistants/gigachat/module/Tmobis.Integrations.Assistants.Gigachat.csproj" />
+  </Folder>
+  <Folder Name="/tech/integrations/bi/">
+    <Project Path="src/periphery/tech/business-intelligence/backend/module/Tmobis.BusinessIntelligence/Tmobis.BusinessIntelligence.csproj" />
+  </Folder>
+  <Folder Name="/tech/integrations/email/">
+    <Project Path="src/periphery/tech/integrations/email/emailConsumer/Tmobis.Integrations.Email.Consumer.csproj" />
+    <Project Path="src/periphery/tech/integrations/email/model/backend/module/Tmobis.Integrations.Email.csproj" />
+    <Project Path="src/periphery/tech/integrations/email/reports/model/Tmobis.Integrations.Email.Reports.csproj" />
+    <Project Path="src/periphery/tech/integrations/email/reports/useCases/Tmobis.Integrations.Email.Reports.UseCases/Tmobis.Integrations.Email.Reports.UseCases.csproj" />
+    <Project Path="src/periphery/tech/integrations/email/sender.consumer/Tmobis.Integrations.Email.Sender.Consumer/Tmobis.Integrations.Email.Sender.Consumer.csproj" />
+    <Project Path="src/periphery/tech/integrations/email/sender.mailkit/Tmobis.Integrations.Email.Sender.MailKit/Tmobis.Integrations.Email.Sender.MailKit.csproj" />
+    <Project Path="src/periphery/tech/integrations/email/service/Tmobis.Integrations.Email.Service.csproj" />
+  </Folder>
+  <Folder Name="/tech/integrations/messengers/">
+    <Project Path="src/periphery/tech/integrations/messengers/common/module/Tmobis.Integrations.Messengers.csproj" />
+    <Project Path="src/periphery/tech/integrations/messengers/max/module/Tmobis.Integrations.Messengers.Max.csproj" />
+    <Project Path="src/periphery/tech/integrations/messengers/telegram/module/Tmobis.Integrations.Messengers.Telegram.csproj" />
+    <Project Path="src/periphery/tech/integrations/messengers/vk/module/Tmobis.Integrations.Messengers.Vk.csproj" />
+    <Project Path="src/periphery/tech/integrations/messengers/mattermost/module/Tmobis.Integrations.Messengers.Mattermost.csproj" />
+  </Folder>
+  <Folder Name="/tech/jobs/">
+    <Project Path="src/periphery/tech/jobs/quartz/Tmobis.Jobs.Quartz.csproj" />
+    <Project Path="src/periphery/tech/jobs/scheduled/Tmobis.Jobs.Scheduled.csproj" />
+  </Folder>
+  <Folder Name="/tech/logging/">
+    <Project Path="src/periphery/tech/logging/Tmobis.Logging.Log4Net/Tmobis.Logging.Log4Net.csproj" />
+    <Project Path="src/periphery/tech/logging/Tmobis.Logging.Syslog/Tmobis.Logging.Syslog.csproj" />
+  </Folder>
+  <Folder Name="/tech/logging/serilog/">
+    <Project Path="src/periphery/tech/logging/serilog/Tmobis.Logging.Serilog.Syslog/Tmobis.Logging.Serilog.Syslog.csproj" Id="f2174a4e-6fe6-4fca-b59a-5edd75178805" />
+    <Project Path="src/periphery/tech/logging/serilog/Tmobis.Logging.Serilog/Tmobis.Logging.Serilog.csproj" Id="9b4fee0d-b7fd-4dec-9bbc-cb461dedf5c3" />
+  </Folder>
+  <Folder Name="/tech/medium/">
+    <Project Path="src/periphery/tech/medium/delayed/InRepo/Tmobis.Medium.Delayed.InRepo.csproj" />
+    <Project Path="src/periphery/tech/medium/inrepo/Tmobis.Medium.InRepo.csproj" />
+    <Project Path="src/periphery/tech/medium/rabbitmq/module/Tmobis.Medium.RabbitMQ.csproj" />
+    <Project Path="src/periphery/tech/medium/retried/rabbitmq/Tmobis.Medium.Retried.RabbitMQ.csproj" />
+    <Project Path="src/periphery/tech/medium/retried/rabbitmqService/Tmobis.Medium.Retried.RabbitMQ.Service.csproj" />
+    <Project Path="src/periphery/tech/medium/retried/withdelay/Tmobis.Medium.Retried.WithDelay.csproj" />
+    <Project Path="src/periphery/tech/medium/signalr/backend/module/Tmobis.Medium.Signalr/tmobis.medium.signalr.csproj" />
+    <Project Path="src/periphery/tech/medium/webapi/module/Tmobis.Medium.WebApi.Listeners.csproj" />
+    <Project Path="src/periphery/tech/medium/webapi/tests/Tmobis.Medium.WebApi.Tests.csproj" />
+    <Project Path="src/periphery/tech/medium/webapi/producer/Tmobis.Medium.WebApi.Producer.csproj" />
+  </Folder>
+  <Folder Name="/tech/metrics/">
+    <Project Path="src/periphery/tech/metrics/module/Tmobis.Metrics.csproj" />
+    <Project Path="src/periphery/tech/metrics/opentelemetry/Tmobis.Metrics.OpenTelemetry.csproj" />
+    <Project Path="src/periphery/tech/metrics/prometheus/Tmobis.Metrics.Prometheus.csproj" />
+  </Folder>
+  <Folder Name="/tech/mobile/">
+    <Project Path="src/periphery/tech/mobile/tmobis.mobile/backend/module/tmobis.mobile.csproj" />
+  </Folder>
+  <Folder Name="/tech/notifications/">
+    <Project Path="src/periphery/tech/notifications/back/messenger/Tmobis.Notification.Messenger.csproj" />
+    <Project Path="src/periphery/tech/notifications/back/max/Tmobis.Notification.Max.csproj" />
+    <Project Path="src/periphery/tech/notifications/back/telegram/Tmobis.Notification.Telegram.csproj" />
+    <Project Path="src/periphery/tech/notifications/back/vk/Tmobis.Notification.Vk.csproj" />
+    <Project Path="src/periphery/tech/notifications/back/mattermost/Tmobis.Notification.Mattermost.csproj" />
+    <Project Path="src/periphery/tech/notifications/back/model/Tmobis.Notification.csproj" />
+    <Project Path="src/periphery/tech/notifications/back/send-rabbit/Tmobis.Notification.Send.Rabbit.csproj" />
+    <Project Path="src/periphery/tech/notifications/back/sender/Tmobis.Notification.Sender.csproj" />
+    <Project Path="src/periphery/tech/notifications/back/service/Tmobis.Notification.Service.csproj" />
+    <Project Path="src/periphery/tech/notifications/back/websocket/Tmobis.Notification.WebSocket.csproj" />
+  </Folder>
+  <Folder Name="/tech/offline/">
+    <Project Path="src/periphery/tech/offline/models/backend/module.backups/tmobis.offline.backups.csproj" />
+    <Project Path="src/periphery/tech/offline/models/backend/module.flexberry/tmobis.offline.flexberry.csproj" />
+    <Project Path="src/periphery/tech/offline/models/backend/module/tmobis.offline.csproj" />
+    <Project Path="src/periphery/tech/offline/usecases/backend/module.flexberry/tmobis.offline.usecases.flexberry.csproj" />
+  </Folder>
+  <Folder Name="/tech/reports/">
+    <Project Path="src/periphery/tech/reports/base/tmobis.reports.adapter/Tmobis.Reports.Adapter.csproj" />
+    <Project Path="src/periphery/tech/reports/base/tmobis.reports.controller/tmobis.reports.controller.csproj" />
+    <Project Path="src/periphery/tech/reports/base/tmobis.reports/backend/module.flexberry/tmobis.reports.flexberry.csproj" />
+    <Project Path="src/periphery/tech/reports/base/tmobis.reports/backend/module/tmobis.reports.csproj" />
+    <Project Path="src/periphery/tech/reports/stimulsoft/tmobis.reports.stimulsoft.client.adapter/tmobis.reports.stimulsoft.client.adapter.csproj" />
+    <Project Path="src/periphery/tech/reports/stimulsoft/tmobis.reports.stimulsoft.service/tmobis.reports.stimulsoft.service.csproj" />
+  </Folder>
+  <Folder Name="/tech/utils/">
+    <Project Path="src/periphery/tech/utils/lzw/tmobis.utils.lzw.csproj" />
+  </Folder>
+  <Folder Name="/templates/">
+    <Project Path="src/templates/cache-redis/Tmobis.Cache.Redis.Sample.csproj" />
+    <Project Path="src/templates/prom-metrics/Tmobis.Prometheus.Template.csproj" />
+  </Folder>
+  <Folder Name="/templates/ef/">
+    <Project Path="src/templates/back-ef/backend/Tmobis.Backend.EF.csproj" />
+    <Project Path="src/templates/back-ef/objects/Tmobis.Objects.EF.csproj" />
+  </Folder>
+  <Folder Name="/templates/flexberry/">
+    <Project Path="src/templates/back-flexberry/BusinessServers/Tmobis.BusinessServers.csproj" />
+    <Project Path="src/templates/back-flexberry/Objects/Tmobis.Objects.csproj" />
+    <Project Path="src/templates/back-flexberry/ODataBackend/Tmobis.Backend.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="src/tools/EntityGenerator/EntityGenerator.csproj" />
+  </Folder>
+</Solution>

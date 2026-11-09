@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Integrations.Email.Consumer</RootNamespace>
+    <PackageId>Tmobis.Integrations.Email.Consumer</PackageId>
+    <Description>Модуль бизнес-бработки email-сообщений.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\medium\rabbitmq\module\Tmobis.Medium.RabbitMQ.csproj" />
+    <ProjectReference Include="..\model\backend\module\Tmobis.Integrations.Email.csproj" />
+  </ItemGroup>
+
+</Project>

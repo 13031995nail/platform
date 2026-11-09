@@ -1,0 +1,28 @@
+<form class="ui {{appState.state}} flexberry-vertical-form form" role="form">
+  {{form-validation-block
+    errorMessages=errorMessages
+    errors=model.errors
+  }}
+  <div class="ui stackable grid">
+    <div class="two column row">
+      <div class="column">
+        <div class="white-panel">
+          {{business/work-types/block-common
+            model=model
+            relatedModel=model
+            readonly=readonly
+          }}
+        </div>
+      </div>
+      <div class="column">
+        <div class="white-panel">
+          {{business/work-types/block-belonging
+            model=model
+            relatedModel=model
+            readonly=readonly
+          }}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

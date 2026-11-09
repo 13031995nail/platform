@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Notification</RootNamespace>
+    <PackageId>Tmobis.Notification</PackageId>
+    <Description>Модуль модели, хранения и базовых сервисов подсистемы уведомлений.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+    <ProjectReference Include="..\..\..\data\ef\base\Tmobis.Data.EF.csproj" />
+    <ProjectReference Include="..\..\..\data\ef\postgres\Tmobis.Data.EF.Postgres.csproj" />
+  </ItemGroup>
+
+</Project>

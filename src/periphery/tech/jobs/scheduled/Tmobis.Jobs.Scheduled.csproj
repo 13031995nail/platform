@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Jobs.Scheduled</RootNamespace>
+    <PackageId>Tmobis.Jobs.Scheduled</PackageId>
+    <Description>Модуль базовых контрактов и инфраструктуры планируемых сообщений.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\core\backend\module\tmobis.core.csproj" />
+  </ItemGroup>
+
+</Project>

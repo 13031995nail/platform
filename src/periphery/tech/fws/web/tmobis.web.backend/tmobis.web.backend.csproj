@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Tmobis.Frameworks.Web.Backend</RootNamespace>
+    <PackageId>Tmobis.Frameworks.Web.Backend</PackageId>
+    <Description>Модуль Backend-надстройки общего web-фреймворка Т-Мобис.</Description>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core\backend\module\tmobis.core.csproj" />
+    <ProjectReference Include="..\..\..\..\business\core\backend\module\tmobis.business.core.csproj" />
+    <ProjectReference Include="..\tmobis.web\tmobis.web.csproj" />
+  </ItemGroup>
+
+</Project>

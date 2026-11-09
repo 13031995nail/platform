@@ -1,0 +1,1 @@
+export { default } from '@timepath/tmobis-business-common-resources-worktype/routes/work-type/new';

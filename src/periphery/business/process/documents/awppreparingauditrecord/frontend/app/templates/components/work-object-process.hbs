@@ -1,0 +1,99 @@
+<h2>Подготовка объекта {{#if process.awpCaption}}— {{process.awpCaption}}{{/if}}</h2>
+{{#if loading}}
+  <p role="status">Загрузка…</p>
+{{else if loadError}}
+  <div class="ui negative message" role="alert">{{loadError}}</div>
+  {{work-object-process-button
+    caption="Повторить" click=(action "refresh")}}
+{{else if process}}
+  {{tmobis-caption key="Организация" value=process.organization.caption}}
+  {{#if process.territory}}
+    {{tmobis-caption key="Территория" value=process.territory.caption}}
+  {{/if}}
+  {{#tmobis-caption key="Связанные ТСО"}}
+    {{#each process.tsoOrganizations as |tso|}}<div>{{tso.caption}}</div>{{else}}<span>Не указаны</span>{{/each}}
+  {{/tmobis-caption}}
+  {{#tmobis-caption key="Состояние объекта"}}
+    {{tmobis-badge label=stateCaption}}
+  {{/tmobis-caption}}
+  {{#tmobis-caption key="Заполнение требований"}}
+    {{#if process.preparation.progress.total}}
+      <span>{{process.preparation.progress.percent}}% ({{process.preparation.progress.filled}} из {{process.preparation.progress.total}})</span>
+    {{else}}
+      <span>Нет учитываемых требований</span>
+    {{/if}}
+  {{/tmobis-caption}}
+  {{#if showReadiness}}
+    {{tmobis-caption key="Индекс готовности" value=process.preparation.readinessIndex}}
+    {{#tmobis-caption key="Результат оценки"}}
+      {{tmobis-badge label=process.readinessCaption}}
+    {{/tmobis-caption}}
+  {{/if}}
+  <hr>
+  <nav aria-label="Разделы подготовки объекта">
+    <div class="ui stackable four column grid">
+      <div class="column">
+        {{work-object-process-button
+          class=(if (eq section "requirements") "active") ariaPressed=(eq section "requirements")
+          caption="Требования" click=(action "selectSection" "requirements")}}
+      </div>
+      <div class="column">
+        {{work-object-process-button
+          class=(if (eq section "documents") "active") ariaPressed=(eq section "documents")
+          caption="Документы" click=(action "selectSection" "documents")}}
+      </div>
+      <div class="column">
+        {{work-object-process-button
+          class=(if (eq section "missing") "active") ariaPressed=(eq section "missing")
+          caption="Недостающие данные" click=(action "selectSection" "missing")}}
+      </div>
+      <div class="column">
+        {{work-object-process-button
+          class=(if (eq section "remarks") "active") ariaPressed=(eq section "remarks")
+          caption="Замечания и сроки" click=(action "selectSection" "remarks")}}
+      </div>
+    </div>
+  </nav>
+  {{work-object-requirements requirements=requirements evaluationSheetId=process.preparation.evaluationSheetId}}
+  {{#if actionError}}<div class="ui negative message" role="alert">{{actionError}}</div>{{/if}}
+  {{#if process.preparation.evaluationSheetId}}
+    <div class="field">
+      {{#if canSubmit}}
+        {{work-object-process-button
+          caption="Отправить результат ТСО" readonly=reviewDisabled click=(action "review" "submit")}}
+      {{/if}}
+      {{#if canReview}}
+        {{#if canStartReview}}
+          {{work-object-process-button
+            caption="Начать проверку" readonly=reviewDisabled click=(action "review" "review")}}
+        {{/if}}
+        {{#link-to "evaluation-sheet" process.preparation.evaluationSheetId class="ui button"}}Создать замечание / зафиксировать срок{{/link-to}}
+        {{#if canAccept}}
+          {{work-object-process-button
+            class="primary" caption="Принять результат" readonly=reviewDisabled click=(action "review" "accept")}}
+        {{/if}}
+      {{/if}}
+    </div>
+  {{/if}}
+  <div class="field">
+    {{#if process.preparation.draftEvaluationSheetId}}
+      {{#link-to "evaluation-sheet" process.preparation.draftEvaluationSheetId class="ui secondary button"}}Открыть текущий черновик{{/link-to}}
+    {{/if}}
+    {{#if process.preparation.evaluationSheetId}}
+      {{#link-to "evaluation-sheet" process.preparation.evaluationSheetId class="ui primary button"}}Открыть оценочный лист{{/link-to}}
+    {{else if canCreateEvaluationSheet}}
+      {{#link-to "evaluation-sheet.new" (query-params workObjectId=workObjectId awpId=process.awpId) class="ui primary button"}}Создать оценочный лист{{/link-to}}
+    {{/if}}
+    {{#if canCreateReadinessAct}}
+      {{#link-to "rediness-act.new" (query-params organizationId=process.organization.id awpId=process.awpId) class="ui button"}}Сформировать акт{{/link-to}}
+    {{/if}}
+    {{#if canCreateReadinessPassport}}
+      {{#link-to "awp-readiness-passport.new" (query-params organizationId=process.organization.id awpId=process.awpId) class="ui button"}}Выпустить паспорт{{/link-to}}
+    {{/if}}
+    {{#each visibleDocuments as |document|}}
+      {{#link-to document.route document.id class="ui basic button"}}
+        {{document.caption}} {{#if document.status}}({{document.status}}){{/if}}
+      {{/link-to}}
+    {{/each}}
+  </div>
+{{/if}}

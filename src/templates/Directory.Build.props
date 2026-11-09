@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup Condition=" '$(OS.StartsWith(`Windows`))' == 'true' ">
+    <MSBUildProjectExtensionsPath>./obj-windows/</MSBUildProjectExtensionsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS.StartsWith(`Windows`))' != 'true' ">
+    <MSBUildProjectExtensionsPath>./obj-linux/</MSBUildProjectExtensionsPath>
+  </PropertyGroup>
+</Project>
